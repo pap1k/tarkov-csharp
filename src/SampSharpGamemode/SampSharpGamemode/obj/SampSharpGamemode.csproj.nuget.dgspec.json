@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\files\\mine\\code\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj": {}
+    "D:\\q\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj": {}
   },
   "projects": {
-    "D:\\files\\mine\\code\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj": {
+    "D:\\q\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\files\\mine\\code\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj",
+        "projectUniqueName": "D:\\q\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj",
         "projectName": "SampSharpGamemode",
-        "projectPath": "D:\\files\\mine\\code\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj",
-        "packagesPath": "C:\\Users\\magem\\.nuget\\packages\\",
-        "outputPath": "D:\\files\\mine\\code\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\obj\\",
+        "projectPath": "D:\\q\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj",
+        "packagesPath": "C:\\Users\\Андрей\\.nuget\\packages\\",
+        "outputPath": "D:\\q\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\magem\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Андрей\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -72,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

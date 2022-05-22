@@ -65,5 +65,6 @@ namespace SampSharpGamemode
         public DBType SelectAllItems(){ return DoRequest("SELECT * FROM items");}
         public DBType SelectPlayerByNickname(string nick){ return DoRequest($"SELECT * FROM players WHERE nickname = '{nick}'");}
         public DBType InsertPlayer(Player player){ return DoRequest($"INSERT INTO players(nickname, password) VALUES('{player.Name}', '{player.password}')");}
+        public DBType CheckAuth(string nick, string password) { return DoRequest($"SELECT * FROM players WHERE nickname = '{nick}' AND password = `{password}`");}
     }
 }

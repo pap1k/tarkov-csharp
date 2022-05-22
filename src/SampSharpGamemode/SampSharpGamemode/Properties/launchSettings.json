@@ -5,8 +5,8 @@
     },
     "newProfile1": {
       "commandName": "Executable",
-      "executablePath": "D:\\files\\mine\\code\\tarkov-csharp\\samp-server.exe",
-      "workingDirectory": "D:\\files\\mine\\code\\tarkov-csharp"
+      "executablePath": "D:\\q\\tarkov-csharp\\samp-server.exe",
+      "workingDirectory": "D:\\q\\tarkov-csharp"
     }
   }
 }

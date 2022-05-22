@@ -26,19 +26,17 @@ namespace SampSharpGamemode
         public Inventary inventary;
         public override void OnConnected(EventArgs e)
         {
-            base.OnConnected(e);
-
-            for(int i = 0; i < 10; i++)
-                SendClientMessage("");
-            LoadInfo();
+            Console.WriteLine("1234");
+            //LoadInfo();
+            //base.OnConnected(e);
         }
         public void LoadInfo()
         {
             var dbinfo = GameMode.db.SelectPlayerByNickname(this.Name).data;
             if(dbinfo.Count != 0)
             {
-                //auth
-                
+                //login
+                AuthSystem.Start(this);
             }
             else
             {
