@@ -1,0 +1,20 @@
+﻿namespace SampSharpGamemode
+{
+    public enum e_DialogIds
+    {
+		DLG_NONE,
+		DLG_REG_HI,
+		DLG_REG_PASSWORD,
+		DLG_REG_SUCCESS,
+		DLG_REG_ERROR_LEN,
+		DLG_REG_ERROR_SYM,
+		DLG_LOG,
+		DLG_LOG_ERROR_PASS,
+		DLG_LOG_ERROR_RIGHT,
+		DLG_IPFUNC_ERROR,
+		DLG_IPFUNC_LOG,
+		DLG_IPFUNC_LOADING,
+		DLG_INV,
+		DLG_AC_KICK
+	}
+}

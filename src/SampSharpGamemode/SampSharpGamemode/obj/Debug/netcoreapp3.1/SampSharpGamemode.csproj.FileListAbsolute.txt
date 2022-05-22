@@ -1,0 +1,15 @@
+D:\files\mine\code\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.exe
+D:\files\mine\code\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.deps.json
+D:\files\mine\code\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.runtimeconfig.json
+D:\files\mine\code\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.runtimeconfig.dev.json
+D:\files\mine\code\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+D:\files\mine\code\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.pdb
+D:\files\mine\code\tarkov-csharp\src\SampSharpGamemode\SampSharpGamemode\obj\Debug\netcoreapp3.1\SampSharpGamemode.csproj.AssemblyReference.cache
+D:\files\mine\code\tarkov-csharp\src\SampSharpGamemode\SampSharpGamemode\obj\Debug\netcoreapp3.1\SampSharpGamemode.GeneratedMSBuildEditorConfig.editorconfig
+D:\files\mine\code\tarkov-csharp\src\SampSharpGamemode\SampSharpGamemode\obj\Debug\netcoreapp3.1\SampSharpGamemode.AssemblyInfoInputs.cache
+D:\files\mine\code\tarkov-csharp\src\SampSharpGamemode\SampSharpGamemode\obj\Debug\netcoreapp3.1\SampSharpGamemode.AssemblyInfo.cs
+D:\files\mine\code\tarkov-csharp\src\SampSharpGamemode\SampSharpGamemode\obj\Debug\netcoreapp3.1\SampSharpGamemode.csproj.CoreCompileInputs.cache
+D:\files\mine\code\tarkov-csharp\src\SampSharpGamemode\SampSharpGamemode\obj\Debug\netcoreapp3.1\SampSharpGamemode.csproj.CopyComplete
+D:\files\mine\code\tarkov-csharp\src\SampSharpGamemode\SampSharpGamemode\obj\Debug\netcoreapp3.1\SampSharpGamemode.dll
+D:\files\mine\code\tarkov-csharp\src\SampSharpGamemode\SampSharpGamemode\obj\Debug\netcoreapp3.1\SampSharpGamemode.pdb
+D:\files\mine\code\tarkov-csharp\src\SampSharpGamemode\SampSharpGamemode\obj\Debug\netcoreapp3.1\SampSharpGamemode.genruntimeconfig.cache
