@@ -3,6 +3,7 @@ using System;
 using IniParser;
 using IniParser.Model;
 using System.Collections.Generic;
+using SampSharp.GameMode.SAMP.Commands;
 
 namespace SampSharpGamemode
 {
@@ -15,6 +16,8 @@ namespace SampSharpGamemode
         private const int _SERVER_ITEMS = 10;
         public static int SERFVER_ITEMS { get => _SERVER_ITEMS; }
         public static Item[] ServerItems;
+        public static Item ErrorItem = new Item(-2, 0, "<Ошибка>", " ", false, false, false, 1);
+        public static Item EmptyItem = new Item(0, 0, "", "", false, false, false, 1);
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -25,8 +28,17 @@ namespace SampSharpGamemode
 
             SetGameModeText(data["server"]["GMName"]);
             LoadDBItems();
-
-            // TODO: Put logic to initialize your game mode here
+        }
+        public static Item FindItem(int id)
+        {
+            if (id == 0)
+                return EmptyItem;
+            foreach (var i in ServerItems)
+            {
+                if (i.id == id)
+                    return i;
+            }
+            return ErrorItem;
         }
         private void LoadDBItems()
         {

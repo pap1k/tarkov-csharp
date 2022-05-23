@@ -13,6 +13,7 @@ namespace SampSharpGamemode
     {
         public static void Start(Player player)
         {
+            DBType ret = new DBType();
             var AUTH_DLG = new InputDialog("Авторизация", "\t\t{ffffff}Аккаунт с таким ником зарегистрирован :(\n\tЕсли Вы являетесь владельцем - введите пароль в поле ниже для входа.\nЕсли Вы только хотите начать игру, то, к сожалению, придется придумать другой ник.", true, "Войти", "Отмена");
             var ERROR_DLG = new MessageDialog("Авторизация", "Ошибка", "Выйти");
             AUTH_DLG.Response += (sender, e) =>
@@ -25,29 +26,25 @@ namespace SampSharpGamemode
                         if (dbresult.data.Count > 0)
                         {
                             player.SendClientMessage("Вы успешно авторизовались!");
+                            player.LoadInfo();
                         }
                         else
-                        {
                             ERROR_DLG.Show(player);
-                        }
 
                     }
                     else
-                    {
                         ERROR_DLG.Show(player);
-                    }
                 }
                 else
                 {
                     player.SendClientMessage("Выйти из игры можно командой /q");
-                    player.Kick();
+                    player.kick("nologin");
                 }
             };
             ERROR_DLG.Response += (sender, e) =>
             {
                 AUTH_DLG.Show(player);
             };
-            Console.WriteLine("123");
             AUTH_DLG.Show(player);
         }
         private static bool IsPasswordCorrect(string check)

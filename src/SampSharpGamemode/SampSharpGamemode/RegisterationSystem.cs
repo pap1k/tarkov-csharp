@@ -41,9 +41,10 @@ namespace SampSharpGamemode
                 {
                     if (IsPasswordCorrect(e.InputText))
                     {
-                        player.password = e.InputText;
+                        player.PVars[PvarsInfo.password] = e.InputText;
                         GameMode.db.InsertPlayer(player);
                         RegSuccess.Show(player);
+                        player.LoadInfo();
                     }
                     else
                         RegErrDialog.Show(player);
@@ -57,7 +58,6 @@ namespace SampSharpGamemode
             };
             RegSuccess.Response += (sender, e) =>
             {
-                player.ingame = true;
                 player.SendClientMessage("Успешная авторизация! Приятной игры!");
             };
 

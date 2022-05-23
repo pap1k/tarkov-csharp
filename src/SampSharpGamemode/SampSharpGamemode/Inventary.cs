@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SampSharp.GameMode.Display;
+using SampSharp.GameMode.Definitions;
 
 namespace SampSharpGamemode
 {
@@ -34,17 +36,33 @@ namespace SampSharpGamemode
     {
         private const int _MAX_ITEMS = 36;
         public static int MAX_ITEMS{ get => _MAX_ITEMS; }
-        public Item[] items;
+        public Item[] items = new Item[_MAX_ITEMS];
 
-        public Inventary(int[] item_ids, int[] stacks)
+        public Inventary() { }
+
+        public void Set(Item item, int pos)
         {
-            items = new Item[_MAX_ITEMS];
-            for(int i = 0; i < _MAX_ITEMS; i++)
+            items[pos] = item;
+        }
+        public Item Get(int pos)
+        {
+            return items[pos];
+        }
+        public static void Show(Player player)
+        {
+            var inv_d = new ListDialog("Инвентарь", "Выбор", "Закрыть");
+            for (int i = 0; i < MAX_ITEMS; i++)
+                inv_d.AddItem(player.inventary.Get(i).name);
+
+            inv_d.Response += (sender, e) =>
             {
-                items[i].id = item_ids[i];
-                items[i].amount = stacks[i];
-            }
+                if(e.DialogButton == DialogButton.Left)
+                {
+                    player.SendClientMessage("В разработке...");
+                }
+            };
+
+            inv_d.Show(player);
         }
     }
-
 }
