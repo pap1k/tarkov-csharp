@@ -17,17 +17,16 @@ namespace SampSharpGamemode
         public static int SERFVER_ITEMS { get => _SERVER_ITEMS; }
         public static Item[] ServerItems;
         public static Item ErrorItem = new Item(-2, 0, "<Ошибка>", " ", false, false, false, 1);
-        public static Item EmptyItem = new Item(0, 0, "", "", false, false, false, 1);
+        public static Item EmptyItem = new Item(0, 0, "[пусто]", "", false, false, false, 1);
         protected override void OnInitialized(EventArgs e)
         {
-            base.OnInitialized(e);
-            
             Console.WriteLine("\n----------------------------------");
             Console.WriteLine(data["server"]["GMName"]);
             Console.WriteLine("----------------------------------\n");
 
             SetGameModeText(data["server"]["GMName"]);
             LoadDBItems();
+            base.OnInitialized(e);
         }
         public static Item FindItem(int id)
         {

@@ -35,7 +35,6 @@ namespace SampSharpGamemode
             List<List<string>> result = new List<List<string>>();
 
             var sql = new MySqlCommand(req, conn);
-            
             using (MySqlDataReader reader = sql.ExecuteReader())
             {
                 while (reader.Read())

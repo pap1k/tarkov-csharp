@@ -1,14 +1,11 @@
 ﻿using SampSharp.GameMode;
 using SampSharp.GameMode.Controllers;
-using SampSharp.GameMode.SAMP;
 using SampSharp.GameMode.SAMP.Commands;
 using SampSharp.GameMode.SAMP.Commands.ParameterTypes;
 using SampSharp.GameMode.SAMP.Commands.PermissionCheckers;
 using SampSharp.GameMode.World;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace SampSharpGamemode
 {
@@ -57,7 +54,6 @@ namespace SampSharpGamemode
         }
         public override bool Invoke(BasePlayer player, string commandText)
         {
-            player.SendClientMessage(player.PVars.Get<bool>(PvarsInfo.ingame).ToString());
             return player.PVars.Get<bool>(PvarsInfo.ingame) ? base.Invoke(player, commandText) : false;
         }
         protected override ICommandParameterType GetParameterType(ParameterInfo parameter, int index, int count)
@@ -92,7 +88,7 @@ namespace SampSharpGamemode
                 return false;
 
             // Send permission denied message in red instead of white.
-            player.SendClientMessage(Color.Red, permissionChecker.Message);
+            player.SendClientMessage(Colors.GREY, permissionChecker.Message);
             return true;
         }
     }

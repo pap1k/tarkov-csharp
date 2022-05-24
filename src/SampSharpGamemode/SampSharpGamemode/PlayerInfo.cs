@@ -15,7 +15,7 @@
     {
         public static string
             uid         = "pUID",
-            score       =  "pSCORE",
+            score       = "pSCORE",
             helplevel   = "pHELPHEVEL",
             adminlevel  = "pADMINLEVEL",
             skin        = "pSKIN",
@@ -25,6 +25,7 @@
             ingame      = "pINGAME",
             admin       = "pADMIN",
             helper      = "pHELPER",
-            password    = "pPASSWORD";
+            password    = "pPASSWORD",
+            isTemp      = "pTEMP";
     }
 }
