@@ -31,7 +31,8 @@ namespace SampSharpGamemode
                 {
                     if (IsPasswordCorrect(e.InputText))
                     {
-                        player.PVars[PvarsInfo.password] = e.InputText;
+                        player.PVars[PvarsInfo.pass] = e.InputText;
+                        player.PVars[PvarsInfo.password] = GameMode.getHash(e.InputText);
                         GameMode.db.InsertPlayer(player);
                         RegSuccess.Show(player);
                         player.LoadInfo();

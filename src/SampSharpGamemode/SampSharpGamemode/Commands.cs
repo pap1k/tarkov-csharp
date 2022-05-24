@@ -13,11 +13,22 @@ namespace SampSharpGamemode
     {
         public string Message
         {
-            get { return "У Вас нет прав на использование данной команды"; }
+            get { return "У вас нет прав на использование данной команды"; }
         }
         public bool Check(BasePlayer player)
         {
             return player.PVars.Get<bool>(PvarsInfo.admin);
+        }
+    }
+    public class FounderAdminPermChecker : IPermissionChecker
+    {
+        public string Message
+        {
+            get { return "У вас нет прав на использование данной команды"; }
+        }
+        public bool Check(BasePlayer player)
+        {
+            return player.PVars.Get<int>(PvarsInfo.adminlevel) >= (int)e_AdminLevels.A_FOUNDER;
         }
     }
     public class DefaultPermChecker : IPermissionChecker

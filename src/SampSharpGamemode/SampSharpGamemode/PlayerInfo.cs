@@ -25,7 +25,8 @@
             ingame      = "pINGAME",
             admin       = "pADMIN",
             helper      = "pHELPER",
-            password    = "pPASSWORD",
+            password    = "pHASHPASSWORD",
+            pass        = "pPASSWORD",
             isTemp      = "pTEMP";
     }
 }

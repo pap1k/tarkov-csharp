@@ -3,7 +3,9 @@ using System;
 using IniParser;
 using IniParser.Model;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using SampSharp.GameMode.SAMP.Commands;
+using System.Text;
 
 namespace SampSharpGamemode
 {
@@ -27,6 +29,21 @@ namespace SampSharpGamemode
             SetGameModeText(data["server"]["GMName"]);
             LoadDBItems();
             base.OnInitialized(e);
+        }
+        public static string getHash(string s)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(s);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder sb = new System.Text.StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
         }
         public static Item FindItem(int id)
         {

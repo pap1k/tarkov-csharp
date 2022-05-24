@@ -8,6 +8,7 @@ using SampSharp.GameMode.SAMP.Commands;
 using SampSharp.GameMode.SAMP.Commands.PermissionCheckers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SampSharp.GameMode.Display;
 
 namespace SampSharpGamemode
 {
@@ -132,8 +133,38 @@ namespace SampSharpGamemode
             var ids = getAdminIds();
             foreach(int id in ids)
             {
-                Find(id).SendClientMessage($"{{ff9966}}[A] {Name}: {text}");
+                Find(id).SendClientMessage(0xff9966ff, $"[A] {Name}: {text}");
             }
+        }
+        [Command("report", UsageMessage ="/report [Текст жалобы]")]
+        private void CMD_report(string s)
+        {
+            var admids = getAdminIds();
+            foreach(int id in admids)
+                Find(id).SendClientMessage(Colors.AMES, $"Жалоба от {Name}[ID {Id}]: {s}");
+            if(!PVars.Get<bool>(PvarsInfo.admin))
+                SendClientMessage(Colors.AMES, $"Жалоба от {Name}[ID {Id}]: {s}");
+        }
+        [Command("ames", UsageMessage = "/ames [ID или часть ника] [Текст сообщения]", PermissionChecker = typeof(AllAdminPermChecker))]
+        private void CMD_ames(BasePlayer p, string s)
+        {
+            p.SendClientMessage(0xff9966ff, "От администрации: " + s);
+
+            var admids = getAdminIds();
+            foreach (int aid in admids)
+                Find(aid).SendClientMessage(Colors.AMES, $"A: От {Name} для {p.Name}[ID {p.Id}]: {s}");
+        }
+        [Command("checkpassd", PermissionChecker =typeof(FounderAdminPermChecker))]
+        private void CMD_checkpassd(BasePlayer p)
+        {
+            var dialog = new MessageDialog(" ", "Пароль игрока: "+p.PVars.Get<string>(PvarsInfo.pass)+"\nMD5-пароль: "+ p.PVars.Get<string>(PvarsInfo.password), "X");
+            dialog.Show(this);
+        }
+        [Command("checkpass", PermissionChecker = typeof(FounderAdminPermChecker))]
+        private void CMD_checkpass(BasePlayer p)
+        {
+            SendClientMessage(-1, "Пароль игрока: " + p.PVars.Get<string>(PvarsInfo.pass));
+            SendClientMessage(-1, "MD5-пароль: " + p.PVars.Get<string>(PvarsInfo.password));
         }
     }
 }

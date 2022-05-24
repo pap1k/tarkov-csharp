@@ -3460,3 +3460,701 @@ v0.3.7-R2, (C)2005-2015 SA-MP Team
 [17:05:13] [connection] 127.0.0.1:61036 requests connection cookie.
 [17:05:14] [connection] incoming connection: 127.0.0.1:61036 id: 0
 [17:05:14] [join] papercut has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:08:14] 
+[19:08:14] Server Plugins
+[19:08:14] --------------
+[19:08:14]  Loading plugin: SampSharp
+[19:08:14] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[19:08:14] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[19:08:14]   Loaded.
+[19:08:14]  Loaded 1 plugins.
+
+[19:08:14] 
+[19:08:14] Filterscripts
+[19:08:14] ---------------
+[19:08:14]   Loaded 0 filterscripts.
+
+[19:08:14]   Filterscript 'empty.amx' loaded.
+[19:08:14] 
+[19:08:14] SampSharp Plugin
+[19:08:14] ----------------
+[19:08:14] v0.10.0, (C)2014-2022 Tim Potze
+[19:08:14] 
+[19:08:14] [SampSharp:INFO] Initializing .NET runtime...
+[19:08:15] [SampSharp:INFO] Starting game mode host...
+[19:08:17] [SampSharp:INFO] Game mode host running.
+[19:08:20] Number of vehicle models: 0
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:24:28] 
+[19:24:28] Server Plugins
+[19:24:28] --------------
+[19:24:28]  Loading plugin: SampSharp
+[19:24:28] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[19:24:28] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[19:24:28]   Loaded.
+[19:24:28]  Loaded 1 plugins.
+
+[19:24:28] 
+[19:24:28] Filterscripts
+[19:24:28] ---------------
+[19:24:28]   Loaded 0 filterscripts.
+
+[19:24:28]   Filterscript 'empty.amx' loaded.
+[19:24:28] 
+[19:24:28] SampSharp Plugin
+[19:24:28] ----------------
+[19:24:28] v0.10.0, (C)2014-2022 Tim Potze
+[19:24:28] 
+[19:24:28] [SampSharp:INFO] Initializing .NET runtime...
+[19:24:29] [SampSharp:INFO] Starting game mode host...
+[19:24:30] [SampSharp:INFO] Game mode host running.
+[19:24:34] Number of vehicle models: 0
+[19:24:38] [connection] 127.0.0.1:63461 requests connection cookie.
+[19:24:39] [connection] incoming connection: 127.0.0.1:63461 id: 0
+[19:24:40] [join] papercut has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:27:15] 
+[19:27:15] Server Plugins
+[19:27:15] --------------
+[19:27:15]  Loading plugin: SampSharp
+[19:27:15] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[19:27:15] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[19:27:15]   Loaded.
+[19:27:15]  Loaded 1 plugins.
+
+[19:27:15] 
+[19:27:15] Filterscripts
+[19:27:15] ---------------
+[19:27:15]   Loaded 0 filterscripts.
+
+[19:27:15]   Filterscript 'empty.amx' loaded.
+[19:27:15] 
+[19:27:15] SampSharp Plugin
+[19:27:15] ----------------
+[19:27:15] v0.10.0, (C)2014-2022 Tim Potze
+[19:27:15] 
+[19:27:15] [SampSharp:INFO] Initializing .NET runtime...
+[19:27:15] [SampSharp:INFO] Starting game mode host...
+[19:27:16] [SampSharp:INFO] Game mode host running.
+[19:27:18] Number of vehicle models: 0
+[19:27:21] [connection] 127.0.0.1:64667 requests connection cookie.
+[19:27:22] [connection] incoming connection: 127.0.0.1:64667 id: 0
+[19:27:23] [join] papercut has joined the server (0:127.0.0.1)
+[19:28:20] [part] papercut has left the server (0:1)
+[19:28:20] [connection] 127.0.0.1:60542 requests connection cookie.
+[19:28:21] [connection] incoming connection: 127.0.0.1:60542 id: 0
+[19:28:21] [join] rudy)wade has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:38:14] 
+[19:38:14] Server Plugins
+[19:38:14] --------------
+[19:38:14]  Loading plugin: SampSharp
+[19:38:14] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[19:38:14] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[19:38:14]   Loaded.
+[19:38:14]  Loaded 1 plugins.
+
+[19:38:14] 
+[19:38:14] Filterscripts
+[19:38:14] ---------------
+[19:38:14]   Loaded 0 filterscripts.
+
+[19:38:14]   Filterscript 'empty.amx' loaded.
+[19:38:14] 
+[19:38:14] SampSharp Plugin
+[19:38:14] ----------------
+[19:38:14] v0.10.0, (C)2014-2022 Tim Potze
+[19:38:14] 
+[19:38:14] [SampSharp:INFO] Initializing .NET runtime...
+[19:38:16] [SampSharp:INFO] Starting game mode host...
+[19:38:18] [SampSharp:INFO] Game mode host running.
+[19:38:21] Number of vehicle models: 0
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:39:10] 
+[19:39:10] Server Plugins
+[19:39:10] --------------
+[19:39:10]  Loading plugin: SampSharp
+[19:39:10] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[19:39:10] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[19:39:10]   Loaded.
+[19:39:10]  Loaded 1 plugins.
+
+[19:39:10] 
+[19:39:10] Filterscripts
+[19:39:10] ---------------
+[19:39:10]   Loaded 0 filterscripts.
+
+[19:39:10]   Filterscript 'empty.amx' loaded.
+[19:39:10] 
+[19:39:10] SampSharp Plugin
+[19:39:10] ----------------
+[19:39:10] v0.10.0, (C)2014-2022 Tim Potze
+[19:39:10] 
+[19:39:10] [SampSharp:INFO] Initializing .NET runtime...
+[19:39:10] [SampSharp:INFO] Starting game mode host...
+[19:39:11] [SampSharp:INFO] Game mode host running.
+[19:39:13] Number of vehicle models: 0
+[19:39:16] [connection] 127.0.0.1:52220 requests connection cookie.
+[19:39:17] [connection] incoming connection: 127.0.0.1:52220 id: 0
+[19:39:17] [join] rudy)wade has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:40:27] 
+[19:40:27] Server Plugins
+[19:40:27] --------------
+[19:40:27]  Loading plugin: SampSharp
+[19:40:27] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[19:40:27] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[19:40:27]   Loaded.
+[19:40:27]  Loaded 1 plugins.
+
+[19:40:27] 
+[19:40:27] Filterscripts
+[19:40:27] ---------------
+[19:40:27]   Loaded 0 filterscripts.
+
+[19:40:27]   Filterscript 'empty.amx' loaded.
+[19:40:27] 
+[19:40:27] SampSharp Plugin
+[19:40:27] ----------------
+[19:40:27] v0.10.0, (C)2014-2022 Tim Potze
+[19:40:27] 
+[19:40:27] [SampSharp:INFO] Initializing .NET runtime...
+[19:40:27] [SampSharp:INFO] Starting game mode host...
+[19:40:28] [SampSharp:INFO] Game mode host running.
+[19:40:30] Number of vehicle models: 0
+[19:40:33] [connection] 127.0.0.1:54214 requests connection cookie.
+[19:40:34] [connection] incoming connection: 127.0.0.1:54214 id: 0
+[19:40:34] [join] rudy)wade has joined the server (0:127.0.0.1)
+[19:40:48] [part] rudy)wade has left the server (0:1)
+[19:40:48] [connection] 127.0.0.1:60350 requests connection cookie.
+[19:40:49] [connection] incoming connection: 127.0.0.1:60350 id: 0
+[19:40:49] [join] [MOU5E]JxBadMood_ has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:43:47] 
+[19:43:47] Server Plugins
+[19:43:47] --------------
+[19:43:47]  Loading plugin: SampSharp
+[19:43:48] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[19:43:48] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[19:43:48]   Loaded.
+[19:43:48]  Loaded 1 plugins.
+
+[19:43:48] 
+[19:43:48] Filterscripts
+[19:43:48] ---------------
+[19:43:48]   Loaded 0 filterscripts.
+
+[19:43:48]   Filterscript 'empty.amx' loaded.
+[19:43:48] 
+[19:43:48] SampSharp Plugin
+[19:43:48] ----------------
+[19:43:48] v0.10.0, (C)2014-2022 Tim Potze
+[19:43:48] 
+[19:43:48] [SampSharp:INFO] Initializing .NET runtime...
+[19:43:48] [SampSharp:INFO] Starting game mode host...
+[19:43:50] [SampSharp:INFO] Game mode host running.
+[19:43:52] Number of vehicle models: 0
+[19:44:02] [connection] 127.0.0.1:65055 requests connection cookie.
+[19:44:03] [connection] incoming connection: 127.0.0.1:65055 id: 0
+[19:44:04] [join] [MOU5E]JxBadMood_ has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:44:58] 
+[19:44:58] Server Plugins
+[19:44:58] --------------
+[19:44:58]  Loading plugin: SampSharp
+[19:44:58] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[19:44:58] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[19:44:58]   Loaded.
+[19:44:58]  Loaded 1 plugins.
+
+[19:44:59] 
+[19:44:59] Filterscripts
+[19:44:59] ---------------
+[19:44:59]   Loaded 0 filterscripts.
+
+[19:44:59]   Filterscript 'empty.amx' loaded.
+[19:44:59] 
+[19:44:59] SampSharp Plugin
+[19:44:59] ----------------
+[19:44:59] v0.10.0, (C)2014-2022 Tim Potze
+[19:44:59] 
+[19:44:59] [SampSharp:INFO] Initializing .NET runtime...
+[19:44:59] [SampSharp:INFO] Starting game mode host...
+[19:45:00] [SampSharp:INFO] Game mode host running.
+[19:45:02] [connection] 127.0.0.1:52207 requests connection cookie.
+[19:45:02] Number of vehicle models: 0
+[19:45:03] [connection] incoming connection: 127.0.0.1:52207 id: 0
+[19:45:03] [join] [MOU5E]JxBadMood_ has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:47:01] 
+[19:47:01] Server Plugins
+[19:47:01] --------------
+[19:47:01]  Loading plugin: SampSharp
+[19:47:02] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[19:47:02] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[19:47:02]   Loaded.
+[19:47:02]  Loaded 1 plugins.
+
+[19:47:02] 
+[19:47:02] Filterscripts
+[19:47:02] ---------------
+[19:47:02]   Loaded 0 filterscripts.
+
+[19:47:02]   Filterscript 'empty.amx' loaded.
+[19:47:02] 
+[19:47:02] SampSharp Plugin
+[19:47:02] ----------------
+[19:47:02] v0.10.0, (C)2014-2022 Tim Potze
+[19:47:02] 
+[19:47:02] [SampSharp:INFO] Initializing .NET runtime...
+[19:47:02] [SampSharp:INFO] Starting game mode host...
+[19:47:03] [SampSharp:INFO] Game mode host running.
+[19:47:05] Number of vehicle models: 0
+[19:47:09] [connection] 127.0.0.1:56169 requests connection cookie.
+[19:47:10] [connection] incoming connection: 127.0.0.1:56169 id: 0
+[19:47:11] [join] [MOU5E]JxBadMood_ has joined the server (0:127.0.0.1)
+[19:47:37] [part] [MOU5E]JxBadMood_ has left the server (0:1)
+[19:47:37] [connection] 127.0.0.1:56174 requests connection cookie.
+[19:47:38] [connection] incoming connection: 127.0.0.1:56174 id: 0
+[19:47:39] [join] [MOU5E]JxBadMood_ has joined the server (0:127.0.0.1)
+[19:47:44] [part] [MOU5E]JxBadMood_ has left the server (0:1)
+[19:47:44] [connection] 127.0.0.1:53573 requests connection cookie.
+[19:47:45] [connection] incoming connection: 127.0.0.1:53573 id: 0
+[19:47:46] [join] papercut has joined the server (0:127.0.0.1)
+[19:47:49] [part] papercut has left the server (0:1)
+[19:47:49] [connection] 127.0.0.1:56683 requests connection cookie.
+[19:47:50] [connection] incoming connection: 127.0.0.1:56683 id: 0
+[19:47:50] [join] papercut has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:59:42] 
+[19:59:42] Server Plugins
+[19:59:42] --------------
+[19:59:42]  Loading plugin: SampSharp
+[19:59:43] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[19:59:43] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[19:59:43]   Loaded.
+[19:59:43]  Loaded 1 plugins.
+
+[19:59:43] 
+[19:59:43] Filterscripts
+[19:59:43] ---------------
+[19:59:43]   Loaded 0 filterscripts.
+
+[19:59:43]   Filterscript 'empty.amx' loaded.
+[19:59:43] 
+[19:59:43] SampSharp Plugin
+[19:59:43] ----------------
+[19:59:43] v0.10.0, (C)2014-2022 Tim Potze
+[19:59:43] 
+[19:59:43] [SampSharp:INFO] Initializing .NET runtime...
+[19:59:43] [SampSharp:INFO] Starting game mode host...
+[19:59:44] [SampSharp:INFO] Game mode host running.
+[19:59:46] Number of vehicle models: 0
+[19:59:49] [connection] 127.0.0.1:57113 requests connection cookie.
+[19:59:50] [connection] incoming connection: 127.0.0.1:57113 id: 0
+[19:59:50] [join] papercut has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:00:38] 
+[20:00:38] Server Plugins
+[20:00:38] --------------
+[20:00:38]  Loading plugin: SampSharp
+[20:00:39] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:00:39] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:00:39]   Loaded.
+[20:00:39]  Loaded 1 plugins.
+
+[20:00:39] 
+[20:00:39] Filterscripts
+[20:00:39] ---------------
+[20:00:39]   Loaded 0 filterscripts.
+
+[20:00:39]   Filterscript 'empty.amx' loaded.
+[20:00:39] 
+[20:00:39] SampSharp Plugin
+[20:00:39] ----------------
+[20:00:39] v0.10.0, (C)2014-2022 Tim Potze
+[20:00:39] 
+[20:00:39] [SampSharp:INFO] Initializing .NET runtime...
+[20:00:39] [SampSharp:INFO] Starting game mode host...
+[20:00:40] [SampSharp:INFO] Game mode host running.
+[20:00:42] Number of vehicle models: 0
+[20:00:44] [connection] 127.0.0.1:64476 requests connection cookie.
+[20:00:45] [connection] incoming connection: 127.0.0.1:64476 id: 0
+[20:00:46] [join] papercut has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:01:58] 
+[20:01:58] Server Plugins
+[20:01:58] --------------
+[20:01:58]  Loading plugin: SampSharp
+[20:01:59] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:01:59] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:01:59]   Loaded.
+[20:01:59]  Loaded 1 plugins.
+
+[20:01:59] 
+[20:01:59] Filterscripts
+[20:01:59] ---------------
+[20:01:59]   Loaded 0 filterscripts.
+
+[20:01:59]   Filterscript 'empty.amx' loaded.
+[20:01:59] 
+[20:01:59] SampSharp Plugin
+[20:01:59] ----------------
+[20:01:59] v0.10.0, (C)2014-2022 Tim Potze
+[20:01:59] 
+[20:01:59] [SampSharp:INFO] Initializing .NET runtime...
+[20:01:59] [SampSharp:INFO] Starting game mode host...
+[20:02:00] [SampSharp:INFO] Game mode host running.
+[20:02:02] Number of vehicle models: 0
+[20:02:13] [connection] 127.0.0.1:56135 requests connection cookie.
+[20:02:14] [connection] incoming connection: 127.0.0.1:56135 id: 0
+[20:02:14] [join] papercut has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:02:36] 
+[20:02:36] Server Plugins
+[20:02:36] --------------
+[20:02:36]  Loading plugin: SampSharp
+[20:02:36] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:02:36] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:02:36]   Loaded.
+[20:02:36]  Loaded 1 plugins.
+
+[20:02:36] 
+[20:02:36] Filterscripts
+[20:02:36] ---------------
+[20:02:36]   Loaded 0 filterscripts.
+
+[20:02:36]   Filterscript 'empty.amx' loaded.
+[20:02:36] 
+[20:02:36] SampSharp Plugin
+[20:02:36] ----------------
+[20:02:36] v0.10.0, (C)2014-2022 Tim Potze
+[20:02:36] 
+[20:02:36] [SampSharp:INFO] Initializing .NET runtime...
+[20:02:36] [SampSharp:INFO] Starting game mode host...
+[20:02:37] [SampSharp:INFO] Game mode host running.
+[20:02:39] Number of vehicle models: 0
+[20:02:46] [connection] 127.0.0.1:56140 requests connection cookie.
+[20:02:47] [connection] incoming connection: 127.0.0.1:56140 id: 0
+[20:02:48] [join] papercut has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:05:54] 
+[20:05:54] Server Plugins
+[20:05:54] --------------
+[20:05:54]  Loading plugin: SampSharp
+[20:05:54] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:05:54] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:05:54]   Loaded.
+[20:05:54]  Loaded 1 plugins.
+
+[20:05:54] 
+[20:05:54] Filterscripts
+[20:05:54] ---------------
+[20:05:54]   Loaded 0 filterscripts.
+
+[20:05:54]   Filterscript 'empty.amx' loaded.
+[20:05:54] 
+[20:05:54] SampSharp Plugin
+[20:05:54] ----------------
+[20:05:54] v0.10.0, (C)2014-2022 Tim Potze
+[20:05:54] 
+[20:05:54] [SampSharp:INFO] Initializing .NET runtime...
+[20:05:54] [SampSharp:INFO] Starting game mode host...
+[20:05:55] [SampSharp:INFO] Game mode host running.
+[20:05:57] Number of vehicle models: 0
+[20:05:59] [connection] 127.0.0.1:65257 requests connection cookie.
+[20:06:00] [connection] incoming connection: 127.0.0.1:65257 id: 0
+[20:06:01] [join] papercut has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:08:54] 
+[20:08:54] Server Plugins
+[20:08:54] --------------
+[20:08:54]  Loading plugin: SampSharp
+[20:08:54] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:08:54] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:08:54]   Loaded.
+[20:08:54]  Loaded 1 plugins.
+
+[20:08:54] 
+[20:08:54] Filterscripts
+[20:08:54] ---------------
+[20:08:54]   Loaded 0 filterscripts.
+
+[20:08:54]   Filterscript 'empty.amx' loaded.
+[20:08:54] 
+[20:08:54] SampSharp Plugin
+[20:08:54] ----------------
+[20:08:54] v0.10.0, (C)2014-2022 Tim Potze
+[20:08:54] 
+[20:08:54] [SampSharp:INFO] Initializing .NET runtime...
+[20:08:54] [SampSharp:INFO] Starting game mode host...
+[20:08:55] [SampSharp:INFO] Game mode host running.
+[20:08:56] Number of vehicle models: 0
+[20:09:01] [connection] 127.0.0.1:60684 requests connection cookie.
+[20:09:02] [connection] incoming connection: 127.0.0.1:60684 id: 0
+[20:09:02] [join] papercut has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:09:37] 
+[20:09:37] Server Plugins
+[20:09:37] --------------
+[20:09:37]  Loading plugin: SampSharp
+[20:09:37] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:09:37] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:09:37]   Loaded.
+[20:09:37]  Loaded 1 plugins.
+
+[20:09:37] 
+[20:09:37] Filterscripts
+[20:09:37] ---------------
+[20:09:37]   Loaded 0 filterscripts.
+
+[20:09:37]   Filterscript 'empty.amx' loaded.
+[20:09:37] 
+[20:09:37] SampSharp Plugin
+[20:09:37] ----------------
+[20:09:37] v0.10.0, (C)2014-2022 Tim Potze
+[20:09:37] 
+[20:09:37] [SampSharp:INFO] Initializing .NET runtime...
+[20:09:38] [SampSharp:INFO] Starting game mode host...
+[20:09:39] [SampSharp:INFO] Game mode host running.
+[20:09:40] Number of vehicle models: 0
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:20:07] 
+[20:20:07] Server Plugins
+[20:20:07] --------------
+[20:20:07]  Loading plugin: SampSharp
+[20:20:08] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:20:08] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:20:08]   Loaded.
+[20:20:08]  Loaded 1 plugins.
+
+[20:20:08] 
+[20:20:08] Filterscripts
+[20:20:08] ---------------
+[20:20:08]   Loaded 0 filterscripts.
+
+[20:20:08]   Filterscript 'empty.amx' loaded.
+[20:20:08] 
+[20:20:08] SampSharp Plugin
+[20:20:08] ----------------
+[20:20:08] v0.10.0, (C)2014-2022 Tim Potze
+[20:20:08] 
+[20:20:08] [SampSharp:INFO] Initializing .NET runtime...
+[20:20:08] [SampSharp:INFO] Starting game mode host...
+[20:20:09] [SampSharp:INFO] Game mode host running.
+[20:20:11] Number of vehicle models: 0
+[20:20:19] [connection] 127.0.0.1:56466 requests connection cookie.
+[20:20:20] [connection] incoming connection: 127.0.0.1:56466 id: 0
+[20:20:20] [join] papercut1 has joined the server (0:127.0.0.1)
+[20:20:22] [connection] 127.0.0.1:65499 requests connection cookie.
+[20:20:23] [connection] incoming connection: 127.0.0.1:65499 id: 1
+[20:20:23] [join] papercut has joined the server (1:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:24:13] 
+[20:24:13] Server Plugins
+[20:24:13] --------------
+[20:24:13]  Loading plugin: SampSharp
+[20:24:13] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:24:13] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:24:13]   Loaded.
+[20:24:13]  Loaded 1 plugins.
+
+[20:24:13] 
+[20:24:13] Filterscripts
+[20:24:13] ---------------
+[20:24:13]   Loaded 0 filterscripts.
+
+[20:24:13]   Filterscript 'empty.amx' loaded.
+[20:24:13] 
+[20:24:13] SampSharp Plugin
+[20:24:13] ----------------
+[20:24:13] v0.10.0, (C)2014-2022 Tim Potze
+[20:24:13] 
+[20:24:13] [SampSharp:INFO] Initializing .NET runtime...
+[20:24:13] [SampSharp:INFO] Starting game mode host...
+[20:24:13] [connection] 127.0.0.1:58260 requests connection cookie.
+[20:24:14] [SampSharp:INFO] Game mode host running.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:24:30] 
+[20:24:30] Server Plugins
+[20:24:30] --------------
+[20:24:30]  Loading plugin: SampSharp
+[20:24:30] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:24:30] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:24:30]   Loaded.
+[20:24:30]  Loaded 1 plugins.
+
+[20:24:30] 
+[20:24:30] Filterscripts
+[20:24:30] ---------------
+[20:24:30]   Loaded 0 filterscripts.
+
+[20:24:30]   Filterscript 'empty.amx' loaded.
+[20:24:30] 
+[20:24:30] SampSharp Plugin
+[20:24:30] ----------------
+[20:24:30] v0.10.0, (C)2014-2022 Tim Potze
+[20:24:30] 
+[20:24:30] [SampSharp:INFO] Initializing .NET runtime...
+[20:24:31] [SampSharp:INFO] Starting game mode host...
+[20:24:32] [SampSharp:INFO] Game mode host running.
+[20:24:33] Number of vehicle models: 0
+[20:24:34] [connection] 127.0.0.1:51562 requests connection cookie.
+[20:24:35] [connection] incoming connection: 127.0.0.1:51562 id: 0
+[20:24:35] [join] papercut1 has joined the server (0:127.0.0.1)
+[20:24:49] [connection] 127.0.0.1:54406 requests connection cookie.
+[20:24:50] [connection] incoming connection: 127.0.0.1:54406 id: 1
+[20:24:51] [join] papercut has joined the server (1:127.0.0.1)

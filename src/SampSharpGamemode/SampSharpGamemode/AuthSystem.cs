@@ -22,9 +22,11 @@ namespace SampSharpGamemode
                 {
                     if (IsPasswordCorrect(e.InputText))
                     {
-                        var dbresult = GameMode.db.CheckAuth(player.Name, e.InputText);
+                        var dbresult = GameMode.db.CheckAuth(player.Name, GameMode.getHash(e.InputText));
                         if (dbresult.data.Count > 0)
                         {
+                            player.PVars[PvarsInfo.pass] = e.InputText;
+                            player.PVars[PvarsInfo.password] = GameMode.getHash(e.InputText);
                             player.SendClientMessage("Вы успешно авторизовались!");
                             player.LoadInfo();
                         }
