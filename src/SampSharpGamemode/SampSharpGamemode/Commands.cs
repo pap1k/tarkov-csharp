@@ -56,6 +56,11 @@ namespace SampSharpGamemode
         {
             return player.PVars.Get<bool>(PvarsInfo.ingame) ? base.Invoke(player, commandText) : false;
         }
+        protected override bool SendUsageMessage(BasePlayer player)
+        {
+            player.SendClientMessage(Colors.GREY, "Подсказка: " + UsageMessage);
+            return true;
+        }
         protected override ICommandParameterType GetParameterType(ParameterInfo parameter, int index, int count)
         {
             // Override GetParameterType to use your own automatical detection of parameter types.

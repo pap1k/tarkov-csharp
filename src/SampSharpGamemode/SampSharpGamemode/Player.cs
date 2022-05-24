@@ -76,6 +76,20 @@ namespace SampSharpGamemode
             Skin = PVars.Get<int>(PvarsInfo.skin);
             base.OnSpawned(e);
         }
+        private List<int> getAdminIds()
+        {
+            List<int> ids = new List<int>();
+            for (int i = 0; i <= Max; i++)
+            {
+                var p = Find(i);
+
+                if (p != null && p.IsConnected && p.PVars.Get<bool>(PvarsInfo.admin))
+                {
+                    ids.Add(i);
+                }
+            }
+            return ids;
+        }
         //COMMANDS
         [Command("inv", "stock")]
         private void CMD_inv()
@@ -85,18 +99,9 @@ namespace SampSharpGamemode
         [Command("admins", PermissionChecker = typeof(AllAdminPermChecker))]
         private void CMD_admins()
         {
-            int admins = 0;
-            List<int> ids = new List<int>();
-            for (int i = 0; i <= Max; i++)
-            {
-                var p = Find(i);
-                
-                if (p != null && p.IsConnected && p.PVars.Get<bool>(PvarsInfo.admin))
-                {
-                    ids.Add(i);
-                    admins++;
-                }
-            }
+            var ids = getAdminIds();
+            int admins = ids.Count;
+
             string namecase;
             string admins_str = admins.ToString();
             switch(admins_str[admins_str.Length - 1])
@@ -118,6 +123,15 @@ namespace SampSharpGamemode
                     this.SendClientMessage($"Временный администратор {{abcdef}}{p.Name} {{FFFFFF}}ID {{abcdef}}{ids[i]}");
                 else
                     this.SendClientMessage($"Администратор {{fbec5d}}{p.PVars.Get<int>(PvarsInfo.adminlevel)} {{ffffff}}уровня {{abcdef}}{p.Name} {{FFFFFF}}ID {{abcdef}}{ids[i]}");
+            }
+        }
+        [Command("a", PermissionChecker = typeof(AllAdminPermChecker), UsageMessage = "/a [Текст сообщения]")]
+        private void CMD_a(string text)
+        {
+            var ids = getAdminIds();
+            foreach(int id in ids)
+            {
+                Find(id).SendClientMessage($"{{ff9966}}[A] {Name}: {text}");
             }
         }
     }
