@@ -1,5 +1,5 @@
 .vs/
 launchSettings.json
 SampSharpGamemode.csproj.user
-Debug/
+obj/
 server_log.txt
