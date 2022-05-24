@@ -1,21 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\q\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj": {}
+    "D:\\files\\code\\sampServer\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj": {}
   },
   "projects": {
-    "D:\\q\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj": {
+    "D:\\files\\code\\sampServer\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\q\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj",
+        "projectUniqueName": "D:\\files\\code\\sampServer\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj",
         "projectName": "SampSharpGamemode",
-        "projectPath": "D:\\q\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj",
-        "packagesPath": "C:\\Users\\Андрей\\.nuget\\packages\\",
-        "outputPath": "D:\\q\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\obj\\",
+        "projectPath": "D:\\files\\code\\sampServer\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\SampSharpGamemode.csproj",
+        "packagesPath": "C:\\Users\\magem\\.nuget\\packages\\",
+        "outputPath": "D:\\files\\code\\sampServer\\tarkov-csharp\\src\\SampSharpGamemode\\SampSharpGamemode\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Андрей\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\magem\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -26,7 +30,6 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -38,7 +41,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "MySql.Data": {
               "target": "Package",
@@ -68,7 +70,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
