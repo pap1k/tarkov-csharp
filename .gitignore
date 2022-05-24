@@ -1,3 +1,4 @@
 .vs/
 launchSettings.json
-SampSharpGamemode.csproj.user 
+SampSharpGamemode.csproj.user
+Debug/
