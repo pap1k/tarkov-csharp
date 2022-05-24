@@ -4223,3 +4223,36 @@ v0.3.7-R2, (C)2005-2015 SA-MP Team
 [20:49:57] [SampSharp:INFO] Starting game mode host...
 [20:49:58] [SampSharp:INFO] Game mode host running.
 [20:50:00] Number of vehicle models: 0
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:51:50] 
+[20:51:50] Server Plugins
+[20:51:50] --------------
+[20:51:50]  Loading plugin: SampSharp
+[20:51:50] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:51:50] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:51:50]   Loaded.
+[20:51:50]  Loaded 1 plugins.
+
+[20:51:50] 
+[20:51:50] Filterscripts
+[20:51:50] ---------------
+[20:51:50]   Loaded 0 filterscripts.
+
+[20:51:50]   Filterscript 'empty.amx' loaded.
+[20:51:50] 
+[20:51:50] SampSharp Plugin
+[20:51:50] ----------------
+[20:51:50] v0.10.0, (C)2014-2022 Tim Potze
+[20:51:50] 
+[20:51:50] [SampSharp:INFO] Initializing .NET runtime...
+[20:51:50] [SampSharp:INFO] Starting game mode host...
+[20:51:51] [SampSharp:INFO] Game mode host running.
+[20:51:52] Number of vehicle models: 0
