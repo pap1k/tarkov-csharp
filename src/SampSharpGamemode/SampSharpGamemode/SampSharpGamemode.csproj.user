@@ -4,6 +4,6 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>newProfile1</ActiveDebugProfile>
+    <ActiveDebugProfile>Профиль 1</ActiveDebugProfile>
   </PropertyGroup>
 </Project>

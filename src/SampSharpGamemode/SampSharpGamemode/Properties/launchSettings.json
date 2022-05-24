@@ -3,10 +3,10 @@
     "SampSharpGamemode": {
       "commandName": "Project"
     },
-    "newProfile1": {
+    "Профиль 1": {
       "commandName": "Executable",
-      "executablePath": "D:\\files\\code\\sampServer\\tarkov-csharp\\samp-server.exe",
-      "workingDirectory": "D:\\files\\code\\sampServer\\tarkov-csharp"
+      "executablePath": "D:\\q\\tarkov-csharp\\samp-server.exe",
+      "workingDirectory": "D:\\q\\tarkov-csharp"
     }
   }
 }

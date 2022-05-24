@@ -34,3 +34,9 @@ D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode
 D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.runtimeconfig.dev.json
 D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
 D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.pdb
+D:\q\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.exe
+D:\q\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.deps.json
+D:\q\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.runtimeconfig.json
+D:\q\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.runtimeconfig.dev.json
+D:\q\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+D:\q\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.pdb
