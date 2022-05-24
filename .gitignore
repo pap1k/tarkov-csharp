@@ -1,5 +1,7 @@
 .vs/
 launchSettings.json
 SampSharpGamemode.csproj.user
+SampSharpGamemode.csproj
 obj/
 server_log.txt
+netcoreapp3.1/

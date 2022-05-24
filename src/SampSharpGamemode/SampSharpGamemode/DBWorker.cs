@@ -66,5 +66,6 @@ namespace SampSharpGamemode
         public DBType InsertPlayer(Player player){ return DoRequest($"INSERT INTO players(nickname, password) VALUES('{player.Name}', '{player.PVars.Get<string>(PvarsInfo.password)}')");}
         public DBType CheckAuth(string nick, string password) { return DoRequest($"SELECT * FROM players WHERE nickname = '{nick}' AND password = '{password}'");}
         public DBType SelectInventary(int uid) { return DoRequest($"SELECT items FROM player_inventary WHERE uid = {uid}"); }
+        public DBType UpdatePlayerAdmin(Player player) { return DoRequest($"UPDATE players SET admin_lvl = {player.PVars.Get<int>(PvarsInfo.adminlevel)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
     }
 }
