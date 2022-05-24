@@ -4158,3 +4158,68 @@ v0.3.7-R2, (C)2005-2015 SA-MP Team
 [20:24:49] [connection] 127.0.0.1:54406 requests connection cookie.
 [20:24:50] [connection] incoming connection: 127.0.0.1:54406 id: 1
 [20:24:51] [join] papercut has joined the server (1:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:48:35] 
+[20:48:35] Server Plugins
+[20:48:35] --------------
+[20:48:35]  Loading plugin: SampSharp
+[20:48:35] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:48:35] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:48:35]   Loaded.
+[20:48:35]  Loaded 1 plugins.
+
+[20:48:35] 
+[20:48:35] Filterscripts
+[20:48:35] ---------------
+[20:48:35]   Loaded 0 filterscripts.
+
+[20:48:35]   Filterscript 'empty.amx' loaded.
+[20:48:35] 
+[20:48:35] SampSharp Plugin
+[20:48:35] ----------------
+[20:48:35] v0.10.0, (C)2014-2022 Tim Potze
+[20:48:35] 
+[20:48:35] [SampSharp:INFO] Initializing .NET runtime...
+[20:48:36] [SampSharp:INFO] Starting game mode host...
+[20:48:38] [SampSharp:INFO] Game mode host running.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:49:56] 
+[20:49:56] Server Plugins
+[20:49:56] --------------
+[20:49:56]  Loading plugin: SampSharp
+[20:49:57] [SampSharp:INFO] Runtime path: D:\files\code\sampServer\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:49:57] [SampSharp:INFO] Game mode path: D:\files\code\sampServer\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:49:57]   Loaded.
+[20:49:57]  Loaded 1 plugins.
+
+[20:49:57] 
+[20:49:57] Filterscripts
+[20:49:57] ---------------
+[20:49:57]   Loaded 0 filterscripts.
+
+[20:49:57]   Filterscript 'empty.amx' loaded.
+[20:49:57] 
+[20:49:57] SampSharp Plugin
+[20:49:57] ----------------
+[20:49:57] v0.10.0, (C)2014-2022 Tim Potze
+[20:49:57] 
+[20:49:57] [SampSharp:INFO] Initializing .NET runtime...
+[20:49:57] [SampSharp:INFO] Starting game mode host...
+[20:49:58] [SampSharp:INFO] Game mode host running.
+[20:50:00] Number of vehicle models: 0
