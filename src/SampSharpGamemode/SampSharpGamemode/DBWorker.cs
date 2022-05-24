@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using SampSharpGamemode.Players;
 
 namespace SampSharpGamemode
 {
@@ -67,5 +68,10 @@ namespace SampSharpGamemode
         public DBType CheckAuth(string nick, string password) { return DoRequest($"SELECT * FROM players WHERE nickname = '{nick}' AND password = '{password}'");}
         public DBType SelectInventary(int uid) { return DoRequest($"SELECT items FROM player_inventary WHERE uid = {uid}"); }
         public DBType UpdatePlayerAdmin(Player player) { return DoRequest($"UPDATE players SET admin_lvl = {player.PVars.Get<int>(PvarsInfo.adminlevel)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType UpdatePlayerScore(Player player) { return DoRequest($"UPDATE players SET lvl = {player.PVars.Get<int>(PvarsInfo.score)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType UpdatePlayerMoney(Player player) { return DoRequest($"UPDATE players SET lvl = {player.PVars.Get<int>(PvarsInfo.money)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType UpdatePlayerSkin(Player player) { return DoRequest($"UPDATE players SET lvl = {player.PVars.Get<int>(PvarsInfo.skin)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType UpdatePlayerHelper(Player player) { return DoRequest($"UPDATE players SET lvl = {player.PVars.Get<int>(PvarsInfo.helplevel)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+
     }
 }

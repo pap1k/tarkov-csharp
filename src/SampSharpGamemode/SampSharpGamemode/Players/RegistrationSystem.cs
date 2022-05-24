@@ -7,9 +7,9 @@ using SampSharp.GameMode.Display;
 using SampSharp.GameMode.World;
 using SampSharp.GameMode.Definitions;
 
-namespace SampSharpGamemode
+namespace SampSharpGamemode.Players
 {
-    
+
     class RegisterationSystem
     {
         //public void RegisterDialogs_Eesponse() DLG_REG_PASSWORD
@@ -52,6 +52,6 @@ namespace SampSharpGamemode
             };
             RegPassDialog.Show(player);
         }
-        
+
     }
 }

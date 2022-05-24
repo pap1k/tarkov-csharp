@@ -5,7 +5,9 @@ using IniParser.Model;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using SampSharp.GameMode.SAMP.Commands;
+using SampSharpGamemode.Players;
 using System.Text;
+using SampSharp.GameMode.World;
 
 namespace SampSharpGamemode
 {
@@ -16,7 +18,7 @@ namespace SampSharpGamemode
         public static DBWorker db = new DBWorker(data["database"]["host"], data["database"]["username"], data["database"]["password"], data["database"]["dbname"]);
 
         private const int _SERVER_ITEMS = 10;
-        public static int SERFVER_ITEMS { get => _SERVER_ITEMS; }
+        public static int SERVER_ITEMS { get => _SERVER_ITEMS; }
         public static Item[] ServerItems;
         public static Item ErrorItem = new Item(-2, 0, "<Ошибка>", " ", false, false, false, 1);
         public static Item EmptyItem = new Item(0, 0, "[пусто]", "", false, false, false, 1);
@@ -29,6 +31,18 @@ namespace SampSharpGamemode
             SetGameModeText(data["server"]["GMName"]);
             LoadDBItems();
             base.OnInitialized(e);
+        }
+        public static List<int> getAdminIds()
+        {
+            List<int> ids = new List<int>();
+            for (int i = 0; i <= BasePlayer.Max; i++)
+            {
+                var p = BasePlayer.Find(i);
+
+                if (p != null && p.IsConnected && p.PVars.Get<bool>(PvarsInfo.admin))
+                    ids.Add(i);
+            }
+            return ids;
         }
         public static string getHash(string s)
         {

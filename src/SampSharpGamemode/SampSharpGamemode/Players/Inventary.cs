@@ -4,7 +4,7 @@ using System.Text;
 using SampSharp.GameMode.Display;
 using SampSharp.GameMode.Definitions;
 
-namespace SampSharpGamemode
+namespace SampSharpGamemode.Players
 {
     public class Item
     {
@@ -35,7 +35,7 @@ namespace SampSharpGamemode
     public class Inventary
     {
         private const int _MAX_ITEMS = 36;
-        public static int MAX_ITEMS{ get => _MAX_ITEMS; }
+        public static int MAX_ITEMS { get => _MAX_ITEMS; }
         public Item[] items = new Item[_MAX_ITEMS];
 
         public Inventary() { }
@@ -58,7 +58,7 @@ namespace SampSharpGamemode
             inv_action.AddItem("Пока не сделал");
             inv_d.Response += (sender, e) =>
             {
-                if(e.DialogButton == DialogButton.Left)
+                if (e.DialogButton == DialogButton.Left)
                 {
                     inv_action.Show(player);
                 }

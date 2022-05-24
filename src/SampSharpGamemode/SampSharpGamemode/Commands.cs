@@ -4,6 +4,7 @@ using SampSharp.GameMode.SAMP.Commands;
 using SampSharp.GameMode.SAMP.Commands.ParameterTypes;
 using SampSharp.GameMode.SAMP.Commands.PermissionCheckers;
 using SampSharp.GameMode.World;
+using SampSharpGamemode.Players;
 using System;
 using System.Globalization;
 using System.Linq;

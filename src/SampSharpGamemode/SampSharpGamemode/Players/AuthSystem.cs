@@ -7,7 +7,7 @@ using SampSharp.GameMode.Display;
 using SampSharp.GameMode.World;
 using SampSharp.GameMode.Definitions;
 
-namespace SampSharpGamemode
+namespace SampSharpGamemode.Players
 {
     public class AuthSystem
     {
@@ -56,4 +56,3 @@ namespace SampSharpGamemode
         }
     }
 }
-

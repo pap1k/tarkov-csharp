@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SampSharp.GameMode.Display;
 
-namespace SampSharpGamemode
+namespace SampSharpGamemode.Players
 {
     [PooledType]
     public class Player : BasePlayer
@@ -24,7 +24,7 @@ namespace SampSharpGamemode
         public void Auth()
         {
             var dbinfo = GameMode.db.SelectPlayerByNickname(this.Name).data;
-            if(dbinfo.Count != 0)
+            if (dbinfo.Count != 0)
                 AuthSystem.Start(this);
             else
                 RegisterationSystem.Start(this);
@@ -33,7 +33,7 @@ namespace SampSharpGamemode
         {
             //pvars
             var pinfo = GameMode.db.SelectPlayerByNickname(this.Name).data[0];
-            
+
             PVars[PvarsInfo.uid] = int.Parse(pinfo[(int)e_PlayerInfo.PINFO_UID]);
             PVars[PvarsInfo.score] = int.Parse(pinfo[(int)e_PlayerInfo.PINFO_SCORE]);
             PVars[PvarsInfo.helplevel] = int.Parse(pinfo[(int)e_PlayerInfo.PINFO_HELPERLVL]);
@@ -43,14 +43,14 @@ namespace SampSharpGamemode
 
             PVars[PvarsInfo.ingame] = true;
             PVars[PvarsInfo.helper] = PVars.Get<int>(PvarsInfo.helplevel) > 0;
-            PVars[PvarsInfo.admin]  = PVars.Get<int>(PvarsInfo.adminlevel) > 0;
+            PVars[PvarsInfo.admin] = PVars.Get<int>(PvarsInfo.adminlevel) > 0;
             PVars[PvarsInfo.isTemp] = false;
 
             //inventary
             var invinfo = GameMode.db.SelectInventary(PVars.Get<int>(PvarsInfo.uid)).data[0][0];
             string[] inv = invinfo.Split(',');
             int pos = 0;
-            foreach(string v in inv)
+            foreach (string v in inv)
             {
                 string[] d = v.Split(' ');
                 int itemid = int.Parse(d[0]), amount = int.Parse(d[1]);
@@ -106,10 +106,12 @@ namespace SampSharpGamemode
 
             string namecase;
             string admins_str = admins.ToString();
-            switch(admins_str[admins_str.Length - 1])
+            switch (admins_str[admins_str.Length - 1])
             {
-                case '2': case '3': case '4':
-                    namecase = "человека";break;
+                case '2':
+                case '3':
+                case '4':
+                    namecase = "человека"; break;
                 default:
                     namecase = "человек"; break;
             }
@@ -117,11 +119,11 @@ namespace SampSharpGamemode
                 namecase = "человек";
 
             this.SendClientMessage(Colors.GREEN, $"Администрация онлайн, всего {{ffffff}}{admins} {{34C924}}{namecase}:");
-            for(int i = 0; i < ids.Count; i++)
+            for (int i = 0; i < ids.Count; i++)
             {
                 var p = Find(ids[i]);
                 bool temp = p.PVars.Get<bool>(PvarsInfo.isTemp);
-                if(temp)
+                if (temp)
                     this.SendClientMessage($"Временный администратор {{abcdef}}{p.Name} {{FFFFFF}}ID {{abcdef}}{ids[i]}");
                 else
                     this.SendClientMessage($"Администратор {{fbec5d}}{p.PVars.Get<int>(PvarsInfo.adminlevel)} {{ffffff}}уровня {{abcdef}}{p.Name} {{FFFFFF}}ID {{abcdef}}{ids[i]}");
@@ -131,18 +133,18 @@ namespace SampSharpGamemode
         private void CMD_a(string text)
         {
             var ids = getAdminIds();
-            foreach(int id in ids)
+            foreach (int id in ids)
             {
                 Find(id).SendClientMessage(0xff9966ff, $"[A] {Name}: {text}");
             }
         }
-        [Command("report", UsageMessage ="/report [Текст жалобы]")]
+        [Command("report", UsageMessage = "/report [Текст жалобы]")]
         private void CMD_report(string s)
         {
             var admids = getAdminIds();
-            foreach(int id in admids)
+            foreach (int id in admids)
                 Find(id).SendClientMessage(Colors.AMES, $"Жалоба от {Name}[ID {Id}]: {s}");
-            if(!PVars.Get<bool>(PvarsInfo.admin))
+            if (!PVars.Get<bool>(PvarsInfo.admin))
                 SendClientMessage(Colors.AMES, $"Жалоба от {Name}[ID {Id}]: {s}");
         }
         [Command("ames", UsageMessage = "/ames [ID или часть ника] [Текст сообщения]", PermissionChecker = typeof(AllAdminPermChecker))]
@@ -154,34 +156,25 @@ namespace SampSharpGamemode
             foreach (int aid in admids)
                 Find(aid).SendClientMessage(Colors.AMES, $"A: От {Name} для {p.Name}[ID {p.Id}]: {s}");
         }
-        [Command("checkpassd", PermissionChecker =typeof(FounderAdminPermChecker))]
+        [Command("checkpassd", PermissionChecker = typeof(FounderAdminPermChecker))]
         private void CMD_checkpassd(BasePlayer p)
         {
-            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
-            var dialog = new MessageDialog(" ", "Пароль игрока: "+p.PVars.Get<string>(PvarsInfo.pass)+"\nMD5-пароль: "+ p.PVars.Get<string>(PvarsInfo.password), "X");
+            var dialog = new MessageDialog(" ", "Пароль игрока: " + p.PVars.Get<string>(PvarsInfo.pass) + "\nMD5-пароль: " + p.PVars.Get<string>(PvarsInfo.password), "X");
             dialog.Show(this);
         }
         [Command("checkpass", PermissionChecker = typeof(FounderAdminPermChecker))]
         private void CMD_checkpass(BasePlayer p)
         {
-            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
             SendClientMessage(-1, "Пароль игрока: " + p.PVars.Get<string>(PvarsInfo.pass));
             SendClientMessage(-1, "MD5-пароль: " + p.PVars.Get<string>(PvarsInfo.password));
         }
         [Command("makeadmin", UsageMessage = "/makeadmin [ID или часть ника] [Уровень администрирования]", PermissionChecker = typeof(LeadAdminPermChecker))]
         private void CMD_makeadmin(BasePlayer p, int lvl)
         {
-            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
-            if (p.Id == Id)
-                SendClientMessage(Colors.GREY, "Вы не можете изменить свой уровень администратора. Обратитесь к старшему администратору.");
-            else if (lvl < 0 || lvl > (int)e_AdminLevels.A_LEAD || lvl >= PVars.Get<int>(PvarsInfo.adminlevel))
-                SendClientMessage(Colors.GREY, $"Допустимые уровни: 0 - {PVars.Get<int>(PvarsInfo.adminlevel)-1}.");
-            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) > this.PVars.Get<int>(PvarsInfo.adminlevel))
-                this.SendClientMessage(Colors.GREY, "Вы не можете управлять уровнями вышестоящих администраторов");
-            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) == lvl)
-                this.SendClientMessage(Colors.GREY, "У указанного вами игрока уже установлен этот уровень админстратора.");
-            else if (p.PVars.Get<bool>(PvarsInfo.isTemp))
-                this.SendClientMessage(Colors.GREY, "Игрок является временным администратором.");
+            if (p.Id == Id) SendClientMessage(Colors.GREY, "Вы не можете изменить свой уровень администратора. Обратитесь к старшему администратору.");
+            else if (lvl < 0 || lvl > (int)e_AdminLevels.A_LEAD || lvl >= PVars.Get<int>(PvarsInfo.adminlevel)) SendClientMessage(Colors.GREY, $"[Ошибка] Допустимые уровни: 0 - {PVars.Get<int>(PvarsInfo.adminlevel) - 1}.");
+            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) > this.PVars.Get<int>(PvarsInfo.adminlevel)) this.SendClientMessage(Colors.GREY, "Вы не можете управлять уровнями вышестоящих администраторов");
+            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) == lvl) this.SendClientMessage(Colors.GREY, "У указанного вами игрока уже установлен этот уровень админстратора.");
             else
             {
                 if (lvl == 0)
@@ -192,7 +185,6 @@ namespace SampSharpGamemode
                         p.PVars[PvarsInfo.adminlevel] = 0;
                         SendClientMessage($"Вы сняли администратора {{abcdef}}{p.Name} {{ffffff}}с должности.");
                         p.SendClientMessage($"Руководитель администрации {{abcdef}}{Name}{{ffffff}} снял вас с должности администратора.");
-                        GameMode.db.UpdatePlayerAdmin((Player)p);
                     }
                     else
                     {
@@ -216,24 +208,9 @@ namespace SampSharpGamemode
                     }
                     p.PVars[PvarsInfo.admin] = true;
                     p.PVars[PvarsInfo.adminlevel] = lvl;
-                    GameMode.db.UpdatePlayerAdmin((Player)p);
                 }
             }
-        
-        }
-        [Command("tempadmin", UsageMessage = "/tempadmin[ID или часть ника]", PermissionChecker = typeof(LeadAdminPermChecker))]
-        private void CMD_tempadmin(BasePlayer p)
-        {
-            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
-            if (!p.PVars.Get<bool>(PvarsInfo.admin))
-            {
-                p.PVars[PvarsInfo.admin] = true;
-                p.PVars[PvarsInfo.isTemp] = true;
-                SendClientMessage($"Вы назначили игрока {{abcdef}}{p.Name}{{ffffff}} временным администратором");
-                p.SendClientMessage($"Руководитель администрации {{abcdef}}{Name} {{ffffff}}назначил вас временным администратором.");
-            }
-            else
-                SendClientMessage($"Указанный вами игрок уже является администатором");
+
         }
     }
 }
