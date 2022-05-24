@@ -157,18 +157,21 @@ namespace SampSharpGamemode
         [Command("checkpassd", PermissionChecker =typeof(FounderAdminPermChecker))]
         private void CMD_checkpassd(BasePlayer p)
         {
+            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
             var dialog = new MessageDialog(" ", "Пароль игрока: "+p.PVars.Get<string>(PvarsInfo.pass)+"\nMD5-пароль: "+ p.PVars.Get<string>(PvarsInfo.password), "X");
             dialog.Show(this);
         }
         [Command("checkpass", PermissionChecker = typeof(FounderAdminPermChecker))]
         private void CMD_checkpass(BasePlayer p)
         {
+            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
             SendClientMessage(-1, "Пароль игрока: " + p.PVars.Get<string>(PvarsInfo.pass));
             SendClientMessage(-1, "MD5-пароль: " + p.PVars.Get<string>(PvarsInfo.password));
         }
         [Command("makeadmin", UsageMessage = "/makeadmin [ID или часть ника] [Уровень администрирования]", PermissionChecker = typeof(LeadAdminPermChecker))]
         private void CMD_makeadmin(BasePlayer p, int lvl)
         {
+            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
             if (p.Id == Id)
                 SendClientMessage(Colors.GREY, "Вы не можете изменить свой уровень администратора. Обратитесь к старшему администратору.");
             else if (lvl < 0 || lvl > (int)e_AdminLevels.A_LEAD || lvl >= PVars.Get<int>(PvarsInfo.adminlevel))
@@ -221,6 +224,7 @@ namespace SampSharpGamemode
         [Command("tempadmin", UsageMessage = "/tempadmin[ID или часть ника]", PermissionChecker = typeof(LeadAdminPermChecker))]
         private void CMD_tempadmin(BasePlayer p)
         {
+            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
             if (!p.PVars.Get<bool>(PvarsInfo.admin))
             {
                 p.PVars[PvarsInfo.admin] = true;

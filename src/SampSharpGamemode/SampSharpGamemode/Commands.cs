@@ -5,6 +5,8 @@ using SampSharp.GameMode.SAMP.Commands.ParameterTypes;
 using SampSharp.GameMode.SAMP.Commands.PermissionCheckers;
 using SampSharp.GameMode.World;
 using System;
+using System.Globalization;
+using System.Linq;
 using System.Reflection;
 
 namespace SampSharpGamemode
@@ -77,7 +79,6 @@ namespace SampSharpGamemode
             return new MyCommand(commandPaths, displayName, ignoreCase, permissionCheckers, method, usageMessage);
         }
     }
-
     public class MyCommand : DefaultCommand
     {
         public MyCommand(CommandPath[] names, string displayName, bool ignoreCase,
