@@ -166,5 +166,49 @@ namespace SampSharpGamemode
             SendClientMessage(-1, "Пароль игрока: " + p.PVars.Get<string>(PvarsInfo.pass));
             SendClientMessage(-1, "MD5-пароль: " + p.PVars.Get<string>(PvarsInfo.password));
         }
+        [Command("makeadmin", UsageMessage = "/makeadmin [ID или часть ника] [Уровень администрирования]", PermissionChecker = typeof(LeadAdminPermChecker))]
+        private void CMD_makeadmin(BasePlayer p, int lvl)
+        {
+            if (p.Id == Id) SendClientMessage(Colors.GREY, "Вы не можете изменить свой уровень администратора. Обратитесь к старшему администратору.");
+            else if (lvl < 0 || lvl > (int)e_AdminLevels.A_LEAD || lvl >= PVars.Get<int>(PvarsInfo.adminlevel)) SendClientMessage(Colors.GREY, $"[Ошибка] Допустимые уровни: 0 - {PVars.Get<int>(PvarsInfo.adminlevel)-1}.");
+            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) > this.PVars.Get<int>(PvarsInfo.adminlevel)) this.SendClientMessage(Colors.GREY, "Вы не можете управлять уровнями вышестоящих администраторов");
+            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) == lvl) this.SendClientMessage(Colors.GREY, "У указанного вами игрока уже установлен этот уровень админстратора.");
+            else
+            {
+                if (lvl == 0)
+                {
+                    if (p.PVars.Get<bool>(PvarsInfo.admin))
+                    {
+                        p.PVars[PvarsInfo.admin] = false;
+                        p.PVars[PvarsInfo.adminlevel] = 0;
+                        SendClientMessage($"Вы сняли администратора {{abcdef}}{p.Name} {{ffffff}}с должности.");
+                        p.SendClientMessage($"Руководитель администрации {{abcdef}}{Name}{{ffffff}} снял вас с должности администратора.");
+                    }
+                    else
+                    {
+                        SendClientMessage(Colors.GREY, "Игрок не является администратором.");
+                    }
+                }
+                else
+                {
+                    if (p.PVars.Get<bool>(PvarsInfo.admin))
+                    {
+                        SendClientMessage($"Вы изменили уровень администратора {{abcdef}}{p.Name}{{ffffff}} на {{fbec5d}}{lvl}{{ffffff}}.");
+                        if (p.PVars.Get<int>(PvarsInfo.adminlevel) < lvl)
+                            p.SendClientMessage($"Руководитель администрации {{abcdef}}{Name} {{ffffff}}повысил вас на {{fbec5d}}{lvl} {{ffffff}}уровень администрирования.");
+                        else
+                            p.SendClientMessage($"Руководитель администрации {{abcdef}}{Name} {{ffffff}}понизил вас на {{fbec5d}}{lvl} {{ffffff}}уровень администрирования.");
+                    }
+                    else
+                    {
+                        SendClientMessage($"Вы назначили игрока {{abcdef}}{p.Name}{{ffffff}} администратором {{fbec5d}}{lvl} {{ffffff}}уровня.");
+                        p.SendClientMessage($"Руководитель администрации {{abcdef}}{Name} {{ffffff}}назначил вас администратором {{fbec5d}}{lvl} {{ffffff}}уровня.");
+                    }
+                    p.PVars[PvarsInfo.admin] = true;
+                    p.PVars[PvarsInfo.adminlevel] = lvl;
+                }
+            }
+        
+        }
     }
 }
