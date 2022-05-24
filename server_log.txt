@@ -4223,3 +4223,69 @@ v0.3.7-R2, (C)2005-2015 SA-MP Team
 [20:49:57] [SampSharp:INFO] Starting game mode host...
 [20:49:58] [SampSharp:INFO] Game mode host running.
 [20:50:00] Number of vehicle models: 0
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:56:54] 
+[20:56:54] Server Plugins
+[20:56:54] --------------
+[20:56:54]  Loading plugin: SampSharp
+[20:56:54] [SampSharp:INFO] Runtime path: D:\q\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:56:54] [SampSharp:INFO] Game mode path: D:\q\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:56:54]   Loaded.
+[20:56:54]  Loaded 1 plugins.
+
+[20:56:54] 
+[20:56:54] Filterscripts
+[20:56:54] ---------------
+[20:56:54]   Loaded 0 filterscripts.
+
+[20:56:54]   Filterscript 'empty.amx' loaded.
+[20:56:54] 
+[20:56:54] SampSharp Plugin
+[20:56:54] ----------------
+[20:56:54] v0.10.0, (C)2014-2022 Tim Potze
+[20:56:54] 
+[20:56:54] [SampSharp:INFO] Initializing .NET runtime...
+[20:56:55] [SampSharp:INFO] Starting game mode host...
+[20:56:55] [SampSharp:INFO] Game mode host running.
+[20:56:56] Number of vehicle models: 0
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[20:58:03] 
+[20:58:03] Server Plugins
+[20:58:03] --------------
+[20:58:03]  Loading plugin: SampSharp
+[20:58:03] [SampSharp:INFO] Runtime path: D:\q\tarkov-csharp\runtime\shared\Microsoft.NETCore.App\6.0.5
+[20:58:03] [SampSharp:INFO] Game mode path: D:\q\tarkov-csharp\gamemodes\netcoreapp3.1\SampSharpGamemode.dll
+[20:58:03]   Loaded.
+[20:58:03]  Loaded 1 plugins.
+
+[20:58:03] 
+[20:58:03] Filterscripts
+[20:58:03] ---------------
+[20:58:03]   Loaded 0 filterscripts.
+
+[20:58:03]   Filterscript 'empty.amx' loaded.
+[20:58:03] 
+[20:58:03] SampSharp Plugin
+[20:58:03] ----------------
+[20:58:03] v0.10.0, (C)2014-2022 Tim Potze
+[20:58:03] 
+[20:58:03] [SampSharp:INFO] Initializing .NET runtime...
+[20:58:03] [SampSharp:INFO] Starting game mode host...
+[20:58:03] [SampSharp:INFO] Game mode host running.
+[20:58:04] Number of vehicle models: 0
