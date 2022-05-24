@@ -7,6 +7,7 @@ using System.Text;
 using SampSharp.GameMode.SAMP.Commands;
 using SampSharp.GameMode.SAMP.Commands.PermissionCheckers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SampSharpGamemode
 {
@@ -62,7 +63,7 @@ namespace SampSharpGamemode
         public void kick(string s)
         {
             //set reason
-            base.Kick();
+            Task.Delay(1000).ContinueWith(t => base.Kick());
         }
         public override void OnRequestSpawn(RequestSpawnEventArgs e)
         {
