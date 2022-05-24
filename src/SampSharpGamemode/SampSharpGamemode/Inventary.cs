@@ -54,14 +54,19 @@ namespace SampSharpGamemode
             for (int i = 0; i < MAX_ITEMS; i++)
                 inv_d.AddItem(player.inventary.Get(i).name);
 
+            var inv_action = new ListDialog("Выберите действие", "Выбор", "Назад");
+            inv_action.AddItem("Пока не сделал");
             inv_d.Response += (sender, e) =>
             {
                 if(e.DialogButton == DialogButton.Left)
                 {
-                    player.SendClientMessage("В разработке...");
+                    inv_action.Show(player);
                 }
             };
-
+            inv_action.Response += (sender, e) =>
+            {
+                inv_d.Show(player);
+            };
             inv_d.Show(player);
         }
     }
