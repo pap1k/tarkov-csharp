@@ -45,7 +45,7 @@ namespace SampSharpGamemode.Admins
             }
         }
         [Command("a", PermissionChecker = typeof(AllAdminPermChecker), UsageMessage = "/a [Текст сообщения]")]
-        private void CMD_a(BasePlayer sender, string text)
+        private static void CMD_a(BasePlayer sender, string text)
         {
             var admins = BasePlayer.All.Where(p => p.PVars.Get<bool>(PvarsInfo.admin));
             foreach (var admin in admins)

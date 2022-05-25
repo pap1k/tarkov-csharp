@@ -40,6 +40,7 @@
             lastip = "pLASTIP",
             authstate = "pAUTHSTATE",
             isevent = "pEVENT",
+            isleaving = "PISLEAVING",
             totpkey = "pTOTP";
     }
 }

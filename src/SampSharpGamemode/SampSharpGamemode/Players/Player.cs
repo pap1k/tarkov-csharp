@@ -42,6 +42,7 @@ namespace SampSharpGamemode.Players
         private string realip;
         public override void OnConnected(EventArgs e)
         {
+            PVars[PvarsInfo.isleaving] = false;
             foreach (var p in BasePlayer.All.Where(p => p.PVars.Get<bool>(PvarsInfo.ingame)))
             {
                 if (p.PVars.Get<bool>(PvarsInfo.admin))
@@ -72,6 +73,7 @@ namespace SampSharpGamemode.Players
         }
         public override void OnDisconnected(DisconnectEventArgs e)
         {
+            PVars[PvarsInfo.isleaving] = true;
             //TODO: при бане определять что это бан
             e_IP action = e_IP.log_left;
             if (e.Reason == DisconnectReason.Left)
@@ -160,8 +162,21 @@ namespace SampSharpGamemode.Players
             Score = PVars.Get<int>(PvarsInfo.score);
             Money = PVars.Get<int>(PvarsInfo.money);
         }
+        public void ban(string s, string reason, bool isconst)
+        {
+            PVars[PvarsInfo.isleaving] = true;
+            string info = "Причина выдачи блокировки: "+reason;
+            if (isconst)
+                info = "Тип блокировки: Постоянный. Аккаунт не подлежир разбану.\n";
+            else
+                info = "Тип блокировки: Временный. Блокировка будет автоматически снята. .... .. ХУЙ ХУЙ ХУЙ \n";
+            var dialog = new MessageDialog("Ваш аккаунт заблокирован", info + "Тут всякая инфа мне лень писать\nОООЧЕНЬ МНОГО ИНФЫ НАЗАР ТЫ МОЛОДЕЦ\nТы так постарался чтобы игрокам было не так обидно\nда и в целом чтобы играть было интересно\nХотя с другой стороны ты просто зарабатываешь бабки\nЭто бизнес, мэнчик....\nМда пизлец чето меня в час ночи понесло\nСоооообственно, что я хотел сказать.... Ничего, точно!", "ТЕРПАНУТЬ");
+            dialog.Show(this);
+            kick(s);
+        }
         public void kick(string s = "")
         {
+            PVars[PvarsInfo.isleaving] = true;
             //set reason
             leavingreason = s;
             Task.Delay(1000).ContinueWith(t => base.Kick());
