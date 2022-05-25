@@ -34,6 +34,17 @@ namespace SampSharpGamemode
             return player.PVars.Get<int>(PvarsInfo.adminlevel) >= (int)e_AdminLevels.A_FOUNDER;
         }
     }
+    public class ViceAdminPermChecker : IPermissionChecker
+    {
+        public string Message
+        {
+            get { return "У вас нет прав на использование данной команды"; }
+        }
+        public bool Check(BasePlayer player)
+        {
+            return player.PVars.Get<int>(PvarsInfo.adminlevel) >= (int)e_AdminLevels.A_VICE;
+        }
+    }
     public class LeadAdminPermChecker : IPermissionChecker
     {
         public string Message
@@ -54,6 +65,17 @@ namespace SampSharpGamemode
         public bool Check(BasePlayer player)
         {
             return player.PVars.Get<int>(PvarsInfo.adminlevel) >= (int)e_AdminLevels.A_RED;
+        }
+    }
+    public class HelperPermChecker : IPermissionChecker
+    {
+        public string Message
+        {
+            get { return "У вас нет прав на использование данной команды"; }
+        }
+        public bool Check(BasePlayer player)
+        {
+            return player.PVars.Get<bool>(PvarsInfo.helper);
         }
     }
     public class DefaultPermChecker : IPermissionChecker
