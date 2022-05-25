@@ -12,6 +12,17 @@ using System.Reflection;
 
 namespace SampSharpGamemode
 {
+    public class EventPermChecker : IPermissionChecker
+    {
+        public string Message
+        {
+            get { return "У вас нет прав на использование данной команды"; }
+        }
+        public bool Check(BasePlayer player)
+        {
+            return player.PVars.Get<bool>(PvarsInfo.isevent);
+        }
+    }
     public class AllAdminPermChecker : IPermissionChecker
     {
         public string Message

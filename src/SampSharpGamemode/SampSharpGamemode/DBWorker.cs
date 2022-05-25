@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using SampSharp.GameMode.World;
 using SampSharpGamemode.Players;
 
 namespace SampSharpGamemode
@@ -69,9 +70,12 @@ namespace SampSharpGamemode
         public DBType SelectInventary(int uid) { return DoRequest($"SELECT items FROM player_inventary WHERE uid = {uid}"); }
         public DBType UpdatePlayerAdmin(Player player) { return DoRequest($"UPDATE players SET admin_lvl = {player.PVars.Get<int>(PvarsInfo.adminlevel)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
         public DBType UpdatePlayerScore(Player player) { return DoRequest($"UPDATE players SET lvl = {player.PVars.Get<int>(PvarsInfo.score)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
-        public DBType UpdatePlayerMoney(Player player) { return DoRequest($"UPDATE players SET lvl = {player.PVars.Get<int>(PvarsInfo.money)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
-        public DBType UpdatePlayerSkin(Player player) { return DoRequest($"UPDATE players SET lvl = {player.PVars.Get<int>(PvarsInfo.skin)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
-        public DBType UpdatePlayerHelper(Player player) { return DoRequest($"UPDATE players SET lvl = {player.PVars.Get<int>(PvarsInfo.helplevel)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType UpdatePlayerMoney(Player player) { return DoRequest($"UPDATE players SET money = {player.PVars.Get<int>(PvarsInfo.money)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType UpdatePlayerSkin(Player player) { return DoRequest($"UPDATE players SET skin = {player.PVars.Get<int>(PvarsInfo.skin)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType UpdatePlayerEvent(Player player) { return DoRequest($"UPDATE players SET event = {Convert.ToInt32(player.PVars.Get<bool>(PvarsInfo.isevent))} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType UpdatePlayerTotp(BasePlayer player) { return DoRequest($"UPDATE players SET totpkey = '{player.PVars.Get<string>(PvarsInfo.totpkey)}' WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType UpdatePlayerHelper(Player player) { return DoRequest($"UPDATE players SET helplevel = {player.PVars.Get<int>(PvarsInfo.helplevel)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType UpdatePlayerLastIP(BasePlayer player, bool flush = false) { return DoRequest($"UPDATE players SET lastloginip = {(flush ? "NULL" : ("'"+player.IP+"'"))} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
         public DBType InsertSessions(string nick, string ip, string geo) { return DoRequest($"INSERT INTO sessions(nickname, ip, geo) VALUES('{nick}', '{ip}', '{geo}')"); }
         public DBType UpdateSessions_action(int sid, int action) { return DoRequest($"UPDATE sessions SET action = {action}, t_logout = CURRENT_TIMESTAMP WHERE id = {sid}"); }
         public DBType UpdateSessions_uid(int sid, int uid) { return DoRequest($"UPDATE sessions SET uid = {uid} WHERE id = {sid}"); }

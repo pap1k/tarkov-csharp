@@ -1,5 +1,11 @@
 ﻿namespace SampSharpGamemode.Players
 {
+    public enum e_AuthState
+    {
+        PASSWORD,
+        TOTP,
+        SUCCESS
+    }
     public enum e_PlayerInfo
     {
         PINFO_UID = 0,
@@ -9,7 +15,10 @@
         PINFO_ADMINLVL,
         PINFO_HELPERLVL,
         PINFO_SKIN,
-        PINFO_MONEY
+        PINFO_MONEY,
+        PINFO_TOTPKEY,
+        PINFO_LASTIP,
+        PINFO_EVENT
     }
     public class PvarsInfo
     {
@@ -27,6 +36,10 @@
             helper = "pHELPER",
             password = "pHASHPASSWORD",
             pass = "pPASSWORD",
-            isTemp = "pTEMP";
+            isTemp = "pTEMP",
+            lastip = "pLASTIP",
+            authstate = "pAUTHSTATE",
+            isevent = "pEVENT",
+            totpkey = "pTOTP";
     }
 }

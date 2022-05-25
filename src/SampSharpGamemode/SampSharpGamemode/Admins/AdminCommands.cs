@@ -36,11 +36,12 @@ namespace SampSharpGamemode.Admins
             for (int i = 0; i < ids.Count; i++)
             {
                 var p = BasePlayer.Find(ids[i]);
+                bool e = p.PVars.Get<bool>(PvarsInfo.isevent);
                 bool temp = p.PVars.Get<bool>(PvarsInfo.isTemp);
                 if (temp)
-                    sender.SendClientMessage($"Временный администратор {{abcdef}}{p.Name} {{FFFFFF}}ID {{abcdef}}{ids[i]}");
+                    sender.SendClientMessage($"Временный администратор {{abcdef}}{p.Name} {{FFFFFF}}ID {{abcdef}}{ids[i]} {(e ? "E" : "")}");
                 else
-                    sender.SendClientMessage($"Администратор {{fbec5d}}{p.PVars.Get<int>(PvarsInfo.adminlevel)} {{ffffff}}уровня {{abcdef}}{p.Name} {{FFFFFF}}ID {{abcdef}}{ids[i]}");
+                    sender.SendClientMessage($"Администратор {{fbec5d}}{p.PVars.Get<int>(PvarsInfo.adminlevel)} {{ffffff}}уровня {{abcdef}}{p.Name} {{FFFFFF}}ID {{abcdef}}{ids[i]} {(e ? "E" : "")}");
             }
         }
         [Command("a", PermissionChecker = typeof(AllAdminPermChecker), UsageMessage = "/a [Текст сообщения]")]
@@ -115,8 +116,16 @@ namespace SampSharpGamemode.Admins
                     }
                     else
                     {
-                        sender.SendClientMessage($"Вы назначили игрока {{abcdef}}{p.Name}{{ffffff}} администратором {{fbec5d}}{lvl} {{ffffff}}уровня.");
-                        p.SendClientMessage($"Руководитель администрации {{abcdef}}{sender.Name} {{ffffff}}назначил вас администратором {{fbec5d}}{lvl} {{ffffff}}уровня.");
+                        if(p.PVars.Get<string>(PvarsInfo.totpkey) == "no" && sender.PVars.Get<int>(PvarsInfo.adminlevel) < (int)e_AdminLevels.A_FOUNDER)
+                        {
+                            sender.SendClientMessage($"Вы не можете назначить администратором игрока без настроенной TOTP аунтификации.");
+                            return;
+                        }
+                        else
+                        {
+                            sender.SendClientMessage($"Вы назначили игрока {{abcdef}}{p.Name}{{ffffff}} администратором {{fbec5d}}{lvl} {{ffffff}}уровня.");
+                            p.SendClientMessage($"Руководитель администрации {{abcdef}}{sender.Name} {{ffffff}}назначил вас администратором {{fbec5d}}{lvl} {{ffffff}}уровня.");
+                        }
                     }
                     p.PVars[PvarsInfo.admin] = true;
                     p.PVars[PvarsInfo.adminlevel] = lvl;
@@ -125,7 +134,39 @@ namespace SampSharpGamemode.Admins
             }
 
         }
+        [Command("makeevent", UsageMessage = "/makeevent [ID или часть ника] [1 | 0]", PermissionChecker = typeof(LeadAdminPermChecker))]
+        private static void CMD_makeevent(BasePlayer sender, BasePlayer p, int lvl)
+        {
+            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
+            if (p.Id == sender.Id)
+                sender.SendClientMessage(Colors.GREY, "Вы не можете можете управлять своим статусом ивент-менеджера");
+            else if (lvl < 0 || lvl > 1)
+                sender.SendClientMessage(Colors.GREY, $"Используйте 1 для установки и 0 для снятия");
+            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) > sender.PVars.Get<int>(PvarsInfo.adminlevel))
+                sender.SendClientMessage(Colors.GREY, "Вы не можете управлять статусом ивент-менеджера вышестоящих администраторов");
+            else if (p.PVars.Get<bool>(PvarsInfo.isevent) && 1 == lvl)
+                sender.SendClientMessage(Colors.GREY, "Указанный вами игрок уже является ивент-менеджером.");
+            else if (!p.PVars.Get<bool>(PvarsInfo.isevent) && 0 == lvl)
+                sender.SendClientMessage(Colors.GREY, "Указанный вами игрок не является ивент-менеджером.");
+            else if (p.PVars.Get<bool>(PvarsInfo.isTemp))
+                sender.SendClientMessage(Colors.GREY, "Указанный вами игрок является временным администратором.");
+            else
+            {
+                if (lvl == 0)
+                {
+                    sender.SendClientMessage($"Вы сняли {{abcdef}}{p.Name} {{ffffff}}с должности ивент-менеджера.");
+                    p.SendClientMessage($"Руководитель администрации {{abcdef}}{sender.Name}{{ffffff}} снял вас с должности ивент-менеджера.");
+                }
+                else
+                {
+                    sender.SendClientMessage($"Вы назначили игрока {{abcdef}}{p.Name}{{ffffff}} ивент-менеджером.");
+                    p.SendClientMessage($"Создатель проекта {{abcdef}}{sender.Name} {{ffffff}}назначил вас ивент-менеджером.");
+                }
+                p.PVars[PvarsInfo.isevent] = Convert.ToBoolean(lvl);
+                GameMode.db.UpdatePlayerEvent((Player)p);
+            }
 
+        }
         [Command("tempadmin", UsageMessage = "/tempadmin [ID или часть ника]", PermissionChecker = typeof(LeadAdminPermChecker))]
         private static void CMD_tempadmin(BasePlayer sender, BasePlayer p)
         {
@@ -186,6 +227,16 @@ namespace SampSharpGamemode.Admins
         private static void CMD_iseek(BasePlayer sender, BasePlayer target)
         {
             IPfunc.Iseek.Show(sender, target.IP);
+        }
+        [Command("setworld", UsageMessage = "/setworld [Виртуальный мир]", PermissionChecker = typeof(AllAdminPermChecker))]
+        private static void CMD_setworld(BasePlayer sender, int w)
+        {
+            if (w < 0)
+                sender.SendClientMessage(Colors.GREY, "Номер мира не может быть меньше нуля");
+            else if(w == (int)VW.EVENT)
+                sender.SendClientMessage(Colors.GREY, "Для входа в админ мир используйте /aworld");
+            else
+                sender.VirtualWorld = w;
         }
     }
 }

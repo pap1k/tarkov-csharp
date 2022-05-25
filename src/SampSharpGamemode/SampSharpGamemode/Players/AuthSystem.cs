@@ -16,6 +16,7 @@ namespace SampSharpGamemode.Players
             DBType ret = new DBType();
             var AUTH_DLG = new InputDialog("{76ee2b}Авторизация", "{FFFFFF}Приветствуем вас на нашем сервере. Аккаунт с никнеймом " + player.Name + " {f90023}зарегистрирован{FFFFFF}.\nДля авторизации вам необходимо ввести свой пароль в поле ниже.\nЕсли вы {76ee2b}не являетесь {FFFFFF}владельцем аккаунта, то покиньте сервер, нажав на кнопку {fa8500}Отмена {FFFFFF}или введя {fa8500}/q {FFFFFF}в чат.\nЕсли вы {f90023}забыли пароль{FFFFFF}, то введите {fa8500}RECOVERY{FFFFFF} в строку ввода пароля.", true, "Ввод", "Отмена");
             var ERROR_DLG = new MessageDialog("{f90023}Ошибка авторизации", "\t\t\t\t\t\t{f90023}Вы ввели неверный пароль.\n{FFFFFF}Пожалуйста, проверьте регистр или раскладку.\nЕсли вы забыли пароль, то при наличии привязок, вы можете его восстановить, введя {fa8500}RECOVERY {FFFFFF}в строку ввода пароля.", "X");
+            var TOTP_DLG = new InputDialog("Авторизация", "Введите 6 цифр из приложения-антификатора", false, "OK");
             AUTH_DLG.Response += (sender, e) =>
             {
                 if (e.DialogButton == DialogButton.Left)
@@ -27,6 +28,17 @@ namespace SampSharpGamemode.Players
                         {
                             player.PVars[PvarsInfo.pass] = e.InputText;
                             player.PVars[PvarsInfo.password] = GameMode.getHash(e.InputText);
+                            if(dbresult.data[0][(int)e_PlayerInfo.PINFO_TOTPKEY] != "no")
+                            {
+                                player.PVars[PvarsInfo.totpkey] = dbresult.data[0][(int)e_PlayerInfo.PINFO_TOTPKEY];
+                                if (player.IP != dbresult.data[0][(int)e_PlayerInfo.PINFO_LASTIP])
+                                {
+                                    TOTP_DLG.Show(player);
+                                    player.PVars[PvarsInfo.authstate] = (int)e_AuthState.TOTP;
+                                    return;
+                                }
+                            }
+                            player.PVars[PvarsInfo.authstate] = (int)e_AuthState.SUCCESS;
                             player.SendClientMessage("Вы успешно авторизовались!");
                             player.LoadInfo();
                         }
@@ -46,6 +58,21 @@ namespace SampSharpGamemode.Players
             ERROR_DLG.Response += (sender, e) =>
             {
                 AUTH_DLG.Show(player);
+            };
+            TOTP_DLG.Response += (_, e) =>
+            {
+                bool o = int.TryParse(e.InputText, out int _);
+                if (o)
+                {
+                    if(Security.TOTP.Get(player.PVars.Get<string>(PvarsInfo.totpkey)) == e.InputText)
+                    {
+                        player.SendClientMessage("Вы успешно авторизовались!");
+                        player.LoadInfo();
+                        player.PVars[PvarsInfo.authstate] = (int)e_AuthState.SUCCESS;
+                        return;
+                    }
+                }
+                TOTP_DLG.Show(player);
             };
             AUTH_DLG.Show(player);
         }

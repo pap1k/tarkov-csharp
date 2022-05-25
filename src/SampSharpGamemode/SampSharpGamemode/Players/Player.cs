@@ -39,6 +39,7 @@ namespace SampSharpGamemode.Players
     {
         private string leavingreason = String.Empty;
         public Inventary inventary = new Inventary();
+        private string realip;
         public override void OnConnected(EventArgs e)
         {
             foreach (var p in BasePlayer.All.Where(p => p.PVars.Get<bool>(PvarsInfo.ingame)))
@@ -58,13 +59,15 @@ namespace SampSharpGamemode.Players
                 StreamReader reader = new StreamReader(dataStream);
                 geo = reader.ReadToEnd();
             }
-            IPresponse? data = JsonSerializer.Deserialize<IPresponse>(geo);
+            IPresponse data = JsonSerializer.Deserialize<IPresponse>(geo);
             if (data.status == "success")
                 geo = data.country + "/" + data.city;
             else
                 geo = "nogeo";
             GameMode.db.InsertSessions(this.Name, this.IP, geo);
             PVars[PvarsInfo.sessionid] = int.Parse(GameMode.db.LAST_INSERT_ID().data[0][0]);
+            PVars[PvarsInfo.authstate] = (int)e_AuthState.PASSWORD;
+            realip = IP;
             Auth();
         }
         public override void OnDisconnected(DisconnectEventArgs e)
@@ -84,7 +87,7 @@ namespace SampSharpGamemode.Players
             switch (e.Reason)
             {
                 case DisconnectReason.Left:
-                    serverreason = "left";
+                    serverreason = "leaving";
                     break;
                 case DisconnectReason.TimedOut:
                     serverreason = "TimeOut";
@@ -100,7 +103,7 @@ namespace SampSharpGamemode.Players
             foreach(var p in BasePlayer.All)
             {
                 if (p.PVars.Get<bool>(PvarsInfo.admin))
-                    p.SendClientMessage(Colors.GREY, $"[ID {Id}] [{IP}] {Name} покинул сервер. ({leavingreason})");
+                    p.SendClientMessage(Colors.GREY, $"[ID {Id}] [{realip}] {Name} покинул сервер. ({leavingreason})");
                 else
                     p.SendClientMessage(Colors.GREY, $"{Name} покинул сервер. ({serverreason})");
             }
@@ -128,11 +131,17 @@ namespace SampSharpGamemode.Players
             PVars[PvarsInfo.adminlevel] = int.Parse(pinfo[(int)e_PlayerInfo.PINFO_ADMINLVL]);
             PVars[PvarsInfo.skin] = int.Parse(pinfo[(int)e_PlayerInfo.PINFO_SKIN]);
             PVars[PvarsInfo.money] = int.Parse(pinfo[(int)e_PlayerInfo.PINFO_MONEY]);
+            PVars[PvarsInfo.lastip] = pinfo[(int)e_PlayerInfo.PINFO_LASTIP];
+            PVars[PvarsInfo.totpkey] = pinfo[(int)e_PlayerInfo.PINFO_TOTPKEY];
+            PVars[PvarsInfo.isevent] = Convert.ToBoolean(int.Parse(pinfo[(int)e_PlayerInfo.PINFO_EVENT]));
 
             PVars[PvarsInfo.ingame] = true;
             PVars[PvarsInfo.helper] = PVars.Get<int>(PvarsInfo.helplevel) > 0;
             PVars[PvarsInfo.admin] = PVars.Get<int>(PvarsInfo.adminlevel) > 0;
             PVars[PvarsInfo.isTemp] = false;
+
+
+            GameMode.db.UpdatePlayerLastIP(this);
 
             //inventary
             var invinfo = GameMode.db.SelectInventary(PVars.Get<int>(PvarsInfo.uid)).data[0][0];
