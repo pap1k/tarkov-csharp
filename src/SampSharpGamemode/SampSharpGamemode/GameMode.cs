@@ -29,6 +29,10 @@ namespace SampSharpGamemode
             Console.WriteLine("----------------------------------\n");
 
             SetGameModeText(data["server"]["GMName"]);
+            LimitGlobalChatRadius(10);
+            SetNameTagDrawDistance(20);
+            EnableStuntBonusForAll(false);
+            ShowPlayerMarkers(SampSharp.GameMode.Definitions.PlayerMarkersMode.Off);
             LoadDBItems();
             base.OnInitialized(e);
         }

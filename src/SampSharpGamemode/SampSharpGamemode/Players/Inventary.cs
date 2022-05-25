@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SampSharp.GameMode.Display;
 using SampSharp.GameMode.Definitions;
+using SampSharp.GameMode.World;
 
 namespace SampSharpGamemode.Players
 {
