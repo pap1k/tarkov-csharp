@@ -72,6 +72,12 @@ namespace SampSharpGamemode
         public DBType UpdatePlayerMoney(Player player) { return DoRequest($"UPDATE players SET lvl = {player.PVars.Get<int>(PvarsInfo.money)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
         public DBType UpdatePlayerSkin(Player player) { return DoRequest($"UPDATE players SET lvl = {player.PVars.Get<int>(PvarsInfo.skin)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
         public DBType UpdatePlayerHelper(Player player) { return DoRequest($"UPDATE players SET lvl = {player.PVars.Get<int>(PvarsInfo.helplevel)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType InsertSessions(string nick, string ip, string geo) { return DoRequest($"INSERT INTO sessions(nickname, ip, geo) VALUES('{nick}', '{ip}', '{geo}')"); }
+        public DBType UpdateSessions_action(int sid, int action) { return DoRequest($"UPDATE sessions SET action = {action}, t_logout = CURRENT_TIMESTAMP WHERE id = {sid}"); }
+        public DBType UpdateSessions_uid(int sid, int uid) { return DoRequest($"UPDATE sessions SET uid = {uid} WHERE id = {sid}"); }
+        public DBType LAST_INSERT_ID() { return DoRequest("SELECT LAST_INSERT_ID()"); }
+        public DBType SelectIPSesstions(string ip, int offset) { return DoRequest($"SELECT * FROM sessions WHERE ip = '{ip}' ORDER BY id DESC LIMIT 30 OFFSET {offset}"); }
+        public DBType SelectNameSesstions(string nick, int offset) { return DoRequest($"SELECT * FROM sessions WHERE nickname = '{nick}' LIMIT {30} OFFSET {offset} ORDER BY id desc"); }
 
     }
 }

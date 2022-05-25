@@ -34,6 +34,8 @@ namespace SampSharpGamemode.Players
                         player.PVars[PvarsInfo.pass] = e.InputText;
                         player.PVars[PvarsInfo.password] = GameMode.getHash(e.InputText);
                         GameMode.db.InsertPlayer(player);
+                        int uid = int.Parse(GameMode.db.LAST_INSERT_ID().data[0][0]);
+                        GameMode.db.UpdateSessions_uid(player.PVars.Get<int>(PvarsInfo.sessionid), uid);
                         RegSuccess.Show(player);
                         player.LoadInfo();
                     }

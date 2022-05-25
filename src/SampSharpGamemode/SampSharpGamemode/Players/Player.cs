@@ -3,7 +3,8 @@ using SampSharp.GameMode.Pools;
 using SampSharp.GameMode.World;
 using System;
 using SampSharp.GameMode;
-using System.Text;
+using SampSharpGamemode.Ipfunc;
+using System.Text.Json;
 using SampSharp.GameMode.SAMP.Commands;
 using SampSharp.GameMode.Definitions;
 using SampSharp.GameMode.SAMP.Commands.PermissionCheckers;
@@ -11,9 +12,28 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SampSharp.GameMode.Display;
 using System.Linq;
+using System.Net;
+using System.IO;
 
 namespace SampSharpGamemode.Players
 {
+    public class IPresponse
+    {
+        public string status;
+        public string country;
+        public string countryCode;
+        public string region;
+        public string regionName;
+        public string city;
+        public string zip;
+        public float lat;
+        public float lon;
+        public string timezone;
+        public string isp;
+        public string org;
+        public string _as;
+        public string query;
+    }
     [PooledType]
     public class Player : BasePlayer
     {
@@ -21,7 +41,7 @@ namespace SampSharpGamemode.Players
         public Inventary inventary = new Inventary();
         public override void OnConnected(EventArgs e)
         {
-            foreach (var p in BasePlayer.All)
+            foreach (var p in BasePlayer.All.Where(p => p.PVars.Get<bool>(PvarsInfo.ingame)))
             {
                 if (p.PVars.Get<bool>(PvarsInfo.admin))
                     p.SendClientMessage(Colors.GREY, $"[ID {Id}] [{IP}] {Name} подключился к серверу.");
@@ -29,10 +49,37 @@ namespace SampSharpGamemode.Players
                     p.SendClientMessage(Colors.GREY, $"{Name} подключился к серверу.");
             }
             base.OnConnected(e);
+
+            string geo;
+            WebRequest request = WebRequest.Create("http://ip-api.com/json/"+this.IP+"?lang=ru");
+            WebResponse response = request.GetResponse();
+            using (Stream dataStream = response.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(dataStream);
+                geo = reader.ReadToEnd();
+            }
+            IPresponse? data = JsonSerializer.Deserialize<IPresponse>(geo);
+            if (data.status == "success")
+                geo = data.country + "/" + data.city;
+            else
+                geo = "nogeo";
+            GameMode.db.InsertSessions(this.Name, this.IP, geo);
+            PVars[PvarsInfo.sessionid] = int.Parse(GameMode.db.LAST_INSERT_ID().data[0][0]);
             Auth();
         }
         public override void OnDisconnected(DisconnectEventArgs e)
         {
+            //TODO: при бане определять что это бан
+            e_IP action = e_IP.log_left;
+            if (e.Reason == DisconnectReason.Left)
+            {
+                if (PVars.Get<bool>(PvarsInfo.ingame))
+                    action = e_IP.log_left;
+                else
+                    action = e_IP.log_nlleft;
+            }
+            GameMode.db.UpdateSessions_action(PVars.Get<int>(PvarsInfo.sessionid), (int)action);
+
             string serverreason;
             switch (e.Reason)
             {
@@ -63,7 +110,10 @@ namespace SampSharpGamemode.Players
         {
             var dbinfo = GameMode.db.SelectPlayerByNickname(this.Name).data;
             if (dbinfo.Count != 0)
+            {
+                GameMode.db.UpdateSessions_uid(PVars.Get<int>(PvarsInfo.sessionid), int.Parse(dbinfo[0][(int)e_PlayerInfo.PINFO_UID]));
                 AuthSystem.Start(this);
+            }  
             else
                 RegisterationSystem.Start(this);
         }
@@ -98,7 +148,6 @@ namespace SampSharpGamemode.Players
             }
 
             SetSpawnInfo(0, 0, new Vector3(1642.0735f, -2239.6826f, 13.4964f), 269.15f);
-            Skin = PVars.Get<int>(PvarsInfo.skin);
             Score = PVars.Get<int>(PvarsInfo.score);
             Money = PVars.Get<int>(PvarsInfo.money);
         }
@@ -117,6 +166,7 @@ namespace SampSharpGamemode.Players
         public override void OnSpawned(SpawnEventArgs e)
         {
             Position = new Vector3(1642.0735f, -2239.6826f, 13.4964f);
+            Skin = PVars.Get<int>(PvarsInfo.skin);
             base.OnSpawned(e);
         }
         public override void OnText(TextEventArgs e)
