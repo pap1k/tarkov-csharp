@@ -92,8 +92,22 @@ namespace SampSharpGamemode
             }
             return ids;
         }
-        //COMMANDS
-        [Command("inv", "stock")]
+        private List<int> getHelperIds()
+        {
+            List<int> ids = new List<int>();
+            for (int i = 0; i <= Max; i++)
+            {
+                var p = Find(i);
+
+                if (p != null && p.IsConnected && p.PVars.Get<bool>(PvarsInfo.helper))
+                {
+                    ids.Add(i);
+                }
+            }
+            return ids;
+        }
+            //COMMANDS
+            [Command("inv", "stock")]
         private void CMD_inv()
         {
             Inventary.Show(this);
@@ -181,7 +195,7 @@ namespace SampSharpGamemode
             else if (p.PVars.Get<int>(PvarsInfo.adminlevel) == lvl)
                 this.SendClientMessage(Colors.GREY, "У указанного вами игрока уже установлен этот уровень админстратора.");
             else if (p.PVars.Get<bool>(PvarsInfo.isTemp))
-                this.SendClientMessage(Colors.GREY, "Игрок является временным администратором.");
+                this.SendClientMessage(Colors.GREY, "Указанный вами игрок является временным администратором.");
             else
             {
                 if (lvl == 0)
@@ -190,13 +204,13 @@ namespace SampSharpGamemode
                     {
                         p.PVars[PvarsInfo.admin] = false;
                         p.PVars[PvarsInfo.adminlevel] = 0;
-                        SendClientMessage($"Вы сняли администратора {{abcdef}}{p.Name} {{ffffff}}с должности.");
+                        SendClientMessage($"Вы сняли {{abcdef}}{p.Name} {{ffffff}}с должности администратора.");
                         p.SendClientMessage($"Руководитель администрации {{abcdef}}{Name}{{ffffff}} снял вас с должности администратора.");
                         GameMode.db.UpdatePlayerAdmin((Player)p);
                     }
                     else
                     {
-                        SendClientMessage(Colors.GREY, "Игрок не является администратором.");
+                        SendClientMessage(Colors.GREY, "Указанный вами игрок не является администратором.");
                     }
                 }
                 else
@@ -221,7 +235,8 @@ namespace SampSharpGamemode
             }
         
         }
-        [Command("tempadmin", UsageMessage = "/tempadmin[ID или часть ника]", PermissionChecker = typeof(LeadAdminPermChecker))]
+
+        [Command("tempadmin", UsageMessage = "/tempadmin [ID или часть ника]", PermissionChecker = typeof(LeadAdminPermChecker))]
         private void CMD_tempadmin(BasePlayer p)
         {
             if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
@@ -233,7 +248,72 @@ namespace SampSharpGamemode
                 p.SendClientMessage($"Руководитель администрации {{abcdef}}{Name} {{ffffff}}назначил вас временным администратором.");
             }
             else
-                SendClientMessage($"Указанный вами игрок уже является администатором");
+                SendClientMessage(Colors.GREY, $"Указанный вами игрок уже является администатором");
+        }
+
+        [Command("sethelper", UsageMessage = "/sethelper [ID или часть ника] [Уровень хелпера]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private void CMD_sethelper(BasePlayer p, int lvl)
+        {
+            if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
+            else if (lvl < 0 || lvl > 2)
+                SendClientMessage(Colors.GREY, $"Допустимые уровни: 0 - 2.");
+            else if (lvl == 0 && p.PVars.Get<int>(PvarsInfo.helplevel) < 1)
+                this.SendClientMessage(Colors.GREY, $"Указанный вами игрок не является хелпером.");
+            else if (p.PVars.Get<int>(PvarsInfo.helplevel) == lvl)
+                this.SendClientMessage(Colors.GREY, "У указанного вами игрока уже установлен этот уровень хелпера.");
+            else
+            {
+                if (lvl == 0)
+                {
+                    if (p.PVars.Get<bool>(PvarsInfo.helper))
+                    {
+                        p.PVars[PvarsInfo.helper] = false;
+                        p.PVars[PvarsInfo.helplevel] = 0;
+                        this.SendClientMessage($"Вы сняли {{abcdef}}{p.Name} {{ffffff}}с должности хелпера.");
+                        p.SendClientMessage($"Администратор {{abcdef}}{Name}{{ffffff}} снял вас с должности хелпера.");
+                        GameMode.db.UpdatePlayerHelper((Player)p);
+                    }
+                }
+                else
+                {
+                    if (!p.PVars.Get<bool>(PvarsInfo.helper) || p.PVars.Get<int>(PvarsInfo.helplevel) != lvl)
+                        this.SendClientMessage($"Вы назначили игрока {{abcdef}}{p.Name}{{ffffff}} хелпером {{fbec5d}}{lvl} {{ffffff}}уровня.");
+                    p.SendClientMessage($"Администрации {{abcdef}}{Name} {{ffffff}}назначил вас хелпером {{fbec5d}}{lvl} {{ffffff}}уровня.");
+                    p.PVars[PvarsInfo.helper] = true;
+                    p.PVars[PvarsInfo.helplevel] = lvl;
+                    GameMode.db.UpdatePlayerHelper((Player)p);
+                }
+            }
+
+        }
+
+        [Command("hc", UsageMessage = "/hc [Текст сообщения]", PermissionChecker = typeof(HelperPermChecker))]
+        private void CMD_hc(string text)
+        {
+            var ids = getHelperIds();
+            foreach (int id in ids)
+            {
+                Find(id).SendClientMessage(Colors.HELPER, $"[H] {Name}: {text}");
+            }
+        }
+
+        [Command("ask", UsageMessage = "/ask [Текст сообщения]")]
+        private void CMD_ask(string text)
+        {
+            var ids = getHelperIds();
+            foreach (int id in ids)
+                Find(id).SendClientMessage(Colors.HELPER, $"Вопрос от {Name} ID {Id}: {text}");
+                if (!PVars.Get<bool>(PvarsInfo.helper))
+                SendClientMessage(Colors.HELPER, $"Вопрос от {Name} ID {Id}: {text}");
+        }
+
+        [Command("answ", UsageMessage = "/answ [ID или часть ника] [Текст сообщения]", PermissionChecker = typeof(HelperPermChecker))]
+        private void CMD_answ(BasePlayer p, string text)
+        {
+            p.SendClientMessage(Colors.HELPER, $"От {Name} для {p.Name} ID {p.Id}: " + text);
+            var helpers = getHelperIds();
+            foreach (int id in helpers)
+                Find(id).SendClientMessage(Colors.HELPER, $"Ответ от {Name}: " + text);
         }
     }
 }
