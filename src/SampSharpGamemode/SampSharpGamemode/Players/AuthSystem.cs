@@ -51,7 +51,7 @@ namespace SampSharpGamemode.Players
                 }
                 else
                 {
-                    player.SendClientMessage(Colors.SUCCESS, $"Не удалось войти в аккаунт. Введите {{ffffff}}/q {{fa8500}}в чат для выхода из игры.");
+                    player.SendClientMessage(Colors.SUCCESS, "Не удалось войти в аккаунт. Введите {ffffff}/q{fa8500} в чат для выхода из игры.");
                     player.kick("nologin");
                 }
             };
@@ -72,7 +72,7 @@ namespace SampSharpGamemode.Players
                         return;
                     }
                 }
-                player.SendClientMessage(Colors.SUCCESS, "Не удалость войти в аккаунт, введен неверный TOTP код. Введите {{ffffff}}/q {{fa8500}} в чат для выхода из игры.");
+                player.SendClientMessage(Colors.SUCCESS, "Не удалость войти в аккаунт, введен неверный TOTP код. Введите {ffffff}/q {fa8500}в чат для выхода из игры.");
                 player.kick("nologin");
             };
             AUTH_DLG.Show(player);
