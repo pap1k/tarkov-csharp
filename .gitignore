@@ -5,3 +5,4 @@ SampSharpGamemode.csproj
 obj/
 server_log.txt
 netcoreapp3.1/
+crashinfo.txt
