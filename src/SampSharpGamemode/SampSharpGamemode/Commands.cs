@@ -12,6 +12,69 @@ using System.Reflection;
 
 namespace SampSharpGamemode
 {
+    public class MyPlayerType : ICommandParameterType
+    {
+        public bool Parse(ref string commandText, out object output, bool isNullable = false)
+        {
+            var text = commandText.TrimStart();
+            output = null;
+
+            if (string.IsNullOrEmpty(text))
+                return false;
+
+            var word = text.Split(' ')
+                .First();
+
+            // find a player with a matching id.
+            if (int.TryParse(word, NumberStyles.Integer, CultureInfo.InvariantCulture, out var id))
+            {
+                var player = BasePlayer.Find(id);
+                if (player != null)
+                {
+                    output = player;
+                    commandText = commandText.Substring(word.Length)
+                        .TrimStart(' ');
+                    return true;
+                }
+            }
+
+            var lowerWord = word.ToLower();
+
+            // find all candidates containing the input word, case insensitive.
+            var candidates = BasePlayer.All.Where(p => p.Name.ToLower()
+                    .Contains(lowerWord))
+                .ToList();
+
+            // in case of ambiguities find all candidates containing the input word, case sensitive.
+            if (candidates.Count > 1)
+                candidates = candidates.Where(p => p.Name.Contains(word))
+                    .ToList();
+
+            // in case of ambiguities find all candidates matching exactly the input word, case insensitive.
+            if (candidates.Count > 1)
+                candidates = candidates.Where(p => p.Name.ToLower() == lowerWord)
+                    .ToList();
+
+            // in case of ambiguities find all candidates matching exactly the input word, case sensitive.
+            if (candidates.Count > 1)
+                candidates = candidates.Where(p => p.Name == word)
+                    .ToList();
+
+            if (candidates.Count == 1 || isNullable)
+            {
+                commandText = word.Length == commandText.Length
+                    ? string.Empty
+                    : commandText.Substring(word.Length)
+                        .TrimStart(' ');
+            }
+
+            if (candidates.Count != 1)
+                return isNullable;
+
+            output = candidates.First();
+            return true;
+        }
+    }
     public class EventPermChecker : IPermissionChecker
     {
         public string Message
@@ -127,6 +190,35 @@ namespace SampSharpGamemode
         protected override bool SendUsageMessage(BasePlayer player)
         {
             player.SendClientMessage(Colors.GREY, "Подсказка: " + UsageMessage);
+            return true;
+        }
+        public override bool GetArguments(string commandText, out object[] arguments, out int argumentsTextLength)
+        {
+            arguments = new object[Parameters.Length];
+            argumentsTextLength = 0;
+            var index = 0;
+            var textLength = commandText.Length;
+            foreach (var parameter in Parameters)
+            {
+                if (!parameter.CommandParameterType.Parse(ref commandText, out var arg, parameter.IsNullable))
+                {
+                    if (!parameter.IsOptional)
+                    {
+                        argumentsTextLength = textLength - commandText.Length;
+                        return false;
+                    }
+
+                    arguments[index] = parameter.DefaultValue;
+                }
+                else
+                {
+                    arguments[index] = arg;
+                }
+
+                index++;
+            }
+
+            argumentsTextLength = textLength - commandText.Length;
             return true;
         }
         protected override ICommandParameterType GetParameterType(ParameterInfo parameter, int index, int count)
