@@ -16,7 +16,7 @@ namespace SampSharpGamemode.Players
             DBType ret = new DBType();
             var AUTH_DLG = new InputDialog("{76ee2b}Авторизация", "{FFFFFF}Приветствуем вас на нашем сервере. Аккаунт с никнеймом " + player.Name + " {f90023}зарегистрирован{FFFFFF}.\nДля авторизации вам необходимо ввести свой пароль в поле ниже.\nЕсли вы {76ee2b}не являетесь {FFFFFF}владельцем аккаунта, то покиньте сервер, нажав на кнопку {fa8500}Отмена {FFFFFF}или введя {fa8500}/q {FFFFFF}в чат.\nЕсли вы {f90023}забыли пароль{FFFFFF}, то введите {fa8500}RECOVERY{FFFFFF} в строку ввода пароля.", true, "Ввод", "Отмена");
             var ERROR_DLG = new MessageDialog("{f90023}Ошибка авторизации", "\t\t\t\t\t\t{f90023}Вы ввели неверный пароль.\n{FFFFFF}Пожалуйста, проверьте регистр или раскладку.\nЕсли вы забыли пароль, то при наличии привязок, вы можете его восстановить, введя {fa8500}RECOVERY {FFFFFF}в строку ввода пароля.", "X");
-            var TOTP_DLG = new InputDialog("Авторизация", "Введите 6 цифр из приложения-антификатора", false, "OK");
+            var TOTP_DLG = new InputDialog("{76ee2b}Авторизация {ffffff}| Введите ключ безопасности", "\t==== Ваш IP адрес изменился ====\n=== Введите ключ безопасности из приложения ===", false, "Ввод");
             AUTH_DLG.Response += (sender, e) =>
             {
                 if (e.DialogButton == DialogButton.Left)
@@ -39,7 +39,7 @@ namespace SampSharpGamemode.Players
                                 }
                             }
                             player.PVars[PvarsInfo.authstate] = (int)e_AuthState.SUCCESS;
-                            player.SendClientMessage("Вы успешно авторизовались!");
+                            player.SendClientMessage(Colors.SUCCESS, $"Вы успешно авторизовались!");
                             player.LoadInfo();
                         }
                         else
@@ -51,7 +51,7 @@ namespace SampSharpGamemode.Players
                 }
                 else
                 {
-                    player.SendClientMessage(0xfa8500FF, "{fa8500}Не удалось войти в аккаунт. Введите /q в чат для выхода из игры.");
+                    player.SendClientMessage(Colors.SUCCESS, $"Не удалось войти в аккаунт. Введите {{ffffff}}/q {{fa8500}}в чат для выхода из игры.");
                     player.kick("nologin");
                 }
             };
@@ -66,13 +66,14 @@ namespace SampSharpGamemode.Players
                 {
                     if(Security.TOTP.Get(player.PVars.Get<string>(PvarsInfo.totpkey)) == e.InputText)
                     {
-                        player.SendClientMessage("Вы успешно авторизовались!");
+                        player.SendClientMessage(Colors.SUCCESS, $"Вы успешно авторизовались!");
                         player.LoadInfo();
                         player.PVars[PvarsInfo.authstate] = (int)e_AuthState.SUCCESS;
                         return;
                     }
                 }
-                TOTP_DLG.Show(player);
+                player.SendClientMessage(Colors.SUCCESS, "Не удалость войти в аккаунт, введен неверный TOTP код. Введите {{ffffff}}/q {{fa8500}} в чат для выхода из игры.");
+                player.kick("nologin");
             };
             AUTH_DLG.Show(player);
         }

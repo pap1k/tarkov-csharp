@@ -46,9 +46,9 @@ namespace SampSharpGamemode.Players
             foreach (var p in BasePlayer.All.Where(p => p.PVars.Get<bool>(PvarsInfo.ingame)))
             {
                 if (p.PVars.Get<bool>(PvarsInfo.admin))
-                    p.SendClientMessage(Colors.GREY, $"[ID {Id}] [{IP}] {Name} подключился к серверу.");
+                    p.SendClientMessage(Colors.GREY, $"{Name} [ID {Id}] подключился к серверу. (IP: {IP})");
                 else
-                    p.SendClientMessage(Colors.GREY, $"{Name} подключился к серверу.");
+                    p.SendClientMessage(Colors.GREY, $"{Name} [ID {Id}] подключился к серверу.");
             }
             base.OnConnected(e);
 
@@ -89,13 +89,13 @@ namespace SampSharpGamemode.Players
             switch (e.Reason)
             {
                 case DisconnectReason.Left:
-                    serverreason = "leaving";
+                    serverreason = "Leaving";
                     break;
                 case DisconnectReason.TimedOut:
-                    serverreason = "TimeOut";
+                    serverreason = "Time Out";
                     break;
                 case DisconnectReason.Kicked:
-                    serverreason = "kicked/banned";
+                    serverreason = "Kicked/Banned";
                     break;
                 default:
                     serverreason = "Wtf?!?!?!!";
@@ -105,9 +105,9 @@ namespace SampSharpGamemode.Players
             foreach(var p in BasePlayer.All)
             {
                 if (p.PVars.Get<bool>(PvarsInfo.admin))
-                    p.SendClientMessage(Colors.GREY, $"[ID {Id}] [{realip}] {Name} покинул сервер. ({leavingreason})");
+                    p.SendClientMessage(Colors.GREY, $"{Name} [ID {Id}] покинул сервер. (IP: {realip}) ({leavingreason})");
                 else
-                    p.SendClientMessage(Colors.GREY, $"{Name} покинул сервер. ({serverreason})");
+                    p.SendClientMessage(Colors.GREY, $"{Name} [ID {Id}] покинул сервер. ({serverreason})");
             }
             base.OnDisconnected(e);
         }
