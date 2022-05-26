@@ -13,7 +13,6 @@ namespace SampSharpGamemode
         GREEN = 0x34C92444,
         HELPER = 0xFFAA11FF,
         RED = 0xff6347ff,
-        AMES = 0x7fffd4ff,
-        SUCCESS = 0xFA8500FF;
+        AMES = 0x7fffd4ff;
     }
 }
