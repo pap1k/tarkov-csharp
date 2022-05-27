@@ -70,21 +70,26 @@ namespace SampSharpGameMode.Admins
                 newcol = true;
                 for (int j = 0; j < data[i].Count-1; j++)
                 {
+                    //TODO
                     if(data[i][j].isWhite == data[i][j + 1].isWhite)
                     {
-                        if (isLastWhite != data[i][j].isWhite || newcol)
+                        if (isLastWhite != data[i][j].isWhite)
                         {
                             Console.WriteLine($"Adding {(data[i][j].isWhite ? "WHITE" : "BLACK")}");
 
-                            optimizedCols.Add(new tdRectangle(data[i][j].X, data[i][j].Y, data[i][j].Width, data[i][j].Height + pixels, data[i][j].isWhite));
+                            optimizedCols.Add(new tdRectangle(data[i][j].X, data[i][j].Y, data[i][j].Width, data[i][j].Height + pixels, data[i][j+1].isWhite));
                             newcol = false;
                         }
                         else
                         {
                             optimizedCols.Last().Height += pixels;
                         }
-                        isLastWhite = data[i][j].isWhite;
                     }
+                    else
+                    {
+                        optimizedCols.Add(new tdRectangle(data[i][j].X, data[i][j].Y, data[i][j].Width, data[i][j].Height + pixels, data[i][j + 1].isWhite));
+                    }
+                    isLastWhite = data[i][j].isWhite;
                 }
             }
             return optimizedCols;
