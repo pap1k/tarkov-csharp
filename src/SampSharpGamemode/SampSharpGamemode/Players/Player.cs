@@ -199,6 +199,7 @@ namespace SampSharpGamemode.Players
             e.SendToPlayers = false;
             if (PVars.Get<bool>(PvarsInfo.ingame))
                 foreach (var p in near) p.SendClientMessage(Colors.GREEN, $"{Name} сказал: {e.Text}");
+            else return;
         }
     }
 }
