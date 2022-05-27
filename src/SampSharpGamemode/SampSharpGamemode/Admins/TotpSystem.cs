@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SampSharpGameMode.Admins;
 
 namespace SampSharpGamemode.Admins
 {
@@ -33,6 +34,14 @@ namespace SampSharpGamemode.Admins
             }
             else
                 sender.SendClientMessage("У указанного вами игрока не сгенерирован TOTP токен. Сгенеировать - /totpgen");
+        }
+        [Command("totpshowqr", UsageMessage = "/totpshowqr [ID или часть ника]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private static void CMD_totpshowqr(BasePlayer sender)
+        {
+            var qr = Generator.Generate("DVWWQNCPXLEHILRA");
+            Console.WriteLine(qr.Count);
+            TOTPQR.CreateQR(qr, sender);
+            sender.SendClientMessage("OK");
         }
         [Command("totpgen", UsageMessage = "/totpgen [ID или часть ника]", PermissionChecker = typeof(ViceAdminPermChecker))]
         private static void CMD_totpgen(BasePlayer sender, BasePlayer t)
