@@ -196,8 +196,9 @@ namespace SampSharpGamemode.Players
         public override void OnText(TextEventArgs e)
         {
             var near = BasePlayer.All.Where(p => (GetDistanceFromPoint(p.Position) <= 10 && VirtualWorld == p.VirtualWorld && Interior == p.Interior));
-            foreach (var p in near) p.SendClientMessage(Colors.GREEN, $"{Name} сказал: {e.Text}");
-            return;
+            e.SendToPlayers = false;
+            if (PVars.Get<bool>(PvarsInfo.ingame))
+                foreach (var p in near) p.SendClientMessage(Colors.GREEN, $"{Name} сказал: {e.Text}");
         }
     }
 }
