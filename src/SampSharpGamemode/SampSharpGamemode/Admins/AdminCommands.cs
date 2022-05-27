@@ -41,7 +41,7 @@ namespace SampSharpGamemode.Admins
                 if (temp)
                     sender.SendClientMessage($"Временный администратор {{abcdef}}{p.Name} {{FFFFFF}}ID {{abcdef}}{ids[i]} {(e ? "E" : "")}");
                 else
-                    sender.SendClientMessage($"Администратор {{fbec5d}}{p.PVars.Get<int>(PvarsInfo.adminlevel)} {{ffffff}}уровня {{abcdef}}{p.Name} {{FFFFFF}}ID {{abcdef}}{ids[i]} {(e ? "E" : "")}");
+                    sender.SendClientMessage($"Администратор {{fbec5d}}{p.PVars.Get<int>(PvarsInfo.adminlevel)} {{ffffff}}уровня {{abcdef}}{p.Name} {{FFFFFF}}ID {{abcdef}}{ids[i]} {(e ? "  {f1a021}E" : "")}");
             }
         }
         [Command("a", PermissionChecker = typeof(AllAdminPermChecker), UsageMessage = "/a [Текст сообщения]")]
@@ -98,6 +98,8 @@ namespace SampSharpGamemode.Admins
                         sender.SendClientMessage($"Вы сняли {{abcdef}}{p.Name} {{ffffff}}с должности администратора.");
                         p.SendClientMessage($"Руководитель администрации {{abcdef}}{sender.Name}{{ffffff}} снял вас с должности администратора.");
                         GameMode.db.UpdatePlayerAdmin((Player)p);
+                        p.PVars[PvarsInfo.isevent] = false;
+                        GameMode.db.UpdatePlayerEvent((Player)p);
                     }
                     else
                     {
@@ -138,18 +140,16 @@ namespace SampSharpGamemode.Admins
         private static void CMD_makeevent(BasePlayer sender, BasePlayer p, int lvl)
         {
             if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
-            if (p.Id == sender.Id)
-                sender.SendClientMessage(Colors.GREY, "Вы не можете можете управлять своим статусом ивент-менеджера");
             else if (lvl < 0 || lvl > 1)
-                sender.SendClientMessage(Colors.GREY, $"Используйте 1 для установки и 0 для снятия");
-            else if (p.PVars.Get<int>(PvarsInfo.adminlevel) > sender.PVars.Get<int>(PvarsInfo.adminlevel))
-                sender.SendClientMessage(Colors.GREY, "Вы не можете управлять статусом ивент-менеджера вышестоящих администраторов");
+                sender.SendClientMessage(Colors.GREY, $"Допустимые уровни: 0 - 1.");
             else if (p.PVars.Get<bool>(PvarsInfo.isevent) && 1 == lvl)
                 sender.SendClientMessage(Colors.GREY, "Указанный вами игрок уже является ивент-менеджером.");
             else if (!p.PVars.Get<bool>(PvarsInfo.isevent) && 0 == lvl)
                 sender.SendClientMessage(Colors.GREY, "Указанный вами игрок не является ивент-менеджером.");
             else if (p.PVars.Get<bool>(PvarsInfo.isTemp))
                 sender.SendClientMessage(Colors.GREY, "Указанный вами игрок является временным администратором.");
+            else if (lvl >=1 &&!p.PVars.Get<bool>(PvarsInfo.admin))
+                sender.SendClientMessage(Colors.GREY, "Указанный вами игрок не является администратором.");
             else
             {
                 if (lvl == 0)
