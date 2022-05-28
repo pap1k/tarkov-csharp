@@ -63,7 +63,7 @@ namespace SampSharpGamemode.Admins
         [Command("checkpassd", PermissionChecker = typeof(FounderAdminPermChecker))]
         private static void CMD_checkpassd(BasePlayer sender, BasePlayer p)
         {
-            var dialog = new MessageDialog(" ", "Пароль игрока: " + p.PVars.Get<string>(PvarsInfo.pass) + "\nMD5-пароль: " + p.PVars.Get<string>(PvarsInfo.password), "X");
+            var dialog = new MessageDialog($"{{ffffff}}Информация о пароле | {p.Name}", "{ffffff}Пароль игрока: " + p.PVars.Get<string>(PvarsInfo.pass) + "\nMD5-пароль: " + p.PVars.Get<string>(PvarsInfo.password), "X");
             dialog.Show(sender);
         }
         [Command("checkpass", PermissionChecker = typeof(FounderAdminPermChecker))]
@@ -136,16 +136,16 @@ namespace SampSharpGamemode.Admins
             }
 
         }
-        [Command("makeevent", UsageMessage = "/makeevent [ID или часть ника] [1 | 0]", PermissionChecker = typeof(LeadAdminPermChecker))]
+        [Command("makeevent", UsageMessage = "/makeevent [ID или часть ника] [1 / 0]", PermissionChecker = typeof(LeadAdminPermChecker))]
         private static void CMD_makeevent(BasePlayer sender, BasePlayer p, int lvl)
         {
             if (!p.PVars.Get<bool>(PvarsInfo.ingame)) return;
             else if (lvl < 0 || lvl > 1)
                 sender.SendClientMessage(Colors.GREY, $"Допустимые уровни: 0 - 1.");
             else if (p.PVars.Get<bool>(PvarsInfo.isevent) && 1 == lvl)
-                sender.SendClientMessage(Colors.GREY, "Указанный вами игрок уже является ивент-менеджером.");
+                sender.SendClientMessage(Colors.GREY, "Указанный вами игрок уже является ивент-модератором.");
             else if (!p.PVars.Get<bool>(PvarsInfo.isevent) && 0 == lvl)
-                sender.SendClientMessage(Colors.GREY, "Указанный вами игрок не является ивент-менеджером.");
+                sender.SendClientMessage(Colors.GREY, "Указанный вами игрок не является ивент-модератором.");
             else if (p.PVars.Get<bool>(PvarsInfo.isTemp))
                 sender.SendClientMessage(Colors.GREY, "Указанный вами игрок является временным администратором.");
             else if (lvl >=1 &&!p.PVars.Get<bool>(PvarsInfo.admin))
@@ -154,13 +154,13 @@ namespace SampSharpGamemode.Admins
             {
                 if (lvl == 0)
                 {
-                    sender.SendClientMessage($"Вы сняли {{abcdef}}{p.Name} {{ffffff}}с должности ивент-менеджера.");
-                    p.SendClientMessage($"Руководитель администрации {{abcdef}}{sender.Name}{{ffffff}} снял вас с должности ивент-менеджера.");
+                    sender.SendClientMessage($"Вы сняли {{abcdef}}{p.Name} {{ffffff}}с должности ивент-модератора.");
+                    p.SendClientMessage($"Руководитель администрации {{abcdef}}{sender.Name}{{ffffff}} снял вас с должности ивент-модератора.");
                 }
                 else
                 {
-                    sender.SendClientMessage($"Вы назначили игрока {{abcdef}}{p.Name}{{ffffff}} ивент-менеджером.");
-                    p.SendClientMessage($"Создатель проекта {{abcdef}}{sender.Name} {{ffffff}}назначил вас ивент-менеджером.");
+                    sender.SendClientMessage($"Вы назначили игрока {{abcdef}}{p.Name}{{ffffff}} ивент-модератором.");
+                    p.SendClientMessage($"Руководитель администрации {{abcdef}}{sender.Name} {{ffffff}}назначил вас ивент-модератором.");
                 }
                 p.PVars[PvarsInfo.isevent] = Convert.ToBoolean(lvl);
                 GameMode.db.UpdatePlayerEvent((Player)p);
@@ -228,13 +228,18 @@ namespace SampSharpGamemode.Admins
         {
             IPfunc.Iseek.Show(sender, target.IP);
         }
+        [Command("aseek", UsageMessage = "/aseek [ID или часть ника]", PermissionChecker = typeof(AllAdminPermChecker))]
+        private static void CMD_aseek(BasePlayer sender, BasePlayer target)
+        {
+            IPfunc.Aseek.Show(sender, target.Name);
+        }
         [Command("setworld", UsageMessage = "/setworld [Виртуальный мир]", PermissionChecker = typeof(AllAdminPermChecker))]
         private static void CMD_setworld(BasePlayer sender, int w)
         {
             if (w < 0)
-                sender.SendClientMessage(Colors.GREY, "Номер мира не может быть меньше нуля");
+                sender.SendClientMessage(Colors.GREY, "Номер виртуального мира не может быть меньше нуля.");
             else if(w == (int)VW.EVENT)
-                sender.SendClientMessage(Colors.GREY, "Для входа в админ мир используйте /aworld");
+                sender.SendClientMessage(Colors.GREY, "Для входа в админ мир используйте /aworld.");
             else
                 sender.VirtualWorld = w;
         }

@@ -81,7 +81,7 @@ namespace SampSharpGamemode
         public DBType UpdateSessions_uid(int sid, int uid) { return DoRequest($"UPDATE sessions SET uid = {uid} WHERE id = {sid}"); }
         public DBType LAST_INSERT_ID() { return DoRequest("SELECT LAST_INSERT_ID()"); }
         public DBType SelectIPSesstions(string ip, int offset) { return DoRequest($"SELECT * FROM sessions WHERE ip = '{ip}' ORDER BY id DESC LIMIT 30 OFFSET {offset}"); }
-        public DBType SelectNameSesstions(string nick, int offset) { return DoRequest($"SELECT * FROM sessions WHERE nickname = '{nick}' LIMIT {30} OFFSET {offset} ORDER BY id desc"); }
+        public DBType SelectNameSesstions(string nick, int offset) { return DoRequest($"SELECT * FROM sessions WHERE nickname = '{nick}' ORDER BY id DESC LIMIT 30 OFFSET {offset}"); }
 
     }
 }
