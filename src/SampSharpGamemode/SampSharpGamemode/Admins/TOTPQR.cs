@@ -17,10 +17,10 @@ namespace SampSharpGameMode.Admins
         public static int imagesize = 250;
         public static int blocks = 21;
 
-        public static List<List<tdRectangle>> Generate(string src, int pixelsPerModule = 20)
+        public static List<List<bool>> Generate(string src, int pixelsPerModule = 1)
         {
             bool drawQuietZones = true;
-            List<List<tdRectangle>> data = new List<List<tdRectangle>>();
+            List<List<bool>> data = new List<List<bool>>();
             QRCodeGenerator gen = new QRCodeGenerator();
             QRCodeData qr = gen.CreateQrCode(src, QRCodeGenerator.ECCLevel.Q);
 
@@ -29,12 +29,14 @@ namespace SampSharpGameMode.Admins
 
             for (int x = 0, i = 0; x < size + offset; x = x + pixelsPerModule, i++)
             {
-                data.Add(new List<tdRectangle>());
+                data.Add(new List<bool>());
                 for (int y = 0, j = 0; y < size + offset; y = y + pixelsPerModule, j++)
                 {
                     var module = qr.ModuleMatrix[(y + pixelsPerModule) / pixelsPerModule - 1][(x + pixelsPerModule) / pixelsPerModule - 1];
-                    data[i].Add(new tdRectangle(x - offset, y - offset, 5, 5, !module));
+                    data[i].Add(!module);
+                    Console.Write(module ? "$" : " ");
                 }
+                Console.WriteLine();
             }
 
             return data;
@@ -59,72 +61,173 @@ namespace SampSharpGameMode.Admins
     }
     class TOTPQR
     {
-        public static List<tdRectangle> Optimize(List<List<tdRectangle>> data)
+        public static List<tdRectangle> Optimize(List<List<bool>> data)
         {
-            int pixels = 5;
-            List<tdRectangle> optimizedCols = new List<tdRectangle>();
-            bool isLastWhite = false;
-            bool newcol = true;
-            for(int i = 0; i < data.Count; i++)
+            int pixels = 1;
+            List<tdRectangle> SUPEROPTIMIZED = new List<tdRectangle>();
+            List<string> usedids = new List<string>();
+            //Этот алгоритм находит все, что можно объединить, и объединяет. То есть квадраты в квадраты, линии в линии, столбики в стоблики. MQ
+            for (int i = 0; i < data.Count; i++)
             {
-                newcol = true;
-                for (int j = 0; j < data[i].Count-1; j++)
+                for (int j = 0; j < data[i].Count - 1; j++)
                 {
-                    //TODO
-                    if(data[i][j].isWhite == data[i][j + 1].isWhite)
+                    //ALKO RYTHM
+                    if (!usedids.Contains($"{i},{j}") && data[i][j])
                     {
-                        if (isLastWhite != data[i][j].isWhite)
+                        SUPEROPTIMIZED.Add(new tdRectangle(j, i, pixels, pixels, data[i][j]));
+                        //Чекаем сколько вправо
+                        int right = 0;
+                        for (int k = j+1; k < data.Count; k++)
                         {
-                            Console.WriteLine($"Adding {(data[i][j].isWhite ? "WHITE" : "BLACK")}");
-
-                            optimizedCols.Add(new tdRectangle(data[i][j].X, data[i][j].Y, data[i][j].Width, data[i][j].Height + pixels, data[i][j+1].isWhite));
-                            newcol = false;
+                            if (k >= data.Count)
+                                break;
+                            if (data[i][k] && !usedids.Contains($"{i},{k}"))
+                                right++;
+                        }
+                        //Чекаем сколько вниз
+                        int down = 0;
+                        for (int k = i; k < data.Count; k++)
+                        {
+                            if (k >= data.Count)
+                                break;
+                            if (data[k][j] && !usedids.Contains($"{k},{j}"))
+                                down++;
+                        }
+                        if(down > 0 && right > 0)
+                        {
+                            int sqsize = 0;
+                            for (int ki = 1; ki < down; ki++)
+                            {
+                                bool isSq = true;
+                                List<string> temp = new List<string>();
+                                for(int kj = 1; kj < ki; kj++)
+                                {
+                                    if (data[i + ki][j + kj])
+                                        temp.Add($"{i + ki},{j + kj}");
+                                    else{
+                                        isSq = false;
+                                        break;
+                                    }
+                                }
+                                if (isSq)
+                                {
+                                    usedids.AddRange(temp);
+                                    sqsize++;
+                                }
+                            }
+                            if(sqsize == 0)
+                            {
+                                for (int k = 0; k < right; k++)
+                                {
+                                    usedids.Add($"{i},{j+k}");
+                                    SUPEROPTIMIZED.Last().Width += pixels;
+                                }
+                                SUPEROPTIMIZED.Add(new tdRectangle(j, i+1, pixels, pixels, data[i+1][j]));
+                                for (int k = 1; k < down; k++)
+                                {
+                                    usedids.Add($"{i+k},{j}");
+                                    SUPEROPTIMIZED.Last().Height += pixels;
+                                }
+                            }
+                            else
+                            {
+                                SUPEROPTIMIZED.Last().Width += pixels*sqsize;
+                                SUPEROPTIMIZED.Last().Height+= pixels*sqsize;
+                            }
                         }
                         else
                         {
-                            optimizedCols.Last().Height += pixels;
+                            for (int k = 0; k < right; k++)
+                            {
+                                usedids.Add($"{i},{j + k}");
+                                SUPEROPTIMIZED.Last().Width += pixels;
+                            }
+                            SUPEROPTIMIZED.Add(new tdRectangle(j, i + 1, pixels, pixels, data[i + 1][j]));
+                            for (int k = 1; k < down; k++)
+                            {
+                                usedids.Add($"{i + k},{j}");
+                                SUPEROPTIMIZED.Last().Height += pixels;
+                            }
                         }
                     }
-                    else
-                    {
-                        optimizedCols.Add(new tdRectangle(data[i][j].X, data[i][j].Y, data[i][j].Width, data[i][j].Height + pixels, data[i][j + 1].isWhite));
-                    }
-                    isLastWhite = data[i][j].isWhite;
                 }
             }
-            return optimizedCols;
-        }
-        public static void CreateQR(List<List<tdRectangle>> data, BasePlayer player)
-        {
-            var tds = Optimize(data);
-            Console.WriteLine($"old size: {data.Count*data.Count}, new size: {tds.Count}");
-            foreach (var elem in tds)
-            {
-                var tdPos = new Vector2(elem.X * .1f, elem.Y * 3f);
-                var td = new TextDraw(tdPos, " ");
-                td.Width = elem.Width;
-                td.Height = elem.Height;
-                td.Font = TextDrawFont.Normal;
-                td.UseBox = true;
-                td.BoxColor = elem.isWhite ? Color.White : Color.Green;
-                Console.WriteLine($"Showing {(elem.isWhite ? "WHITE" : "BLACK")} td[{td.Id}]: x {elem.X * .3f}, y: {elem.Y * .3f}, w: {elem.Width}, h: {elem.Height}");
-                td.Show(player);
-            }
-            //foreach(var tdlist in data)
+            // OLD TRASH SHIT AND FUCKING FUCK
+            //List<tdRectangle> optimizedRow = new List<tdRectangle>();
+            //for(int i = 0; i < data.Count; i++)
             //{
-            //    foreach(var elem in tdlist)
+            //    optimizedRow.Add(new tdRectangle(0, i, pixels, pixels, data[i][0]));
+            //    for (int j = 0; j < data[i].Count - 1; j++)
             //    {
-            //        var tdPos = new Vector2(elem.X*.3f, elem.Y*3f);
-            //        var td = new TextDraw(tdPos, "_");
-            //        td.Width = 20;
-            //        td.Height = 20;
-            //        td.Font = TextDrawFont.PreviewModel;
-            //        td.UseBox = true;
-            //        td.BoxColor = elem.isWhite ? Color.White : Color.Black;
-            //        Console.WriteLine($"Showing td: x {elem.X* .3f}, y: {elem.Y* .3f}, w: {20}, h: {20}");
-            //        td.Show(player);
+            //        if (data[i][j] == data[i][j + 1])
+            //            optimizedRow.Last().Width += pixels;
+            //        else
+            //            optimizedRow.Add(new tdRectangle(j+1, i, pixels, pixels, data[i][j + 1]));
             //    }
             //}
+            return SUPEROPTIMIZED;
+        }
+        private static PlayerTextDraw CreateRectangle(BasePlayer p, float x, float y, string text, int h, int w, Color c, int scale = 1)
+        {
+            var td = new PlayerTextDraw(p, new Vector2(x , y), text);
+            td.Height = h*scale;
+            td.Width = w*scale;
+            td.PreviewZoom = 1;
+            td.Font = TextDrawFont.PreviewModel;
+            td.PreviewModel = -1;
+            td.Outline = 0;
+            td.UseBox = true;
+            td.BackColor = c;
+            return td;
+        }
+        public static List<int> CreateQR(List<List<bool>> data, BasePlayer player)
+        {
+            var tds = Optimize(data);
+            Console.WriteLine($"old size: {data.Count * data.Count}, new size: {tds.Count}");
+            int scale = 4;
+            int startposx = 150, startposy = 150;
+            int i = 0;
+            ////back color
+            //CreateRectangle(player, startposx, startposy, "_", data.Count, data.Count, Color.White, scale).Show();
+            ////left sq
+            //CreateRectangle(player, startposx + 4 * scale, startposy + 4 * scale, "_", 7, 7, Color.Black, scale).Show();
+            //CreateRectangle(player, startposx + 5 * scale, startposy + 5 * scale, "_", 5, 5, Color.White, scale).Show();
+            //CreateRectangle(player, startposx + 6 * scale, startposy + 6 * scale, "_", 3, 3, Color.Black, scale).Show();
+            ////right sq
+            //CreateRectangle(player, startposx + (data.Count - 4) * scale, startposy + 4 * scale, "_", 7, -7, Color.Black, scale).Show();
+            //CreateRectangle(player, startposx + (data.Count - 5) * scale, startposy + 5 * scale, "_", 5, -5, Color.White, scale).Show();
+            //CreateRectangle(player, startposx + (data.Count - 6) * scale, startposy + 6 * scale, "_", 3, -3, Color.Black, scale).Show();
+            ////bottom sq
+            //CreateRectangle(player, startposx + 4 * scale, startposy + (data.Count - 4) * scale, "_", -7, 7, Color.Black, scale).Show();
+            //CreateRectangle(player, startposx + 5 * scale, startposy + (data.Count - 5) * scale, "_", -5, 5, Color.White, scale).Show();
+            //CreateRectangle(player, startposx + 6 * scale, startposy + (data.Count - 6) * scale, "_", -3, 3, Color.Black, scale).Show();
+
+            var ret = new List<int>();
+            foreach (var elem in tds)
+            {
+                bool cond = !elem.isWhite && //if black
+                    !(((elem.X >= 4 && elem.X <= 4 + 7) && (elem.Y >= 4 && elem.Y <= 4 + 7)) ||// exclude left top block
+                    ((elem.X <= data.Count - 4 && elem.X >= data.Count - 7 - 4) && (elem.Y >= 4 && elem.Y <= 7 + 4)) ||// exclude right top block
+                    ((elem.X >= 4 && elem.X <= 7 + 4) && (elem.Y <= data.Count - 4 && elem.Y >= data.Count - 7 - 4)));// exclude left bottom block
+                if (cond)
+                {
+                    var tdPos = new Vector2(startposx + elem.X * scale, startposy + elem.Y * scale);
+                    var td = new PlayerTextDraw(player, tdPos, " ");
+                    td.Height = elem.Height * scale;
+                    td.Width = elem.Width * scale;
+                    td.PreviewZoom = 1000;
+                    td.Font = TextDrawFont.PreviewModel;
+                    td.PreviewModel = elem.X < data.Count / 2 ? 331 : 326;
+                    td.Outline = 0;
+                    td.UseBox = true;
+                    td.BackColor = Color.Black;
+                    i++;
+                    td.Show();
+                    ret.Add(td.Id);
+                }
+            }
+            Console.WriteLine($"Totally screated {i + 1} TextDraws");
+            return ret;
         }
     }
 }
