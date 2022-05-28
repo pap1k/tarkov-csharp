@@ -18,7 +18,9 @@
         PINFO_MONEY,
         PINFO_TOTPKEY,
         PINFO_LASTIP,
-        PINFO_EVENT
+        PINFO_EVENT,
+        PINFO_WARNS,
+        PINFO_ISBANNED
     }
     public class PvarsInfo
     {

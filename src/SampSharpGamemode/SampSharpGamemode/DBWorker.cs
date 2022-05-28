@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using MySql.Data.MySqlClient;
 using SampSharp.GameMode.World;
 using SampSharpGamemode.Players;
@@ -82,6 +83,7 @@ namespace SampSharpGamemode
         public DBType LAST_INSERT_ID() { return DoRequest("SELECT LAST_INSERT_ID()"); }
         public DBType SelectIPSesstions(string ip, int offset) { return DoRequest($"SELECT * FROM sessions WHERE ip = '{ip}' ORDER BY id DESC LIMIT 30 OFFSET {offset}"); }
         public DBType SelectNameSesstions(string nick, int offset) { return DoRequest($"SELECT * FROM sessions WHERE nickname = '{nick}' LIMIT {30} OFFSET {offset} ORDER BY id desc"); }
-
+        public DBType InsertBan(BasePlayer sender, int puid, string type, int term, string reason) { return DoRequest($"INSERT INTO banlist(type, playeruid, adminuid, term, reason) VALUES('{type}', {puid}, {sender.PVars.Get<int>(PvarsInfo.uid)}, {term}, '{reason}')"); }
+        
     }
 }
