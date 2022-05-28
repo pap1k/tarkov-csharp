@@ -179,7 +179,10 @@ namespace SampSharpGamemode.Players
             PVars[PvarsInfo.isleaving] = true;
             //set reason
             leavingreason = s;
-            Task.Delay(1000).ContinueWith(t => base.Kick());
+            Task.Delay(1000).ContinueWith(t => {
+                if (this != null)
+                    base.Kick();
+                });
         }
         public override void OnRequestSpawn(RequestSpawnEventArgs e)
         {
@@ -195,6 +198,7 @@ namespace SampSharpGamemode.Players
         }
         public override void OnText(TextEventArgs e)
         {
+            e.SendToPlayers = false;
             var near = BasePlayer.All.Where(p => (GetDistanceFromPoint(p.Position) <= 10 && VirtualWorld == p.VirtualWorld && Interior == p.Interior));
             e.SendToPlayers = false;
             if (PVars.Get<bool>(PvarsInfo.ingame))
