@@ -243,5 +243,36 @@ namespace SampSharpGamemode.Admins
             else
                 sender.VirtualWorld = w;
         }
+        [Command("createpromo", UsageMessage = "/createpromo [Название промокода] [Вознаграждение за указание]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private static void CMD_createpromo(BasePlayer sender, string promo, int reward)
+        {
+            if (promo.Length > 25)
+                sender.SendClientMessage(Colors.GREY, "Длина промокода может быть до 25 символов.");
+            else if (reward > 200000 && sender.PVars.Get<int>(PvarsInfo.adminlevel) > 5)
+                sender.SendClientMessage(Colors.GREY, "вознаграждение за промокод должно быть не более 150000$");
+            else
+            {
+                GameMode.db.CreatePromo(promo, reward);
+                sender.SendClientMessage(-1, $"Промокод {{abcdef}}{promo} {{ffffff}}добавлен в базу. Вознаграждение за его указание составляет {{34c924}}{reward}${{ffffff}}.");
+            }
+        }
+        [Command("promo1", UsageMessage = "/createpromo [Название промокода] [Вознаграждение за указание]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private static void CMD_promo1(BasePlayer sender)
+        {
+            var PromoInput = new InputDialog("{76ee2b}Регистрация {ffffff}| {f90023}Промокод", "{FFFFFF}Если у вас есть бонусный код, введите его в поле ниже.\nУказав его, вы получите вознаграждение.", false, "Ввод", "Пропустить");
+            PromoInput.Show(sender);
+        }
+        [Command("promo2", UsageMessage = "/createpromo [Название промокода] [Вознаграждение за указание]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private static void CMD_promo2(BasePlayer sender)
+        {
+            var ErrPromo = new MessageDialog("{f90023}Ошибка {ffffff}|{f90023} Промокод", "{FFFFFF}Указанного вами промокода не существует.\nПерепроверьте правильность написания или пропустите ввод.", "X");
+            ErrPromo.Show(sender);
+        }
+        [Command("promo3", UsageMessage = "/createpromo [Название промокода] [Вознаграждение за указание]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private static void CMD_promo3(BasePlayer sender)
+        {
+            var PromoSucces = new MessageDialog("{76ee2b}Регистрация {ffffff}| {76ee2b}Промокод", $"{{FFFFFF}}Вы указали промокод {{76ee2b}}Promo{{ffffff}}.\nКак только вы отыграете 24 часа, вам будет выдан бонус {{34c924}}reward${{ffffff}}!", "X");
+            PromoSucces.Show(sender);
+        }
     }
 }

@@ -82,6 +82,8 @@ namespace SampSharpGamemode
         public DBType LAST_INSERT_ID() { return DoRequest("SELECT LAST_INSERT_ID()"); }
         public DBType SelectIPSesstions(string ip, int offset) { return DoRequest($"SELECT * FROM sessions WHERE ip = '{ip}' ORDER BY id DESC LIMIT 30 OFFSET {offset}"); }
         public DBType SelectNameSesstions(string nick, int offset) { return DoRequest($"SELECT * FROM sessions WHERE nickname = '{nick}' ORDER BY id DESC LIMIT 30 OFFSET {offset}"); }
+        public DBType CreatePromo(string promo, int reward) { return DoRequest($"INSERT INTO promocodes(promoname, reward) VALUES('{promo}', '{reward}')"); }
+        public DBType SetPlayerPromo(string nick, string promo) { return DoRequest($"INSERT INTO player_promocode(nickname, promocode) VALUES('{nick}', '{promo}')"); }
 
     }
 }

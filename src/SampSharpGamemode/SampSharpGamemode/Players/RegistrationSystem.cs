@@ -22,11 +22,13 @@ namespace SampSharpGamemode.Players
         {
             Console.WriteLine($"Started reg system for {player.Name}");
             var RegPassDialog = new InputDialog("{76ee2b}Регистрация", "{ffffff}Приветствуем вас на нашем сервере. Аккаунт с таким никнеймом {76ee2b}не зарегистрирован{ffffff}.\nДля регистрации вам необходимо указать пароль в поле ниже.\n{f90023}Обращаем ваше внимание на то, что: {ffffff}\n{f90023}•{ffffff} Пароль чувствителен к регистру.\n{f90023}•{ffffff} Длина пароля может быть от 4 до 20 символов.\n{f90023}•{ffffff} Пароль может состоять из латинских букв и цифр.\n", false, "Ввод", "Отмена");
-            var RegErrDialog = new MessageDialog("{76ee2b}Ошибка регистрации", "{f90023}В пароле использованы недопустимые символы.\n{ffffff}Допускается использование только латинских букв и цифр.", "X");
+            var RegErrDialog = new MessageDialog("{f90023}Ошибка регистрации", "{f90023}В пароле использованы недопустимые символы.\n{ffffff}Допускается использование только латинских букв и цифр.", "X");
             var RegSuccess = new MessageDialog("{76ee2b}Успешная регистрация", "{ffffff}Поздравляем! Вы успешно зарегистрировали аккаунт!\nЖелаем приятной игры на нашем сервере!", "X");
-            var Confirm = new InputDialog("{76ee2b}Регистрация {FFFFFF}| Повтор пароля", "{ffffff}Введите пароль еще раз в поле ниже", false, "Ввод");
-            var ErrConfirm = new MessageDialog("{76ee2b}Ошибка повтора пароля", "{ffffff}Введеный вами пароль не совпадает с предыдущим. Пожалуйста, повторите попытку.", "X");
-
+            var Confirm = new InputDialog("{76ee2b}Регистрация {FFFFFF}| {76ee2b}Повтор пароля", "{ffffff}Введите пароль еще раз в поле ниже", false, "Ввод");
+            var ErrConfirm = new MessageDialog("{f90023}Ошибка повтора пароля", "{ffffff}Введеный вами пароль не совпадает с предыдущим.\nПожалуйста, повторите попытку.", "X");
+            var PromoInput = new InputDialog("{76ee2b}Регистрация {ffffff}| {f90023}Промокод", "{FFFFFF}Если у вас есть бонусный код, введите его в поле ниже.\nУказав его, вы получите вознаграждение.", false, "Ввод", "Пропустить");
+            var ErrPromo = new MessageDialog("{f90023}Ошибка {ffffff}|{f90023} Промокод", "{FFFFFF}Указанного вами промокода не существует.\nПерепроверьте правильность написания или пропустите ввод.", "X");
+            var PromoSucces = new MessageDialog("{76ee2b}Регистрация {ffffff}| {76ee2b}Промокод", $"\t{{FFFFFF}}Вы указали промокод {{76ee2b}}Promo{{ffffff}}.\nКак только вы отыграете 24 часа, вам будет выдан бонус {{34c924}}reward${{ffffff}}!", "X");
             RegPassDialog.Response += (sender, e) =>
             {
                 if (e.DialogButton == DialogButton.Left)
@@ -74,6 +76,5 @@ namespace SampSharpGamemode.Players
             };
             RegPassDialog.Show(player);
         }
-
     }
 }
