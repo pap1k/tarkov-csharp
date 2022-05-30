@@ -9,7 +9,17 @@ using System;
 
 namespace SampSharpGamemode.Admins
 {
-    class TYPE
+    public enum e_BANINFO
+    {
+        ID = 0,
+        TYPE,
+        PLAYERUID,
+        ADMINUID,
+        TERM,
+        REASON,
+        DATE
+    }
+    public class BAN_TYPE
     {
         public static int ban = 1, aban = 2, sban = 3, warn = 4, awarn = 5;
         public static string IdToString(int i)
@@ -33,19 +43,20 @@ namespace SampSharpGamemode.Admins
         {
             var Datenow = DateTime.Now;
            
-            string ptype = TYPE.IdToString(type);
+            string ptype = BAN_TYPE.IdToString(type);
             if(ptype != "<ERR>")
             {
                 //Починить кодировку
                 GameMode.db.InsertBan(caller, target.PVars.Get<int>(PvarsInfo.uid), ptype, days, reason);
-                if (ptype != "aban")
+                GameMode.db.UpdatePlayerIsBanned(target);
+                if (ptype == "ban")
                 {
-                    var d = new MessageDialog("{ffffff}Аккаунт заблокирован", $"{{be2626}}Доступ к аккаунту приостановлен за нарушения правил сервера.\nЕсли вы хотите обжаловать блокировку, обратитесь на форум {{ffffff}}НАЗВАНИЕ ФОРУМА {{be2626}}в соответствующий раздел.\n\n{{453dbf}}Ник аккаунта: {{ffffff}}{target.Name}\n{{453dbf}}Дата выдачи блокировки: {{ffffff}}{Datenow.ToString("dd.MM.yyyy t")}\n{{453dbf}}{(days == 0 ? "Аккаунт не подлежит разбану" : ($"Дата снятия блокировки: {{ffffff}}{Datenow.AddDays(days).ToString("dd.MM.yyyy t")}"))}\n{{453dbf}}Причина блокировки: {{ffffff}}{reason}", "X");
+                    var d = new MessageDialog("{ffffff}Аккаунт заблокирован", $"{{be2626}}Доступ к аккаунту приостановлен за нарушения правил сервера.\nЕсли вы хотите обжаловать блокировку, обратитесь на форум {{ffffff}}НАЗВАНИЕ ФОРУМА {{be2626}}в соответствующий раздел.\n\n{{453dbf}}Ник аккаунта: {{ffffff}}{target.Name}\n{{453dbf}}Ник администратора: {{ffffff}}{caller.Name}\n{{453dbf}}Дата выдачи блокировки: {{ffffff}}{Datenow.ToString("dd.MM.yyyy t")}\n{{453dbf}}{(days == 0 ? "{ffffff}Аккаунт не подлежит разбану" : ($"Дата снятия блокировки{{ffffff}}: {Datenow.AddDays(days).ToString("dd.MM.yyyy t")}"))}\n{{453dbf}}Причина блокировки: {{ffffff}}{reason}", "X");
                     d.Show(target);
                 }
                 else
                 {
-                    var d = new MessageDialog("{ffffff}Аккаунт заблокирован", $"{{be2626}}Доступ к аккаунту приостановлен за нарушения правил сервера.\nЕсли вы хотите обжаловать блокировку, обратитесь на форум {{ffffff}}НАЗВАНИЕ ФОРУМА {{be2626}}в соответствующий раздел.\n\n{{453dbf}}Ник аккаунта: {{ffffff}}{target.Name}\n{{453dbf}}Ник администратора: {{ffffff}}{caller.Name}\n{{453dbf}}Дата выдачи блокировки: {{ffffff}}{Datenow.ToString("dd.MM.yyyy t")}\n{{453dbf}}{(days == 0 ? "Аккаунт не подлежит разбану" : ($"{{ffffff}}Дата снятия блокировки: {Datenow.AddDays(days).ToString("dd.MM.yyyy t")}"))}\n{{453dbf}}Причина блокировки: {{ffffff}}{reason}", "X");
+                    var d = new MessageDialog("{ffffff}Аккаунт заблокирован", $"{{be2626}}Доступ к аккаунту приостановлен за нарушения правил сервера.\nЕсли вы хотите обжаловать блокировку, обратитесь на форум {{ffffff}}НАЗВАНИЕ ФОРУМА {{be2626}}в соответствующий раздел.\n\n{{453dbf}}Ник аккаунта: {{ffffff}}{target.Name}\n{{453dbf}}Дата выдачи блокировки: {{ffffff}}{Datenow.ToString("dd.MM.yyyy t")}\n{{453dbf}}{(days == 0 ? "Аккаунт не подлежит разбану" : ($"Дата снятия блокировки: {{ffffff}}{Datenow.AddDays(days).ToString("dd.MM.yyyy t")}"))}\n{{453dbf}}Причина блокировки: {{ffffff}}{reason}", "X");
                     d.Show(target);
                 }
                 target.kick("Заблокирован " + (days == 0 ? "навсегда" : "на " + days + " дней"));

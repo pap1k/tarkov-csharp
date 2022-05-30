@@ -43,6 +43,8 @@
             authstate = "pAUTHSTATE",
             isevent = "pEVENT",
             isleaving = "PISLEAVING",
+            warns = "pWARNS",
+            isbanned = "pISBANNED",
             totpkey = "pTOTP";
     }
 }
