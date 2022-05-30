@@ -14,6 +14,8 @@ namespace SampSharpGamemode
         HELPER = 0xFFAA11FF,
         RED = 0xff6347ff,
         AMES = 0x7fffd4ff,
-        SUCCESS = 0xfa8500ff;
+        SUCCESS = 0xfa8500ff,
+        ME = 0xc2a2daFF,
+        S = 0x58e8a2ff;
     }
 }
