@@ -14,62 +14,74 @@ namespace SampSharpGameMode.Chats
 {
     internal class LocalChats
     {
+        [Command("as", UsageMessage = "/as [Текст сообщения]", PermissionChecker = typeof(AllAdminPermChecker))]
+        private static void CMD_as(BasePlayer sender, string text)
+        {
+            if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
+            else
+            {
+                var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 100 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
+                foreach (var p in near)
+                    p.SendClientMessage(0xff0000ff, $"Администратор {sender.Name} крикнул: " + text);
+            }
+        }
         [Command("me", UsageMessage = "/me [Описание действия]")]
         private static void CMD_me(BasePlayer sender, string text)
         {
-            var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 7 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
-            if (sender.PVars.Get<bool>(PvarsInfo.ingame))
+            if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
+            else
             {
+                var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 10 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
                 foreach (var p in near)
                     p.SendClientMessage(Colors.ME, $"* {sender.Name} " + text);
                 sender.SetChatBubble(text, Colors.ME, 10f, 1000);
             }
-            else return;
         }
         [Command("ame", UsageMessage = "/ame [Описание действия]")]
         private static void CMD_ame(BasePlayer sender, string text)
         {
-            var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 7 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
-            if (sender.PVars.Get<bool>(PvarsInfo.ingame))
+            if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
+            else
             {
+                var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 10 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
                 foreach (var p in near)
                     sender.SendClientMessage(Colors.ME, $"! {sender.Name} " + text);
                 sender.SetChatBubble(text, Colors.ME, 10f, 1000);
             }
-            else return;
         }
         [Command("b", UsageMessage = "/b [Текст сообщения]")]
         private static void CMD_b(BasePlayer sender, string text)
         {
-            var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 10 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
-            if (sender.PVars.Get<bool>(PvarsInfo.ingame))
+            if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
+            else
             {
+                var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 10 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
                 foreach (var p in near)
-                    sender.SendClientMessage(-1, $"(( {sender.Name}: {text} ))");
+                    p.SendClientMessage(-1, $"(( {sender.Name}: {text} ))");
             }
-            else return;
         }
         [Command("do", UsageMessage = "/do [Текст сообщения]")]
         private static void CMD_do(BasePlayer sender, string text)
         {
-            var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 7 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
-            if (sender.PVars.Get<bool>(PvarsInfo.ingame))
+            if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
+            else
             {
+                var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 10 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
                 foreach (var p in near)
-                    sender.SendClientMessage(Colors.ME, $"{text} (({sender.Name}))");
+                    p.SendClientMessage(Colors.ME, $"{text} (( {sender.Name} ))");
             }
-            else return;
         }
         [Command("s", UsageMessage = "/s [Текст сообщения]")]
         private static void CMD_s(BasePlayer sender, string text)
         {
-            var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 30 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
-            if (sender.PVars.Get<bool>(PvarsInfo.ingame))
+            if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
+            else
             {
+                var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 10 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
                 foreach (var p in near)
-                    sender.SendClientMessage(Colors.S, $"{sender.Name} крикнул: {text}");
+                    p.SendClientMessage(Colors.S, $"{sender.Name} крикнул: {text}");
+                sender.ApplyAnimation("ON_LOOKERS", "SHOUT_01", 4.1f, false, true, true, false, 2000);
             }
-            else return;
         }
     }
 }

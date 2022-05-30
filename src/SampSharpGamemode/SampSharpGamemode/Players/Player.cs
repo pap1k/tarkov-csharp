@@ -198,7 +198,10 @@ namespace SampSharpGamemode.Players
             var near = BasePlayer.All.Where(p => (GetDistanceFromPoint(p.Position) <= 10 && VirtualWorld == p.VirtualWorld && Interior == p.Interior));
             e.SendToPlayers = false;
             if (PVars.Get<bool>(PvarsInfo.ingame))
+            {
                 foreach (var p in near) p.SendClientMessage(0x747474ff, $"- {Name}: {e.Text}");
+                ApplyAnimation("PED", "IDLE_CHAT", 4.1f, false, true, true, false, 2000);
+            }
             else return;
         }
     }
