@@ -109,7 +109,8 @@ namespace SampSharpGamemode.Players
                 GameMode.db.InsertPlayer(player);
                 int uid = int.Parse(GameMode.db.LAST_INSERT_ID().data[0][0]);
                 GameMode.db.UpdateSessions_uid(player.PVars.Get<int>(PvarsInfo.sessionid), uid);
-                GameMode.db.SetPlayerPromo(uid, player.PVars.Get<string>(PvarsInfo.promocode));
+                if(player.PVars.Get<string>(PvarsInfo.promocode) != "no")
+                    GameMode.db.SetPlayerPromo(uid, player.PVars.Get<string>(PvarsInfo.promocode));
                 player.SendClientMessage(Colors.SUCCESS, "Вы успешно зарегистрировались. Надеемся, вы хорошо проведете время у нас. Приятной игры :)");
                 player.LoadInfo();
             };

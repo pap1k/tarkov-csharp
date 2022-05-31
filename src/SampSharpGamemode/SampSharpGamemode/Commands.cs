@@ -1,6 +1,7 @@
 ﻿using SampSharp.GameMode;
 using SampSharp.GameMode.Controllers;
 using SampSharp.GameMode.SAMP.Commands;
+using SampSharp.GameMode.SAMP.Commands.Parameters;
 using SampSharp.GameMode.SAMP.Commands.ParameterTypes;
 using SampSharp.GameMode.SAMP.Commands.PermissionCheckers;
 using SampSharp.GameMode.World;
@@ -113,6 +114,7 @@ namespace SampSharpGamemode
             return new MyCommand(commandPaths, displayName, ignoreCase, permissionCheckers, method, usageMessage);
         }
     }
+
     public class MyCommand : DefaultCommand
     {
         public MyCommand(CommandPath[] names, string displayName, bool ignoreCase,
@@ -124,31 +126,68 @@ namespace SampSharpGamemode
         {
             return player.PVars.Get<bool>(PvarsInfo.ingame) ? base.Invoke(player, commandText) : false;
         }
+        public override CommandCallableResponse CanInvoke(BasePlayer player, string commandText, out int matchedNameLength)
+        {
+            return base.CanInvoke(player, commandText, out matchedNameLength);
+            bool v = isSinglePlayer(commandText);
+            player.SendClientMessage("isSingePlayer вернула " + v.ToString() +", command text: "+commandText);
+            if (v)
+                return base.CanInvoke(player, commandText, out matchedNameLength);
+            else
+            {
+                player.SendClientMessage(Colors.GREY, "По указанным вами параметрам найдено несколько игроков.");
+                matchedNameLength = 0;
+                return CommandCallableResponse.False;
+            }
+        }
         protected override bool SendUsageMessage(BasePlayer player)
         {
             player.SendClientMessage(Colors.GREY, "Подсказка: " + UsageMessage);
             return true;
         }
-        protected override ICommandParameterType GetParameterType(ParameterInfo parameter, int index, int count)
+        private bool isSinglePlayer(string commandText)
         {
-            // Override GetParameterType to use your own automatical detection of parameter types.
-            // This way, you can avoid having to attach `ParameterType` attributes to all parameters of a custom type.
+            var text = commandText.TrimStart();
 
-            // use default parameter type detection.
-            var type = base.GetParameterType(parameter, index, count);
+            if (string.IsNullOrEmpty(text))
+                return true;
 
-            if (type != null)
-                return type;
+            var word = text.Split(' ')
+                .First();
 
-            // if no parameter type was found check if it's of any type we recognize.
-            if (parameter.ParameterType == typeof(bool))
+            // find a player with a matching id.
+            if (int.TryParse(word, NumberStyles.Integer, CultureInfo.InvariantCulture, out var id))
             {
-                // TODO: detected this type to be of type `bool`. 
-                // TODO: Return an implementation of ICommandParameterType which processes booleans.
+                var player = BasePlayer.Find(id);
+                if (player != null)
+                {
+                    return true;
+                }
             }
 
-            // Unrecognized type. Return null.
-            return null;
+            var lowerWord = word.ToLower();
+
+            // find all candidates containing the input word, case insensitive.
+            var candidates = BasePlayer.All.Where(p => p.Name.ToLower()
+                    .Contains(lowerWord))
+                .ToList();
+
+            // in case of ambiguities find all candidates containing the input word, case sensitive.
+            if (candidates.Count > 1)
+                candidates = candidates.Where(p => p.Name.Contains(word))
+                    .ToList();
+
+            // in case of ambiguities find all candidates matching exactly the input word, case insensitive.
+            if (candidates.Count > 1)
+                candidates = candidates.Where(p => p.Name.ToLower() == lowerWord)
+                    .ToList();
+
+            // in case of ambiguities find all candidates matching exactly the input word, case sensitive.
+            if (candidates.Count > 1)
+                candidates = candidates.Where(p => p.Name == word)
+                    .ToList();
+
+            return candidates.Count == 1;
         }
 
         protected override bool SendPermissionDeniedMessage(IPermissionChecker permissionChecker, BasePlayer player)
@@ -180,3 +219,4 @@ namespace SampSharpGamemode
         }
     }
 }
+
