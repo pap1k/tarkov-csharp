@@ -16,6 +16,7 @@ namespace SampSharpGamemode
         AMES = 0x7fffd4ff,
         SUCCESS = 0xfa8500ff,
         ME = 0xc2a2daFF,
+        CHAT = 0x747474ff,
         S = 0xccccccff;
     }
 }

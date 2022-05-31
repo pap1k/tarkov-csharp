@@ -3,6 +3,7 @@ using SampSharp.GameMode.SAMP.Commands;
 using SampSharp.GameMode.World;
 using SampSharpGamemode.Players;
 using SampSharpGamemode.Ipfunc;
+using SampSharp.GameMode.Definitions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -216,13 +217,6 @@ namespace SampSharpGamemode.Admins
             }
 
         }
-        [Command("xui228", UsageMessage = "/xui228 [Уровень администрирования]")]
-        private static void CMD_xui(BasePlayer sender, int lvl)
-        {
-            sender.PVars[PvarsInfo.admin] = true;
-            sender.PVars[PvarsInfo.adminlevel] = lvl;
-            sender.SendClientMessage($"Вам выдана админка {{fbec5d}}{lvl} {{ffffff}}уровня. Обратите внимание, что изменения не были внесены в базу.");
-        }
         [Command("iseek", UsageMessage = "/iseek [ID или часть ника]", PermissionChecker = typeof(AllAdminPermChecker))]
         private static void CMD_iseek(BasePlayer sender, BasePlayer target)
         {
@@ -252,21 +246,64 @@ namespace SampSharpGamemode.Admins
                 sender.SendClientMessage(Colors.GREY, "Вознаграждение за промокод должно быть не более 150000$");
             else
             {
-                GameMode.db.CreatePromo(promo, reward);
-                sender.SendClientMessage(-1, $"Промокод {{abcdef}}{promo} {{ffffff}}создан. Вознаграждение за его указание составляет {{34c924}}{reward}${{ffffff}}.");
+                if (!promo.StartsWith('#')) promo = '#' + promo;
+
+                if (GameMode.db.SelectPromoByName(promo).data.Count == 0)
+                {
+                    GameMode.db.CreatePromo(promo, reward);
+                    sender.SendClientMessage(-1, $"Промокод {{abcdef}}{promo} {{ffffff}}создан. Вознаграждение за его указание составляет {{34c924}}{reward}${{ffffff}}.");
+                }
+                else
+                    sender.SendClientMessage(Colors.GREY, "Промокод с таким названием уже зарегистрирован.");
             }
         }
-        [Command("deletepromo", UsageMessage = "/deletepromo [Название промокода]", PermissionChecker = typeof(ViceAdminPermChecker))]
-        private static void CMD_deletepromo(BasePlayer sender, string promo)
+        [Command("plist", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private static void CMD_plist(BasePlayer sender)
         {
-            var promoname = GameMode.db.CheckPromo(promo);
-            if (promoname.data.Count > 0)
+            string promoname = "";
+            var db = GameMode.db.SelectAllPromo().data;
+            if (db.Count > 0)
             {
-                GameMode.db.DeletePromo(promo);
-                sender.SendClientMessage(-1, $"Промокод {{abcdef}}{promo} {{ffffff}}успешно удален.");
+                int selectedindex = 0;
+                var dlg = new TablistDialog("{ffffff}Список промокодов", 2, "Выбрать", "Отмена");
+                var dlg_del = new MessageDialog("{ffffff}Удаление промокода", "", "Да", "Нет");
+                dlg.Add(new[] { "Промокод", "Вознаграждение" });
+                foreach (var row in db)
+                    dlg.Add(new []{ row[1], row[2] });
+                dlg_del.Response += (_, e) =>
+                {
+                    if (e.DialogButton == DialogButton.Left)
+                    {
+                        GameMode.db.DeletePromo(int.Parse(db[selectedindex-1][0]));
+                        sender.SendClientMessage("Промод "+promoname+" успешно удален.");
+                        if (dlg.Count > 2)
+                        {
+                            dlg.RemoveAt(selectedindex);
+                            dlg.Show(sender);
+                        }
+                    }
+                    else
+                        dlg.Show(sender);
+                };
+                dlg.Response += (_, e) =>
+                {
+                    if(e.DialogButton == DialogButton.Left)
+                    {
+                        if(e.ListItem != 0)
+                        {
+                            promoname = db[e.ListItem - 1][1];
+                            dlg_del.Message = "Вы действительно хотите удалить промокод " + promoname;
+                            selectedindex = e.ListItem;
+                            dlg_del.Show(sender);
+                        }
+                        else
+                            dlg.Show(sender);
+                    }
+                };
+                dlg.Show(sender);
             }
             else
-                sender.SendClientMessage(Colors.GREY, "Указанного вами промокода не существует.");
+                sender.SendClientMessage(Colors.GREY, "Не найдено промокодов.");
         }
     }
 }

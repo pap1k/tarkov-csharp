@@ -28,7 +28,7 @@ namespace SampSharpGamemode.Players
             var ErrConfirm = new MessageDialog("{f90023}Ошибка повтора пароля", "{ffffff}Введеный вами пароль не совпадает с предыдущим.\nПожалуйста, повторите попытку.", "X");
             var PromoInput = new InputDialog("{76ee2b}Регистрация {ffffff}| {f90023}Промокод", "{FFFFFF}Если у вас есть бонусный код, введите его в поле ниже.\nУказав его, вы получите вознаграждение.", false, "Ввод", "Пропустить");
             var ErrPromo = new MessageDialog("{f90023}Ошибка {ffffff}|{f90023} Промокод", "{FFFFFF}Указанного вами промокода не существует.\nПерепроверьте правильность написания или пропустите ввод.", "X");
-            var PromoSucces = new MessageDialog("{76ee2b}Регистрация {ffffff}| {76ee2b}Промокод", $"\t{{FFFFFF}}Вы указали промокод {{76ee2b}}Promo{{ffffff}}.\nКак только вы отыграете 24 часа, вам будет выдан бонус {{34c924}}reward${{ffffff}}!", "X");
+            var PromoSucces = new MessageDialog("{76ee2b}Регистрация {ffffff}| {76ee2b}Промокод", "", "X");
             RegPassDialog.Response += (sender, e) =>
             {
                 if (e.DialogButton == DialogButton.Left)
@@ -75,9 +75,10 @@ namespace SampSharpGamemode.Players
                 if (e.DialogButton == DialogButton.Left)
                 {
                     player.PVars[PvarsInfo.promocode] = e.InputText;
-                    var promoname = GameMode.db.CheckPromo(e.InputText);
-                    if (promoname.data.Count > 0)
+                    var dbpromo = GameMode.db.SelectPromoByName(e.InputText).data;
+                    if (dbpromo.Count > 0)
                     {
+                        PromoSucces.Message = $"{{FFFFFF}}Вы указали промокод {{76ee2b}}{dbpromo[0][1]}{{ffffff}}.\nКак только вы отыграете 24 часа, вам будет выдан бонус {{34c924}}{dbpromo[0][2]}${{ffffff}}!";
                         GameMode.db.SetPlayerPromo(player);
                         PromoSucces.Show(player);
                     }
