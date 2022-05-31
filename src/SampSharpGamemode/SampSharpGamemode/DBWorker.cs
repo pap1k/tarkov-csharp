@@ -90,7 +90,7 @@ namespace SampSharpGamemode
         public DBType InsertBan(BasePlayer sender, int puid, string type, int term, string reason) { return DoRequest($"INSERT INTO banlist(type, playeruid, adminuid, term, reason) VALUES('{type}', {puid}, {sender.PVars.Get<int>(PvarsInfo.uid)}, {term}, '{reason}')"); }
         public DBType SelectBanByUID(int uid) { return DoRequest($"SELECT * FROM banlist WHERE playeruid = {uid} AND isActive = 1"); }
         public DBType CreatePromo(string promo, int reward) { return DoRequest($"INSERT INTO promocodes(promoname, reward) VALUES('{promo}', '{reward}')"); }
-        public DBType SetPlayerPromo(Player player) { return DoRequest($"INSERT INTO player_promocode(nickname, promocode) VALUES('{player.Name}', '{player.PVars.Get<string>(PvarsInfo.promocode)}')"); }
+        public DBType SetPlayerPromo(int puid, string promocode) { return DoRequest($"INSERT INTO player_promocode(uid, promocode) VALUES({puid}, '{promocode}')"); }
         public DBType SelectPromoByName(string promoname) { return DoRequest($"SELECT * FROM promocodes WHERE promoname = '{promoname}'"); }
         public DBType DeletePromo(int uid) { return DoRequest($"DELETE FROM promocodes WHERE uid = {uid}"); }
         public DBType SelectAllPromo() { return DoRequest($"SELECT * FROM promocodes"); }

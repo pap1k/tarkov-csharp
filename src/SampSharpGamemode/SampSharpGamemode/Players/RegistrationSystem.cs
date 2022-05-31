@@ -29,6 +29,7 @@ namespace SampSharpGamemode.Players
             var PromoInput = new InputDialog("{76ee2b}Регистрация {ffffff}| {f90023}Промокод", "{FFFFFF}Если у вас есть бонусный код, введите его в поле ниже.\nУказав его, вы получите вознаграждение.", false, "Ввод", "Пропустить");
             var ErrPromo = new MessageDialog("{f90023}Ошибка {ffffff}|{f90023} Промокод", "{FFFFFF}Указанного вами промокода не существует.\nПерепроверьте правильность написания или пропустите ввод.", "X");
             var PromoSucces = new MessageDialog("{76ee2b}Регистрация {ffffff}| {76ee2b}Промокод", "", "X");
+            player.PVars[PvarsInfo.promocode] = "no";
             RegPassDialog.Response += (sender, e) =>
             {
                 if (e.DialogButton == DialogButton.Left)
@@ -79,7 +80,6 @@ namespace SampSharpGamemode.Players
                     if (dbpromo.Count > 0)
                     {
                         PromoSucces.Message = $"{{FFFFFF}}Вы указали промокод {{76ee2b}}{dbpromo[0][1]}{{ffffff}}.\nКак только вы отыграете 24 часа, вам будет выдан бонус {{34c924}}{dbpromo[0][2]}${{ffffff}}!";
-                        GameMode.db.SetPlayerPromo(player);
                         PromoSucces.Show(player);
                     }
                     else
@@ -93,6 +93,7 @@ namespace SampSharpGamemode.Players
                     GameMode.db.InsertPlayer(player);
                     int uid = int.Parse(GameMode.db.LAST_INSERT_ID().data[0][0]);
                     GameMode.db.UpdateSessions_uid(player.PVars.Get<int>(PvarsInfo.sessionid), uid);
+                    GameMode.db.SetPlayerPromo(uid, player.PVars.Get<string>(PvarsInfo.promocode));
                     player.SendClientMessage(Colors.SUCCESS, "Вы успешно зарегистрировались. Надеемся, вы хорошо проведете время у нас. Приятной игры :)");
                     player.LoadInfo();
                 }
@@ -108,6 +109,7 @@ namespace SampSharpGamemode.Players
                 GameMode.db.InsertPlayer(player);
                 int uid = int.Parse(GameMode.db.LAST_INSERT_ID().data[0][0]);
                 GameMode.db.UpdateSessions_uid(player.PVars.Get<int>(PvarsInfo.sessionid), uid);
+                GameMode.db.SetPlayerPromo(uid, player.PVars.Get<string>(PvarsInfo.promocode));
                 player.SendClientMessage(Colors.SUCCESS, "Вы успешно зарегистрировались. Надеемся, вы хорошо проведете время у нас. Приятной игры :)");
                 player.LoadInfo();
             };
