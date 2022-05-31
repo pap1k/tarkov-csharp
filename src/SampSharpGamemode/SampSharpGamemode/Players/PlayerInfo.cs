@@ -41,6 +41,7 @@
             authstate = "pAUTHSTATE",
             isevent = "pEVENT",
             isleaving = "PISLEAVING",
-            totpkey = "pTOTP";
+            totpkey = "pTOTP",
+            promocode = "pPROMOCODE";
     }
 }

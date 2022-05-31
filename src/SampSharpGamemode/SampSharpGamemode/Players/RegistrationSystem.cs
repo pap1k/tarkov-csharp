@@ -62,12 +62,7 @@ namespace SampSharpGamemode.Players
                 {
                     player.PVars[PvarsInfo.pass] = s.InputText;
                     player.PVars[PvarsInfo.password] = GameMode.getHash(s.InputText);
-                    GameMode.db.InsertPlayer(player);
-                    int uid = int.Parse(GameMode.db.LAST_INSERT_ID().data[0][0]);
-                    GameMode.db.UpdateSessions_uid(player.PVars.Get<int>(PvarsInfo.sessionid), uid);
-                    RegSuccess.Show(player);
-                    player.SendClientMessage(Colors.SUCCESS, "Вы успешно зарегистрировались. Надеемся, вы хорошо проведете время у нас. Приятной игры :)");
-                    player.LoadInfo();
+                    PromoInput.Show(player);
                 }
             };
             RegErrDialog.Response += (sender, e) =>
@@ -75,6 +70,46 @@ namespace SampSharpGamemode.Players
                 RegPassDialog.Show(player);
             };
             RegPassDialog.Show(player);
+            PromoInput.Response += (sender, e) =>            
+            {
+                if (e.DialogButton == DialogButton.Left)
+                {
+                    player.PVars[PvarsInfo.promocode] = e.InputText;
+                    var promoname = GameMode.db.CheckPromo(e.InputText);
+                    if (promoname.data.Count > 0)
+                    {
+                        GameMode.db.SetPlayerPromo(player);
+                        PromoSucces.Show(player);
+                    }
+                    else
+                    {
+                        ErrPromo.Show(player);
+                    }
+                }
+                else
+                {
+                    RegSuccess.Show(player);
+                    GameMode.db.InsertPlayer(player);
+                    int uid = int.Parse(GameMode.db.LAST_INSERT_ID().data[0][0]);
+                    GameMode.db.UpdateSessions_uid(player.PVars.Get<int>(PvarsInfo.sessionid), uid);
+                    player.SendClientMessage(Colors.SUCCESS, "Вы успешно зарегистрировались. Надеемся, вы хорошо проведете время у нас. Приятной игры :)");
+                    player.LoadInfo();
+                }
+
+            };
+            ErrPromo.Response += (sender, e) =>
+            {
+                PromoInput.Show(player);
+            };
+            PromoSucces.Response += (sender, e) =>
+            {
+                RegSuccess.Show(player);
+                GameMode.db.InsertPlayer(player);
+                int uid = int.Parse(GameMode.db.LAST_INSERT_ID().data[0][0]);
+                GameMode.db.UpdateSessions_uid(player.PVars.Get<int>(PvarsInfo.sessionid), uid);
+                player.SendClientMessage(Colors.SUCCESS, "Вы успешно зарегистрировались. Надеемся, вы хорошо проведете время у нас. Приятной игры :)");
+                player.LoadInfo();
+            };
         }
     }
 }
