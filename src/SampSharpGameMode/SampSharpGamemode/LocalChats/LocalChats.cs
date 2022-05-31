@@ -1,4 +1,4 @@
-п»їusing SampSharp.GameMode;
+using SampSharp.GameMode;
 using SampSharp.GameMode.Display;
 using SampSharp.GameMode.Events;
 using SampSharp.GameMode.SAMP.Commands;
@@ -14,7 +14,7 @@ namespace SampSharpGameMode.Chats
 {
     internal class LocalChats
     {
-        [Command("as", UsageMessage = "/as [РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ]", PermissionChecker = typeof(AllAdminPermChecker))]
+        [Command("as", UsageMessage = "/as [Текст сообщения]", PermissionChecker = typeof(AllAdminPermChecker))]
         private static void CMD_as(BasePlayer sender, string text)
         {
             if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
@@ -22,10 +22,10 @@ namespace SampSharpGameMode.Chats
             {
                 var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 100 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
                 foreach (var p in near)
-                    p.SendClientMessage(0xff0000ff, $"РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ {sender.Name} РєСЂРёРєРЅСѓР»: " + text);
+                    p.SendClientMessage(0xff0000ff, $"Администратор {sender.Name} крикнул: " + text);
             }
         }
-        [Command("me", UsageMessage = "/me [РћРїРёСЃР°РЅРёРµ РґРµР№СЃС‚РІРёСЏ]")]
+        [Command("me", UsageMessage = "/me [Описание действия]")]
         private static void CMD_me(BasePlayer sender, string text)
         {
             if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
@@ -37,7 +37,7 @@ namespace SampSharpGameMode.Chats
                 sender.SetChatBubble(text, Colors.ME, 10f, 1000);
             }
         }
-        [Command("ame", UsageMessage = "/ame [РћРїРёСЃР°РЅРёРµ РґРµР№СЃС‚РІРёСЏ]")]
+        [Command("ame", UsageMessage = "/ame [Описание действия]")]
         private static void CMD_ame(BasePlayer sender, string text)
         {
             if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
@@ -49,7 +49,7 @@ namespace SampSharpGameMode.Chats
                 sender.SetChatBubble(text, Colors.ME, 10f, 1000);
             }
         }
-        [Command("b", UsageMessage = "/b [РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ]")]
+        [Command("b", UsageMessage = "/b [Текст сообщения]")]
         private static void CMD_b(BasePlayer sender, string text)
         {
             if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
@@ -60,7 +60,7 @@ namespace SampSharpGameMode.Chats
                     p.SendClientMessage(-1, $"(( {sender.Name}: {text} ))");
             }
         }
-        [Command("do", UsageMessage = "/do [РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ]")]
+        [Command("do", UsageMessage = "/do [Текст сообщения]")]
         private static void CMD_do(BasePlayer sender, string text)
         {
             if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
@@ -71,7 +71,7 @@ namespace SampSharpGameMode.Chats
                     p.SendClientMessage(Colors.ME, $"{text} (( {sender.Name} ))");
             }
         }
-        [Command("s", UsageMessage = "/s [РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ]")]
+        [Command("s", UsageMessage = "/s [Текст сообщения]")]
         private static void CMD_s(BasePlayer sender, string text)
         {
             if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
@@ -79,7 +79,7 @@ namespace SampSharpGameMode.Chats
             {
                 var near = BasePlayer.All.Where(p => (sender.GetDistanceFromPoint(p.Position) <= 10 && sender.VirtualWorld == p.VirtualWorld && sender.Interior == p.Interior));
                 foreach (var p in near)
-                    p.SendClientMessage(Colors.S, $"{sender.Name} РєСЂРёРєРЅСѓР»: {text}");
+                    p.SendClientMessage(Colors.S, $"{sender.Name} крикнул: {text}");
                 sender.ApplyAnimation("ON_LOOKERS", "SHOUT_01", 4.1f, false, true, true, false, 2000);
             }
         }
