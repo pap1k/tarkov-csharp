@@ -18,7 +18,9 @@
         PINFO_MONEY,
         PINFO_TOTPKEY,
         PINFO_LASTIP,
-        PINFO_EVENT
+        PINFO_EVENT,
+        PINFO_WARNS,
+        PINFO_ISBANNED
     }
     public class PvarsInfo
     {
@@ -41,6 +43,9 @@
             authstate = "pAUTHSTATE",
             isevent = "pEVENT",
             isleaving = "PISLEAVING",
+            warns = "pWARNS",
+            isbanned = "pISBANNED",
+            totpkey = "pTOTP";
             totpkey = "pTOTP",
             promocode = "pPROMOCODE";
     }
