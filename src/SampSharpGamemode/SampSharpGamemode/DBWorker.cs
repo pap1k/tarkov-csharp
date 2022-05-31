@@ -93,7 +93,6 @@ namespace SampSharpGamemode
         public DBType SetPlayerPromo(Player player) { return DoRequest($"INSERT INTO player_promocode(nickname, promocode) VALUES('{player.Name}', '{player.PVars.Get<string>(PvarsInfo.promocode)}')"); }
         public DBType CheckPromo(string promoname) { return DoRequest($"SELECT * FROM promocodes WHERE promoname = ('{promoname}')"); }
         public DBType DeletePromo(string promoname) { return DoRequest($"DELETE FROM promocodes WHERE promoname = ('{promoname}')"); }
-        public DBType AdminCheckPromo(string promoname, int reward) { return DoRequest($"SELECT * FROM promocodes WHERE promoname = ('{promoname}') AND reward = ('{reward}')"); }
 
     }
 }
