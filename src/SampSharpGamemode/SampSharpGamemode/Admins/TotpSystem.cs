@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SampSharpGameMode.Admins;
+using SampSharp.GameMode;
 
 namespace SampSharpGamemode.Admins
 {
@@ -20,8 +22,8 @@ namespace SampSharpGamemode.Admins
             if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
             sender.SendClientMessage(Security.TOTP.Get(text));
         }
-        [Command("totpshow", UsageMessage = "/totpshow [ID или часть ника]", PermissionChecker = typeof(ViceAdminPermChecker))]
-        private static void CMD_totpshow(BasePlayer sender, BasePlayer t)
+        [Command("totpshowex", UsageMessage = "/totpshowex [ID или часть ника]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private static void CMD_totpshowex(BasePlayer sender, BasePlayer t)
         {
             string code = t.PVars.Get<string>(temptotp);
             if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
@@ -41,6 +43,47 @@ namespace SampSharpGamemode.Admins
             }
             else
                 sender.SendClientMessage(Colors.GREY, $"Этот игрок не является администратором и не проходит настройку админ токена.");
+        }
+        [Command("totpshow", UsageMessage = "/totpshowqr [ID или часть ника]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private static void CMD_totpshow(BasePlayer sender, BasePlayer target)
+        {
+            sender.SendClientMessage(Colors.GREY, "Используйте /totpshowex");
+            return;
+            string code = target.PVars.Get<string>(temptotp);
+            if (code != "no")
+            {
+                var qr = Generator.Generate("otpauth://totp/_?secret="+ code);
+                var tds = TOTPQR.CreateQR(qr, target);
+                sender.PVars["LISTQR"] = tds;
+                sender.SendClientMessage("OK");
+                target.PVars[totpcreate] = true;
+                foreach (var adm in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
+                    adm.SendClientMessage(Colors.RED, $"[A] {sender.Name} продемонстрировал {target.Name} его TOTP токен");
+            }
+            else
+                sender.SendClientMessage("У указанного вами игрока не сгенерирован TOTP токен. Сгенеировать - /totpgen");
+        }
+        [Command("testtxd", UsageMessage = "/testtxd [x] [y]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private static void CMD_testtxd(BasePlayer sender, int x, int y)
+        {
+            var td = new PlayerTextDraw(sender, new Vector2(x, y), "_");
+            td.Height = 10;
+            td.Width = 10;
+            td.PreviewZoom = 1;
+            td.Font = TextDrawFont.PreviewModel;
+            td.PreviewModel = -1;
+            td.Outline = 0;
+            td.UseBox = true;
+            td.BackColor = Colors.GREEN;
+            td.Show();
+            sender.SendClientMessage("POK");
+        }
+        [Command("totphideqr", UsageMessage = "/totphideqr [ID или часть ника]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        private static void CMD_totphideqr(BasePlayer sender)
+        {
+            foreach (var x in sender.PVars.Get<List<int>>("LISTQR"))
+                ;
+            sender.SendClientMessage("OK");
         }
         [Command("totpgen", UsageMessage = "/totpgen [ID или часть ника]", PermissionChecker = typeof(ViceAdminPermChecker))]
         private static void CMD_totpgen(BasePlayer sender, BasePlayer t)

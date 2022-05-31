@@ -28,20 +28,31 @@ namespace SampSharpGamemode.Ipfunc
             public static void Show(BasePlayer player, string ip, int n = 0)
             {
                 waitdialog.Show(player);
-                dialog.Caption = "Информация о сессиях с IP {ffffff}" + ip;
+                dialog.Caption = "{34C924}Последние 30 сессий с IP " + ip;
                 var db = GameMode.db.SelectIPSesstions(ip, n).data;
-                string s = "";
+                string s = "{ffffff}";
                 foreach (var row in db)
                 {
-                    s += row[2] + '\t' + row[3] + '\t' + row[4] + '\t' + ((e_IP)int.Parse(row[5])).ToString() + '\t' + row[6] +'\t' + (row.Count == 8 ? row[7] : " ") + '\n';
+                    s += row[2] + "    " + row[3] + "    " + row[4] + "    " + ((e_IP)int.Parse(row[5])).ToString() + "    " + row[6] + "    " + (row.Count == 8 ? row[7] : " ") + '\n';
                 }
                 dialog.Message = s;
                 dialog.Show(player);
             }
         }
-        public static void Show(BasePlayer player)
+        internal static class Aseek
         {
-
+            public static void Show(BasePlayer player, string nick, int n = 0)
+            {
+                waitdialog.Show(player);
+                dialog.Caption = "{34C924}Последние 30 сессий с аккаунта " + nick;
+                var db = GameMode.db.SelectNameSesstions(nick, n).data;
+                string s = "{ffffff}";
+                foreach (var row in db)
+                {
+                    s += row[2] + "    " + row[3] + "    " + row[4] + "    " + ((e_IP)int.Parse(row[5])).ToString() + "    " + row[6] + "    " + (row.Count == 8 ? row[7] : " ") + '\n';
+                }
+                dialog.Message = s;
+                dialog.Show(player);
+            }
         }
-    }
-}
+}   }

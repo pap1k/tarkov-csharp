@@ -243,30 +243,5 @@ namespace SampSharpGamemode.Admins
             else
                 sender.VirtualWorld = w;
         }
-        [Command("createpromo", UsageMessage = "/createpromo [Название промокода] [Вознаграждение за указание]", PermissionChecker = typeof(ViceAdminPermChecker))]
-        private static void CMD_createpromo(BasePlayer sender, string promo, int reward)
-        {
-            if (promo.Length > 15)
-                sender.SendClientMessage(Colors.GREY, "Длина промокода может быть до 15 символов.");
-            else if (reward > 200000 && sender.PVars.Get<int>(PvarsInfo.adminlevel) > 5)
-                sender.SendClientMessage(Colors.GREY, "Вознаграждение за промокод должно быть не более 150000$");
-            else
-            {
-                GameMode.db.CreatePromo(promo, reward);
-                sender.SendClientMessage(-1, $"Промокод {{abcdef}}{promo} {{ffffff}}создан. Вознаграждение за его указание составляет {{34c924}}{reward}${{ffffff}}.");
-            }
-        }
-        [Command("deletepromo", UsageMessage = "/deletepromo [Название промокода]", PermissionChecker = typeof(ViceAdminPermChecker))]
-        private static void CMD_deletepromo(BasePlayer sender, string promo)
-        {
-            var promoname = GameMode.db.CheckPromo(promo);
-            if (promoname.data.Count > 0)
-            {
-                GameMode.db.DeletePromo(promo);
-                sender.SendClientMessage(-1, $"Промокод {{abcdef}}{promo} {{ffffff}}успешно удален.");
-            }
-            else
-                sender.SendClientMessage(Colors.GREY, "Указанного вами промокода не существует.");
-        }
     }
 }

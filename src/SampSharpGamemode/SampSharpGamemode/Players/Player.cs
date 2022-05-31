@@ -208,7 +208,10 @@ namespace SampSharpGamemode.Players
             PVars[PvarsInfo.isleaving] = true;
             //set reason
             leavingreason = s;
-            Task.Delay(1000).ContinueWith(t => base.Kick());
+            Task.Delay(1000).ContinueWith(t => {
+                if (this != null)
+                    base.Kick();
+                });
         }
         public override void OnRequestSpawn(RequestSpawnEventArgs e)
         {
@@ -224,10 +227,14 @@ namespace SampSharpGamemode.Players
         }
         public override void OnText(TextEventArgs e)
         {
+            e.SendToPlayers = false;
             var near = BasePlayer.All.Where(p => (GetDistanceFromPoint(p.Position) <= 10 && VirtualWorld == p.VirtualWorld && Interior == p.Interior));
             e.SendToPlayers = false;
             if (PVars.Get<bool>(PvarsInfo.ingame))
-                foreach (var p in near) p.SendClientMessage(Colors.GREEN, $"{Name} сказал: {e.Text}");
+            {
+                foreach (var p in near) p.SendClientMessage(0x747474ff, $"- {Name}: {e.Text}");
+                ApplyAnimation("PED", "IDLE_CHAT", 4.1f, false, true, true, false, 2000);
+            }
             else return;
         }
     }

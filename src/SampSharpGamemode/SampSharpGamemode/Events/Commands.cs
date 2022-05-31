@@ -21,11 +21,11 @@ namespace SampSharpGamemode.Events
             sender.VirtualWorld = (int)VW.EVENT;
             sender.SendClientMessage(Colors.GREY, "Вы были телепортированы");
         }
-        [Command("esay", PermissionChecker = typeof(EventPermChecker))]
+        [Command("esay", UsageMessage = "/esay [Текст сообщения]", PermissionChecker = typeof(EventPermChecker))]
         private static void CMD_esay(BasePlayer sender, string s)
         {
             foreach (var p in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.ingame)))
-                p.SendClientMessage("Event Admin: " + s);
+                p.SendClientMessage(Colors.RED, $"Администратор {sender.Name}: " + s);
         }
     }
 }
