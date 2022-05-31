@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using SampSharp.GameMode.Display;
 using SampSharp.GameMode.World;
 using SampSharp.GameMode.Definitions;
+using System.Threading.Tasks;
+using SampSharp.GameMode.SAMP;
 
 namespace SampSharpGamemode.Players
 {
@@ -14,6 +16,7 @@ namespace SampSharpGamemode.Players
         public static void Start(Player player)
         {
             DBType ret = new DBType();
+            var WAIT_DLT = new MessageDialog("Ошибка", "Не удалость войти в аккаунт, введен неверный TOTP код. Это окно закроется через 5 секунд", "");
             var AUTH_DLG = new InputDialog("{f90023}Авторизация", "{FFFFFF}Приветствуем вас на нашем сервере. Аккаунт с никнеймом " + player.Name + " {f90023}зарегистрирован{FFFFFF}.\nДля авторизации вам необходимо ввести свой пароль в поле ниже.\nЕсли вы {76ee2b}не являетесь {FFFFFF}владельцем аккаунта, то покиньте сервер, нажав на кнопку {fa8500}Отмена {FFFFFF}или введя {fa8500}/q {FFFFFF}в чат.\nЕсли вы {f90023}забыли пароль{FFFFFF}, то введите {fa8500}RECOVERY{FFFFFF} в строку ввода пароля.", true, "Ввод", "Отмена");
             var ERROR_DLG = new MessageDialog("{f90023}Ошибка авторизации", "\t\t\t\t\t\t{f90023}Вы ввели неверный пароль.\n{FFFFFF}Пожалуйста, проверьте регистр или раскладку.\nЕсли вы забыли пароль, то при наличии привязок, вы можете его восстановить, введя {fa8500}RECOVERY {FFFFFF}в строку ввода пароля.", "X");
             var TOTP_DLG = new InputDialog("{f90023}Авторизация {ffffff}| {f90023}Введите ключ безопасности", "\t==== Ваш IP адрес изменился ====\n=== Введите ключ безопасности из приложения ===", false, "Ввод");
@@ -64,16 +67,24 @@ namespace SampSharpGamemode.Players
                 bool o = int.TryParse(e.InputText, out int _);
                 if (o)
                 {
-                    if(Security.TOTP.Get(player.PVars.Get<string>(PvarsInfo.totpkey)) == e.InputText)
+                    if (Security.TOTP.Get(player.PVars.Get<string>(PvarsInfo.totpkey)) == e.InputText)
                     {
                         player.SendClientMessage(Colors.SUCCESS, $"Вы успешно авторизовались!");
                         player.LoadInfo();
                         player.PVars[PvarsInfo.authstate] = (int)e_AuthState.SUCCESS;
                         return;
                     }
+                    else
+                    {
+                        WAIT_DLT.Show(player);
+                        Task.Delay(5000).ContinueWith(t => TOTP_DLG.Show(player));
+                    }
                 }
-                player.SendClientMessage(Colors.SUCCESS, "Не удалость войти в аккаунт, введен неверный TOTP код. Введите {ffffff}/q {fa8500}в чат для выхода из игры.");
-                player.kick("nologin");
+                else
+                    TOTP_DLG.Show(player);
+            };
+            WAIT_DLT.Response += (_, e) => {
+                WAIT_DLT.Show(player);
             };
             AUTH_DLG.Show(player);
         }

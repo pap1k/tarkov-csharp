@@ -33,7 +33,7 @@ namespace SampSharpGameMode.Admins
                 for (int y = 0, j = 0; y < size + offset; y = y + pixelsPerModule, j++)
                 {
                     var module = qr.ModuleMatrix[(y + pixelsPerModule) / pixelsPerModule - 1][(x + pixelsPerModule) / pixelsPerModule - 1];
-                    data[i].Add(!module);
+                    data[i].Add(module);
                     Console.Write(module ? "$" : " ");
                 }
                 Console.WriteLine();
@@ -72,35 +72,32 @@ namespace SampSharpGameMode.Admins
                 for (int j = 0; j < data[i].Count - 1; j++)
                 {
                     //ALKO RYTHM
-                    if (!usedids.Contains($"{i},{j}") && data[i][j])
+                    if (data[i][j])
                     {
-                        SUPEROPTIMIZED.Add(new tdRectangle(j, i, pixels, pixels, data[i][j]));
+                        SUPEROPTIMIZED.Add(new tdRectangle(j, i, pixels, pixels, false));
                         //Чекаем сколько вправо
                         int right = 0;
-                        for (int k = j+1; k < data.Count; k++)
-                        {
-                            if (k >= data.Count)
-                                break;
-                            if (data[i][k] && !usedids.Contains($"{i},{k}"))
-                                right++;
-                        }
+                        int jj = j+1;
+                        while (jj < data.Count && data[i][jj++]) right++;
                         //Чекаем сколько вниз
                         int down = 0;
+                        int ii = i + 1;
+                        while (ii < data.Count && data[ii++][j]) down++;
                         for (int k = i; k < data.Count; k++)
                         {
                             if (k >= data.Count)
                                 break;
-                            if (data[k][j] && !usedids.Contains($"{k},{j}"))
+                            if (data[k][j])
                                 down++;
                         }
                         if(down > 0 && right > 0)
                         {
                             int sqsize = 0;
-                            for (int ki = 1; ki < down; ki++)
+                            for (int ki = 1; ki <= down; ki++)
                             {
                                 bool isSq = true;
                                 List<string> temp = new List<string>();
-                                for(int kj = 1; kj < ki; kj++)
+                                for(int kj = 1; kj <= ki; kj++)
                                 {
                                     if (data[i + ki][j + kj])
                                         temp.Add($"{i + ki},{j + kj}");
@@ -111,21 +108,24 @@ namespace SampSharpGameMode.Admins
                                 }
                                 if (isSq)
                                 {
-                                    usedids.AddRange(temp);
+                                    foreach (var s in temp)
+                                        data[int.Parse(s.Split(',')[0])][int.Parse(s.Split(',')[1])] = false;
                                     sqsize++;
                                 }
                             }
                             if(sqsize == 0)
                             {
+                                bool flag = false;
                                 for (int k = 0; k < right; k++)
                                 {
-                                    usedids.Add($"{i},{j+k}");
+                                    data[i][j + k] = false;
                                     SUPEROPTIMIZED.Last().Width += pixels;
+                                    flag = true;
                                 }
-                                SUPEROPTIMIZED.Add(new tdRectangle(j, i+1, pixels, pixels, data[i+1][j]));
+                                if (flag) SUPEROPTIMIZED.Add(new tdRectangle(j, i + 1, pixels, pixels, false));
                                 for (int k = 1; k < down; k++)
                                 {
-                                    usedids.Add($"{i+k},{j}");
+                                    data[i + k][j] = false;
                                     SUPEROPTIMIZED.Last().Height += pixels;
                                 }
                             }
@@ -137,15 +137,17 @@ namespace SampSharpGameMode.Admins
                         }
                         else
                         {
+                            bool flag = false;
                             for (int k = 0; k < right; k++)
                             {
-                                usedids.Add($"{i},{j + k}");
+                                data[i][j + k] = false;
                                 SUPEROPTIMIZED.Last().Width += pixels;
+                                flag = true;
                             }
-                            SUPEROPTIMIZED.Add(new tdRectangle(j, i + 1, pixels, pixels, data[i + 1][j]));
+                            if (flag) SUPEROPTIMIZED.Add(new tdRectangle(j, i + 1, pixels, pixels, false));
                             for (int k = 1; k < down; k++)
                             {
-                                usedids.Add($"{i + k},{j}");
+                                data[i+k][j] = false;
                                 SUPEROPTIMIZED.Last().Height += pixels;
                             }
                         }
@@ -165,7 +167,8 @@ namespace SampSharpGameMode.Admins
             //            optimizedRow.Add(new tdRectangle(j+1, i, pixels, pixels, data[i][j + 1]));
             //    }
             //}
-            return SUPEROPTIMIZED;
+
+        return SUPEROPTIMIZED;
         }
         private static PlayerTextDraw CreateRectangle(BasePlayer p, float x, float y, string text, int h, int w, Color c, int scale = 1)
         {
@@ -226,7 +229,7 @@ namespace SampSharpGameMode.Admins
                     ret.Add(td.Id);
                 }
             }
-            Console.WriteLine($"Totally screated {i + 1} TextDraws");
+            Console.WriteLine($"Totally screated {i + 11} TextDraws");
             return ret;
         }
     }

@@ -191,18 +191,6 @@ namespace SampSharpGamemode.Players
             Score = PVars.Get<int>(PvarsInfo.score);
             Money = PVars.Get<int>(PvarsInfo.money);
         }
-        public void ban(string s, string reason, bool isconst)
-        {
-            PVars[PvarsInfo.isleaving] = true;
-            string info = "Причина выдачи блокировки: "+reason;
-            if (isconst)
-                info = "Тип блокировки: Постоянный. Аккаунт не подлежир разбану.\n";
-            else
-                info = "Тип блокировки: Временный. Блокировка будет автоматически снята. .... .. ХУЙ ХУЙ ХУЙ \n";
-            var dialog = new MessageDialog("Ваш аккаунт заблокирован", info + "Тут всякая инфа мне лень писать\nОООЧЕНЬ МНОГО ИНФЫ НАЗАР ТЫ МОЛОДЕЦ\nТы так постарался чтобы игрокам было не так обидно\nда и в целом чтобы играть было интересно\nХотя с другой стороны ты просто зарабатываешь бабки\nЭто бизнес, мэнчик....\nМда пизлец чето меня в час ночи понесло\nСоооообственно, что я хотел сказать.... Ничего, точно!", "ТЕРПАНУТЬ");
-            dialog.Show(this);
-            kick(s);
-        }
         public void kick(string s = "")
         {
             PVars[PvarsInfo.isleaving] = true;

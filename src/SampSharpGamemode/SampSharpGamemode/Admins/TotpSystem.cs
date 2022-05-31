@@ -23,7 +23,7 @@ namespace SampSharpGamemode.Admins
             if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
             else if (t.Id == sender.Id && sender.PVars.Get<int>(PvarsInfo.adminlevel) < (int)e_AdminLevels.A_FOUNDER)
                 sender.SendClientMessage(Colors.GREY, "Вы не можете продемонстрировать TOTP токен самому себе. Обратитесь к старшему администратору.");
-            else if (code != "no")
+            else if (code != "no" && !string.IsNullOrEmpty(code))
             {
                 var dlg = new MessageDialog("{24e302}Введите код в приложение", "{ffffff}Все символы заглавные и в анлийской раскладке:{fbec5d} " + code, "X");
                 dlg.Show(t);
@@ -34,6 +34,23 @@ namespace SampSharpGamemode.Admins
                     if (!t.PVars.Get<bool>(PvarsInfo.admin))
                         t.SendClientMessage(Colors.RED, $"Администратор: {sender.Name} продемонстрировал вам ваш временный TOTP токен.");
                 }
+            }
+            else if (string.IsNullOrEmpty(code))
+            {
+                if(t.PVars.Get<bool>(PvarsInfo.admin))
+                {
+                    var dlg = new MessageDialog("{24e302}Введите код в приложение", "{ffffff}Все символы заглавные и в анлийской раскладке:{fbec5d} \n" + t.PVars.Get<string>(PvarsInfo.totpkey), "X");
+                    dlg.Show(t);
+                    t.PVars[totpcreate] = true;
+                    foreach (var adm in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
+                        adm.SendClientMessage(Colors.RED, $"Администратор: {sender.Name} продемонстрировал {t.Name} его админ TOTP токен.");
+                    {
+                        if (!t.PVars.Get<bool>(PvarsInfo.admin))
+                            t.SendClientMessage(Colors.RED, $"Администратор: {sender.Name} продемонстрировал вам ваш TOTP токен.");
+                    }
+                }
+                else
+                    sender.SendClientMessage(Colors.GREY, $"Этот игрок не является администратором с установленным токеном.");
             }
             else
                 sender.SendClientMessage(Colors.GREY, $"Этот игрок не является администратором и не проходит настройку админ токена.");
@@ -46,7 +63,8 @@ namespace SampSharpGamemode.Admins
             string code = target.PVars.Get<string>(temptotp);
             if (code != "no")
             {
-                var qr = Generator.Generate("otpauth://totp/_?secret="+ code);
+                //var qr = Generator.Generate("otpauth://totp/0?secret="+ code);
+                var qr = Generator.Generate(code);
                 var tds = TOTPQR.CreateQR(qr, target);
                 sender.PVars["LISTQR"] = tds;
                 sender.SendClientMessage("OK");
