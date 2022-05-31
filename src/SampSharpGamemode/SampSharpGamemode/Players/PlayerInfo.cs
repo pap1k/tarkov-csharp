@@ -45,8 +45,7 @@
             isleaving = "PISLEAVING",
             warns = "pWARNS",
             isbanned = "pISBANNED",
-            totpkey = "pTOTP";
-        totpkey = "pTOTP",
+            totpkey = "pTOTP",
             promocode = "pPROMOCODE";
     }
 }
