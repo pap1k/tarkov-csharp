@@ -85,7 +85,7 @@ namespace SampSharpGamemode.Admins
                 bool res = func(caller, target, days, 1, reason);
                 if (res)
                     foreach (var admin in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
-                        Player.SendClientMessageToAll(Colors.RED, $"Администратор: {caller.Name} забанил {savename} {(days == 0 ? "навсегда" : $"на {days} дней")}, причина: {reason}");
+                        Player.SendClientMessageToAll(Colors.RED, $"Администратор: {caller.Name} забанил {savename} {(days == 0 ? "навсегда" : $"на {days} дней")}. Причина: {reason}");
             }
         }
         [Command("aban", UsageMessage = "/aban [ID или чать ника] [Количество дней, 0 - навсегда] [Причина]", PermissionChecker = typeof(AllAdminPermChecker))]
@@ -101,7 +101,7 @@ namespace SampSharpGamemode.Admins
                 bool res = func(caller, target, days, 2, reason);
                 if (res)
                     foreach (var admin in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
-                        admin.SendClientMessage(Colors.RED, $"Администратор: {caller.Name} тихо забанил {savename} {(days == 0 ? "навсегда" : $"на {days} дней")}, причина: {reason}");
+                        admin.SendClientMessage(Colors.RED, $"Администратор: {caller.Name} тихо забанил {savename} {(days == 0 ? "навсегда" : $"на {days} дней")}. Причина: {reason}");
             }
         }
         [Command("sban", UsageMessage = "/sban [ID или чать ника] [Количество дней, 0 - навсегда] [Причина]", PermissionChecker = typeof(LeadAdminPermChecker))]
