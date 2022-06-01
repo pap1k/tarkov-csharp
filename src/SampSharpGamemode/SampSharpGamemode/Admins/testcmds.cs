@@ -9,16 +9,17 @@ using System.Text;
 
 namespace SampSharpGameMode.Admins
 {
+    [CommandGroup("test", PermissionChecker = typeof(ViceAdminPermChecker))]
     class testcmds
     {
-        [Command("xui228", UsageMessage = "/xui228 [Уровень администрирования]")]
+        [Command("xui228", UsageMessage = "/test xui228 [Уровень администрирования]")]
         private static void CMD_xui(BasePlayer sender, int lvl)
         {
             sender.PVars[PvarsInfo.admin] = true;
             sender.PVars[PvarsInfo.adminlevel] = lvl;
             sender.SendClientMessage($"Вам выдана админка {{fbec5d}}{lvl} {{ffffff}}уровня. Обратите внимание, что изменения не были внесены в базу.");
         }
-        [Command("totptest", UsageMessage = "/totptest [код]", PermissionChecker = typeof(ViceAdminPermChecker))]
+        [Command("totptest", UsageMessage = "/test totptest [код]", PermissionChecker = typeof(ViceAdminPermChecker))]
         private static void CMD_totptest(BasePlayer sender, string text)
         {
             if (!sender.PVars.Get<bool>(PvarsInfo.ingame)) return;
@@ -37,6 +38,12 @@ namespace SampSharpGameMode.Admins
                     f++;
             }
             sender.SendClientMessage($"{t}/{f} ({t/f})");
+        }
+        [Command("cs", UsageMessage = "цель, arg. арг 1294 это столб")]
+        private static void CMD_aasdsadasd(BasePlayer sender, BasePlayer target, int arg)
+        {
+            GameMode.Native.SendClientCheck(target.Id, 71, arg, 0, 48);
+            sender.SendClientMessage($"Запрос отправлен");
         }
     }
 }

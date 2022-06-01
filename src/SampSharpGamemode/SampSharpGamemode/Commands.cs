@@ -205,6 +205,15 @@ namespace SampSharpGamemode
         }
     }
 
+    public class MyPlayerType : PlayerType
+    {
+        public MyPlayerType(Player p)
+        {
+            this.player = p;
+        }
+        public Player player { get; }
+    }
+
     [Controller]
     public class MyCommandController : CommandController
     {

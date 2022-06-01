@@ -6,7 +6,8 @@ namespace SampSharpGameMode
 {
     public enum e_BugCodes
     {
-        MORETHANONEBANFORPLAYER = 100
+        MORETHANONEBANFORPLAYER = 100,
+        CLIENTCHECKRESPONSE
     }
     class BugTrap
     {

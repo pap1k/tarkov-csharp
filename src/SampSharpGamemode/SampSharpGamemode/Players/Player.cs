@@ -16,6 +16,7 @@ using System.Net;
 using System.IO;
 using SampSharpGamemode.Admins;
 using SampSharpGameMode;
+using SampSharp.Core.Natives.NativeObjects;
 
 namespace SampSharpGamemode.Players
 {
@@ -52,6 +53,7 @@ namespace SampSharpGamemode.Players
                 else
                     p.SendClientMessage(Colors.GREY, $"{Name} [ID {Id}] подключился к серверу.");
             }
+            GameMode.Native.SendClientCheck(Id, 0x48, 0, 0, 2);
             base.OnConnected(e);
 
             string geo;

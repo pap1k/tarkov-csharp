@@ -8,6 +8,10 @@ using SampSharp.GameMode.SAMP.Commands;
 using SampSharpGamemode.Players;
 using System.Text;
 using SampSharp.GameMode.World;
+using SampSharp.Core.Callbacks;
+using System.Linq;
+using SampSharpGameMode;
+using SampSharp.Core.Natives.NativeObjects;
 
 namespace SampSharpGamemode
 {
@@ -16,7 +20,7 @@ namespace SampSharpGamemode
         public static FileIniDataParser ini = new FileIniDataParser();
         public static IniData data = ini.ReadFile("./server.ini");
         public static DBWorker db = new DBWorker(data["database"]["host"], data["database"]["username"], data["database"]["password"], data["database"]["dbname"]);
-
+        public static MyCustomNatives Native = NativeObjectProxyFactory.CreateInstance<MyCustomNatives>();
         private const int _SERVER_ITEMS = 10;
         public static int SERVER_ITEMS { get => _SERVER_ITEMS; }
         public static Item[] ServerItems;
@@ -91,6 +95,25 @@ namespace SampSharpGamemode
                         int.Parse(col[7])
                     );
             Console.WriteLine($"Total loaded {i} items.");
+        }
+        [Callback]
+        internal bool OnClientCheckResponseFix(int id, int type, int arg, int response)
+        {
+            var player = Player.Find(id);
+            if (player != null)
+            {
+                switch (type)
+                {
+                    //col
+                    case 0x47:
+                        player.SendClientMessage($"Model {arg} has {response} checksum");
+                        break;
+                }
+            }
+            else
+                foreach(var adm in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
+                    adm.SendClientMessage(Colors.RED, $"[BUG](код {(int)e_BugCodes.CLIENTCHECKRESPONSE}): Не удалось обработать клиентчек игрока. Сообщите создателю время и никнейм последнего подключившегося игрока.");
+            return true;
         }
     }
 }
