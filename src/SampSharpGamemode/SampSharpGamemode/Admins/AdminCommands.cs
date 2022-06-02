@@ -278,26 +278,44 @@ namespace SampSharpGamemode.Admins
                         sender.SendClientMessage("Промокод {abcdef}" + promoname+" {ffffff}успешно удален.");
                         if (dlg.Count > 2)
                         {
-                            dlg.RemoveAt(selectedindex);
+                            dlg.Clear();
+                            db = GameMode.db.SelectAllPromo().data;
+                            dlg.Add(new[] { "Промокод", "Вознаграждение" });
+                            foreach (var row in db)
+                                dlg.Add(new[] { row[1], row[2] });
                             dlg.Show(sender);
                         }
                     }
                     else
+                    {
+                        dlg.Clear();
+                        db = GameMode.db.SelectAllPromo().data;
+                        dlg.Add(new[] { "Промокод", "Вознаграждение" });
+                        foreach (var row in db)
+                            dlg.Add(new[] { row[1], row[2] });
                         dlg.Show(sender);
+                    }
                 };
                 dlg.Response += (_, e) =>
                 {
                     if(e.DialogButton == DialogButton.Left)
                     {
-                        if(e.ListItem != 0)
+                        if (e.ListItem != 0)
                         {
                             promoname = db[e.ListItem - 1][1];
-                            dlg_del.Message = "{ffffff}Вы действительно хотите удалить промокод {abcdef}" + promoname+"{ffffff}?";
+                            dlg_del.Message = "{ffffff}Вы действительно хотите удалить промокод {abcdef}" + promoname + "{ffffff}?";
                             selectedindex = e.ListItem;
                             dlg_del.Show(sender);
                         }
                         else
+                        {
+                            dlg.Clear();
+                            db = GameMode.db.SelectAllPromo().data;
+                            dlg.Add(new[] { "Промокод", "Вознаграждение" });
+                            foreach (var row in db)
+                                dlg.Add(new[] { row[1], row[2] });
                             dlg.Show(sender);
+                        }
                     }
                 };
                 dlg.Show(sender);

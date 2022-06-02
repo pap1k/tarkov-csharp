@@ -94,6 +94,6 @@ namespace SampSharpGamemode
         public DBType SetPlayerPromo(int puid, string promocode) { return DoRequest($"INSERT INTO player_promocode(playeruid, promocode) VALUES({puid}, '{promocode}')"); }
         public DBType SelectPromoByName(string promoname) { return DoRequest($"SELECT * FROM promocodes WHERE promoname = '{promoname}'"); }
         public DBType DeletePromo(int uid) { return DoRequest($"DELETE FROM promocodes WHERE uid = {uid}"); }
-        public DBType SelectAllPromo() { return DoRequest($"SELECT * FROM promocodes"); }
+        public DBType SelectAllPromo() { return DoRequest($"SELECT * FROM promocodes ORDER BY uid"); }
     }
 }
