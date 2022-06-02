@@ -242,7 +242,7 @@ namespace SampSharpGamemode.Admins
         {
             if (promo.Length > 15)
                 sender.SendClientMessage(Colors.GREY, "Длина промокода может быть до 15 символов.");
-            else if (reward > 200000 && sender.PVars.Get<int>(PvarsInfo.adminlevel) > 5)
+            else if (reward > 200000 && sender.PVars.Get<int>(PvarsInfo.adminlevel) < 5)
                 sender.SendClientMessage(Colors.GREY, "Вознаграждение за промокод должно быть не более 150000$");
             else
             {
@@ -275,7 +275,7 @@ namespace SampSharpGamemode.Admins
                     if (e.DialogButton == DialogButton.Left)
                     {
                         GameMode.db.DeletePromo(int.Parse(db[selectedindex-1][0]));
-                        sender.SendClientMessage("Промод "+promoname+" успешно удален.");
+                        sender.SendClientMessage("Промокод {abcdef}" + promoname+" {ffffff}успешно удален.");
                         if (dlg.Count > 2)
                         {
                             dlg.RemoveAt(selectedindex);
@@ -292,7 +292,7 @@ namespace SampSharpGamemode.Admins
                         if(e.ListItem != 0)
                         {
                             promoname = db[e.ListItem - 1][1];
-                            dlg_del.Message = "Вы действительно хотите удалить промокод " + promoname;
+                            dlg_del.Message = "{ffffff}Вы действительно хотите удалить промокод {abcdef}" + promoname+"{ffffff}?";
                             selectedindex = e.ListItem;
                             dlg_del.Show(sender);
                         }
