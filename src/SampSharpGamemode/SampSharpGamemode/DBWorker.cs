@@ -25,7 +25,7 @@ namespace SampSharpGamemode
                 conn.ConnectionString = conString;
                 conn.Open();
                 Console.WriteLine("Успешное подключение к БД");
-                DoRequest("SET NAMES cp1251");
+                //DoRequest("SET NAMES cp1251");
             }
             catch (Exception e)
             {
@@ -33,7 +33,7 @@ namespace SampSharpGamemode
                 Console.WriteLine(e.ToString());
             }
         }
-        private DBType DoRequest(string req)
+        public DBType DoRequest(string req)
         {
             List<List<string>> result = new List<List<string>>();
 
@@ -79,7 +79,7 @@ namespace SampSharpGamemode
         public DBType UpdatePlayerHelper(Player player) { return DoRequest($"UPDATE players SET helplevel = {player.PVars.Get<int>(PvarsInfo.helplevel)} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
 
         public DBType UpdatePlayerLastIP(BasePlayer player, bool flush = false) { return DoRequest($"UPDATE players SET lastloginip = {(flush ? "NULL" : ("'"+player.IP+"'"))} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
-        public DBType UpdatePlayerIsBanned(BasePlayer player, int ban = 1) { return DoRequest($"UPDATE players SET banned = {ban} WHERE id = {player.PVars.Get<int>(PvarsInfo.uid)}"); }
+        public DBType UpdatePlayerIsBanned(int uid, int ban = 1) { return DoRequest($"UPDATE players SET banned = {ban} WHERE id = {uid}"); }
 
         public DBType InsertSessions(string nick, string ip, string geo) { return DoRequest($"INSERT INTO sessions(nickname, ip, geo) VALUES('{nick}', '{ip}', '{geo}')"); }
         public DBType UpdateSessions_action(int sid, int action) { return DoRequest($"UPDATE sessions SET action = {action}, t_logout = CURRENT_TIMESTAMP WHERE id = {sid}"); }
@@ -89,6 +89,7 @@ namespace SampSharpGamemode
         public DBType SelectNameSesstions(string nick, int offset) { return DoRequest($"SELECT * FROM sessions WHERE nickname = '{nick}' LIMIT {30} OFFSET {offset} ORDER BY id desc"); }
         public DBType InsertBan(BasePlayer sender, int puid, string type, int term, string reason) { return DoRequest($"INSERT INTO banlist(type, playeruid, adminuid, term, reason) VALUES('{type}', {puid}, {sender.PVars.Get<int>(PvarsInfo.uid)}, {term}, '{reason}')"); }
         public DBType SelectBanByUID(int uid) { return DoRequest($"SELECT * FROM banlist WHERE playeruid = {uid} AND isActive = 1"); }
+        public DBType UnbanPlayer(int banid) { return DoRequest($"UPDATE banlist SET isActive = 0 WHERE id = {banid}"); }
         public DBType CreatePromo(string promo, int reward) { return DoRequest($"INSERT INTO promocodes(promoname, reward) VALUES('{promo}', '{reward}')"); }
         public DBType SetPlayerPromo(int puid, string promocode) { return DoRequest($"INSERT INTO player_promocode(playeruid, promocode) VALUES({puid}, '{promocode}')"); }
         public DBType SelectPromoByName(string promoname) { return DoRequest($"SELECT * FROM promocodes WHERE promoname = '{promoname}'"); }
