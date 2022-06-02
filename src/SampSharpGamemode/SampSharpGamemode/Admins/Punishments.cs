@@ -57,7 +57,7 @@ namespace SampSharpGamemode.Admins
                 //GameMode.db.DoRequest("SET NAMES cp1251");
                 if (ptype == "ban")
                 {
-                    var d = new MessageDialog("{ffffff}Аккаунт заблокирован", $"{{be2626}}Доступ к аккаунту приостановлен за нарушения правил сервера.\nЕсли вы хотите обжаловать блокировку, обратитесь на форум {{ffffff}}НАЗВАНИЕ ФОРУМА {{be2626}}в соответствующий раздел.\n\n{{453dbf}}Ник аккаунта: {{ffffff}}{target.Name}\n{{453dbf}}Ник администратора: {{ffffff}}{caller.Name}\n{{453dbf}}Дата выдачи блокировки: {{ffffff}}{Datenow.ToString("dd.MM.yyyy t")}\n{{453dbf}}{(days == 0 ? "{ffffff}Аккаунт не подлежит разбану" : ($"Дата снятия блокировки:{{ffffff}} {Datenow.AddDays(days).ToString("dd.MM.yyyy t")}"))}\n{{453dbf}}Причина блокировки: {{ffffff}}{reason}", "X");
+                    var d = new MessageDialog("{ffffff}Аккаунт заблокирован", $"{{be2626}}Доступ к аккаунту приостановлен за нарушения правил сервера.\nЕсли вы хотите обжаловать блокировку, обратитесь на форум {{ffffff}}НАЗВАНИЕ ФОРУМА {{be2626}}в соответствующий раздел.\n\n{{453dbf}}Ник аккаунта: {{ffffff}}{target.Name}\n{{453dbf}}Ник администратора: {{ffffff}}{caller.Name}\n{{453dbf}}Дата выдачи блокировки: {{ffffff}}{Datenow.ToString("dd.MM.yyyy t")}\n{{453dbf}}{(days == 0 ? "{453dbf}Аккаунт не подлежит разбану" : ($"Дата снятия блокировки:{{ffffff}} {Datenow.AddDays(days).ToString("dd.MM.yyyy t")}"))}\n{{453dbf}}Причина блокировки: {{ffffff}}{reason}", "X");
                     d.Show(target);
                 }
                 else
@@ -87,8 +87,6 @@ namespace SampSharpGamemode.Admins
             {
                 string savename = target.Name;
                 bool res = func(caller, target, days, 1, reason);
-                if (res)
-                    foreach (var admin in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
                         Player.SendClientMessageToAll(Colors.RED, $"Администратор: {caller.Name} забанил {savename} {(days == 0 ? "навсегда" : $"на {days} дней")}. Причина: {reason}");
             }
         }
@@ -126,7 +124,7 @@ namespace SampSharpGamemode.Admins
                 }
             }
         }
-        [Command("wban", UsageMessage = "/wban [Полный ник игрового аккаунта]", PermissionChecker = typeof(AllAdminPermChecker))]
+        [Command("unban", UsageMessage = "/unban [Полный ник игрового аккаунта]", PermissionChecker = typeof(AllAdminPermChecker))]
         private static void CMD_wban(BasePlayer caller, string nick)
         {
             var r = GameMode.db.SelectPlayerByNickname(nick).data;
@@ -144,7 +142,7 @@ namespace SampSharpGamemode.Admins
                             GameMode.db.UpdatePlayerIsBanned(banneduid, 0);
                             GameMode.db.UnbanPlayer(int.Parse(baninfo[0][(int)e_BANINFO.ID]));
                             foreach (var admin in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
-                                admin.SendClientMessage(Colors.RED, $"Администратор {caller.Name} разбанил аккаунт {r[0][(int)e_PlayerInfo.PINFO_NICKNAME]}");
+                                admin.SendClientMessage(Colors.RED, $"Администратор: {caller.Name} разбанил аккаунт {r[0][(int)e_PlayerInfo.PINFO_NICKNAME]}");
                         }
                         else
                         {

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SampSharpGameMode.Admins
 {
-    [CommandGroup("test", PermissionChecker = typeof(ViceAdminPermChecker))]
+    [CommandGroup("test")]
     class testcmds
     {
         [Command("xui228", UsageMessage = "/test xui228 [Уровень администрирования]")]

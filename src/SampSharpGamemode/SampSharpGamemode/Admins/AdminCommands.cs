@@ -314,7 +314,7 @@ namespace SampSharpGamemode.Admins
                 {
                     player.SendClientMessage(Colors.RED, "Администратор запустил процесс ре-авторизации для вашего аккаунта.");
                     foreach (var admin in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
-                        admin.SendClientMessage(Colors.RED, $"[A]: Администратор {sender.Name} запустил процесс ре-авторизации для {player.Name}.");
+                        admin.SendClientMessage(Colors.RED, $"Администратор: {sender.Name} запустил процесс ре-авторизации для {player.Name}.");
                 }
                 player.PVars[PvarsInfo.authstate] = (int)e_AuthState.PASSWORD;
                 player.PVars[PvarsInfo.ingame] = false;
@@ -330,7 +330,7 @@ namespace SampSharpGamemode.Admins
             {
                 if (sender.Id != player.Id)
                 {
-                    var dlg = new InputDialog("Подтверждение личности", "Администратор попросил вас ввести ПАРОЛЬ для подтверждения личности.\nВведите пароль от своего аккаунта в поле ниже.\nАдминистратор не увидит пароль, но будет уведомлен о всех действиях с этим окном.", true, "Отправить", "Отказаться");
+                    var dlg = new InputDialog("{FFFFFF}Подтверждение личности", "{ffffff}Администратор попросил вас ввести ПАРОЛЬ для подтверждения личности.\nВведите пароль от своего аккаунта в поле ниже.\n{f90023}Администратор не увидит пароль, но будет уведомлен о всех действиях с этим окном.", true, "Ввод", "Отмена");
                     dlg.Response += (_, e) =>
                     {
                         if(e.DialogButton == DialogButton.Left)
@@ -338,12 +338,12 @@ namespace SampSharpGamemode.Admins
                             if(e.InputText == player.PVars.Get<string>(PvarsInfo.pass))
                             {
                                 player.SetChatBubble("Ввел верный пароль", Colors.GREEN, 10, 5000);
-                                player.SendClientMessage(Colors.GREY, "Вы ввели верный пароль. Администратор уведомлен.");
+                                player.SendClientMessage(Colors.GREEN, "Вы ввели верный пароль. Администратор уведомлен.");
                             }
                             else
                             {
                                 player.SetChatBubble("Ввел неверный пароль", Colors.RED, 10, 5000);
-                                player.SendClientMessage(Colors.GREY, "Вы ввели неверный пароль. Администратор уведомлен.");
+                                player.SendClientMessage(Colors.RED, "Вы ввели неверный пароль. Администратор уведомлен.");
                             }
                         }
                         else
@@ -354,10 +354,10 @@ namespace SampSharpGamemode.Admins
                     };
                     dlg.Show(player);
                     foreach (var admin in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
-                        admin.SendClientMessage(Colors.RED, $"[A]: Администратор {sender.Name} попросил {player.Name} ввести пароль.");
+                        admin.SendClientMessage(Colors.RED, $"Администратор: {sender.Name} запросил подтверждение пароля у игрока {player.Name}.");
                 }
                 else
-                    sender.SendClientMessage("Вы не можете запрашивать пароль у себя же.");
+                    sender.SendClientMessage(Colors.GREY, "Вы не можете запрашивать пароль у самого себя.");
             }
             else
                 sender.SendClientMessage(Colors.GREY, "Указанный игрок еще не авторизовался.");
