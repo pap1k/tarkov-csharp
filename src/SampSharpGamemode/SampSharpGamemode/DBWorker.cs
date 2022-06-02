@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using MySql.Data.MySqlClient;
 using SampSharp.GameMode.World;
@@ -25,7 +26,7 @@ namespace SampSharpGamemode
                 conn.ConnectionString = conString;
                 conn.Open();
                 Console.WriteLine("Успешное подключение к БД");
-                DoRequest("SET NAMES cp1251");
+                //DoRequest("SET NAMES cp1251");
             }
             catch (Exception e)
             {
@@ -94,5 +95,11 @@ namespace SampSharpGamemode
         public DBType SelectPromoByName(string promoname) { return DoRequest($"SELECT * FROM promocodes WHERE promoname = '{promoname}'"); }
         public DBType DeletePromo(int uid) { return DoRequest($"DELETE FROM promocodes WHERE uid = {uid}"); }
         public DBType SelectAllPromo() { return DoRequest($"SELECT * FROM promocodes"); }
+        public DBType InsertParking(float x, float y, float z, float rotation, int owner, int houseid, int carid) { return DoRequest($"INSERT INTO `parkings`(`posx`, `posy`, `posz`, `rotation`, `owner`, `attchedhouse`, `carid`) VALUES ('{x.ToString(CultureInfo.InvariantCulture)}', '{y.ToString(CultureInfo.InvariantCulture)}', '{z.ToString(CultureInfo.InvariantCulture)}', '{rotation.ToString(CultureInfo.InvariantCulture)}', '{owner}', '{houseid}', '{carid}')"); }
+        public DBType DeleteParking(int uid) { return DoRequest($"DELETE FROM parkings WHERE uid = {uid}"); }
+        public DBType SelectAllParkings() { return DoRequest($"SELECT * FROM parkings"); }
+        public DBType UpdateParking_owner(int uid, int owner) { return DoRequest($"UPDATE parkings SET owner = {owner} WHERE uid = {uid}"); }
+        public DBType UpdateParking_houseid(int uid, int houseid) { return DoRequest($"UPDATE parkings SET attchedhouse = {houseid} WHERE uid = {uid}"); }
+        public DBType UpdateParking_carid(int uid, int carid) { return DoRequest($"UPDATE parkings SET carid = {carid} WHERE uid = {uid}"); }
     }
 }

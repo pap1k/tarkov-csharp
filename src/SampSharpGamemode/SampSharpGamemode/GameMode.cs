@@ -12,6 +12,8 @@ using SampSharp.Core.Callbacks;
 using System.Linq;
 using SampSharpGameMode;
 using SampSharp.Core.Natives.NativeObjects;
+using SampSharpGamemode.Parkings;
+using System.Globalization;
 
 namespace SampSharpGamemode
 {
@@ -23,6 +25,7 @@ namespace SampSharpGamemode
         public static MyCustomNatives Native = NativeObjectProxyFactory.CreateInstance<MyCustomNatives>();
         private const int _SERVER_ITEMS = 10;
         public static int SERVER_ITEMS { get => _SERVER_ITEMS; }
+        public static List<Parking> ServerParkings = new List<Parking>();
         public static Item[] ServerItems;
         public static Item ErrorItem = new Item(-2, 0, "<Ошибка>", " ", false, false, false, 1);
         public static Item EmptyItem = new Item(0, 0, "[пусто]", "", false, false, false, 1);
@@ -38,6 +41,7 @@ namespace SampSharpGamemode
             EnableStuntBonusForAll(false);
             ShowPlayerMarkers(SampSharp.GameMode.Definitions.PlayerMarkersMode.Off);
             LoadDBItems();
+            LoadDBParkings();
             base.OnInitialized(e);
         }
         public static List<int> getAdminIds()
@@ -95,6 +99,22 @@ namespace SampSharpGamemode
                         int.Parse(col[7])
                     );
             Console.WriteLine($"Total loaded {i} items.");
+        }
+        private void LoadDBParkings()
+        {
+            var dbpark = db.SelectAllParkings().data;
+            foreach (var row in dbpark)
+                ServerParkings.Add(new Parking(
+                        int.Parse(row[(int)e_DBParking.UID]),
+                        float.Parse(row[(int)e_DBParking.POSX]),
+                        float.Parse(row[(int)e_DBParking.POSY]),
+                        float.Parse(row[(int)e_DBParking.POSZ]),
+                        float.Parse(row[(int)e_DBParking.ROTATION]),
+                        int.Parse(row[(int)e_DBParking.OWNER]),
+                        int.Parse(row[(int)e_DBParking.ATTACHEDHOUSE]),
+                        int.Parse(row[(int)e_DBParking.CARID])
+                    ));
+            Console.WriteLine($"[INFO] Loaded {dbpark.Count} parkings");
         }
         [Callback]
         internal bool OnClientCheckResponseFix(int id, int type, int arg, int response)
