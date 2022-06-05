@@ -278,32 +278,107 @@ namespace SampSharpGamemode.Admins
                         sender.SendClientMessage("Промокод {abcdef}" + promoname+" {ffffff}успешно удален.");
                         if (dlg.Count > 2)
                         {
-                            dlg.RemoveAt(selectedindex);
+                            dlg.Clear();
+                            db = GameMode.db.SelectAllPromo().data;
+                            dlg.Add(new[] { "Промокод", "Вознаграждение" });
+                            foreach (var row in db)
+                                dlg.Add(new[] { row[1], row[2] });
                             dlg.Show(sender);
                         }
                     }
                     else
+                    {
+                        dlg.Clear();
+                        db = GameMode.db.SelectAllPromo().data;
+                        dlg.Add(new[] { "Промокод", "Вознаграждение" });
+                        foreach (var row in db)
+                            dlg.Add(new[] { row[1], row[2] });
                         dlg.Show(sender);
+                    }
                 };
                 dlg.Response += (_, e) =>
                 {
                     if(e.DialogButton == DialogButton.Left)
                     {
-                        if(e.ListItem != 0)
+                        if (e.ListItem != 0)
                         {
                             promoname = db[e.ListItem - 1][1];
-                            dlg_del.Message = "{ffffff}Вы действительно хотите удалить промокод {abcdef}" + promoname+"{ffffff}?";
+                            dlg_del.Message = "{ffffff}Вы действительно хотите удалить промокод {abcdef}" + promoname + "{ffffff}?";
                             selectedindex = e.ListItem;
                             dlg_del.Show(sender);
                         }
                         else
+                        {
+                            dlg.Clear();
+                            db = GameMode.db.SelectAllPromo().data;
+                            dlg.Add(new[] { "Промокод", "Вознаграждение" });
+                            foreach (var row in db)
+                                dlg.Add(new[] { row[1], row[2] });
                             dlg.Show(sender);
+                        }
                     }
                 };
                 dlg.Show(sender);
             }
             else
                 sender.SendClientMessage(Colors.GREY, "Не найдено промокодов.");
+        }
+        [Command("relogin", UsageMessage ="/relogin [ID или часть ника]", PermissionChecker =typeof(LeadAdminPermChecker))]
+        private static void CMD_relogin(BasePlayer sender, Player player)
+        {
+            if (player.PVars.Get<bool>(PvarsInfo.ingame))
+            {
+                if(sender.Id != player.Id)
+                {
+                    player.SendClientMessage(Colors.RED, "Администратор запустил процесс ре-авторизации для вашего аккаунта.");
+                    foreach (var admin in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
+                        admin.SendClientMessage(Colors.RED, $"Администратор: {sender.Name} запустил процесс ре-авторизации для {player.Name}.");
+                }
+                player.PVars[PvarsInfo.authstate] = (int)e_AuthState.PASSWORD;
+                player.PVars[PvarsInfo.ingame] = false;
+                player.Auth();
+            }
+            else
+                sender.SendClientMessage(Colors.GREY, "Указанный игрок еще не авторизовался.");
+        }
+        [Command("askpass", UsageMessage = "/askpass [ID или часть ника]", PermissionChecker = typeof(RedAdminPermChecker))]
+        private static void CMD_askpass(BasePlayer sender, Player player)
+        {
+            if (player.PVars.Get<bool>(PvarsInfo.ingame))
+            {
+                if (sender.Id != player.Id)
+                {
+                    var dlg = new InputDialog("{FFFFFF}Подтверждение личности", "{ffffff}Администратор попросил вас ввести ПАРОЛЬ для подтверждения личности.\nВведите пароль от своего аккаунта в поле ниже.\n{f90023}Администратор не увидит пароль, но будет уведомлен о всех действиях с этим окном.", true, "Ввод", "Отмена");
+                    dlg.Response += (_, e) =>
+                    {
+                        if(e.DialogButton == DialogButton.Left)
+                        {
+                            if(e.InputText == player.PVars.Get<string>(PvarsInfo.pass))
+                            {
+                                player.SetChatBubble("Ввел верный пароль", Colors.GREEN, 10, 5000);
+                                player.SendClientMessage(Colors.GREEN, "Вы ввели верный пароль. Администратор уведомлен.");
+                            }
+                            else
+                            {
+                                player.SetChatBubble("Ввел неверный пароль", Colors.RED, 10, 5000);
+                                player.SendClientMessage(Colors.RED, "Вы ввели неверный пароль. Администратор уведомлен.");
+                            }
+                        }
+                        else
+                        {
+                            player.SetChatBubble("Отказался от ввода пароля", Colors.GREY, 10, 5000);
+                            player.SendClientMessage(Colors.GREY, "Вы отказались от ввода пароля по просьбе администратора. Администратор уведомлен.");
+                        }
+                    };
+                    dlg.Show(player);
+                    foreach (var admin in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
+                        admin.SendClientMessage(Colors.RED, $"Администратор: {sender.Name} запросил подтверждение пароля у игрока {player.Name}.");
+                }
+                else
+                    sender.SendClientMessage(Colors.GREY, "Вы не можете запрашивать пароль у самого себя.");
+            }
+            else
+                sender.SendClientMessage(Colors.GREY, "Указанный игрок еще не авторизовался.");
         }
     }
 }

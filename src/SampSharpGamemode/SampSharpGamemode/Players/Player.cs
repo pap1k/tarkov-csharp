@@ -167,7 +167,7 @@ namespace SampSharpGamemode.Players
                     if (ptype == "ban")
                     {
                         string admin = GameMode.db.SelectPlayerByUID(int.Parse(baninfo[0][(int)e_BANINFO.ADMINUID])).data[0][(int)e_PlayerInfo.PINFO_NICKNAME];
-                        var d = new MessageDialog("{ffffff}Аккаунт заблокирован", $"{{be2626}}Доступ к аккаунту приостановлен за нарушения правил сервера.\nЕсли вы хотите обжаловать блокировку, обратитесь на форум {{ffffff}}НАЗВАНИЕ ФОРУМА {{be2626}}в соответствующий раздел.\n\n{{453dbf}}Ник аккаунта: {{ffffff}}{Name}\n{{453dbf}}Ник администратора: {{ffffff}}{admin}\n{{453dbf}}Дата выдачи блокировки: {{ffffff}}{Dateban.ToString("dd.MM.yyyy t")}\n{{453dbf}}{(days == 0 ? "{ffffff}Аккаунт не подлежит разбану" : ($"Дата снятия блокировки{{ffffff}}: {Dateban.AddDays(days).ToString("dd.MM.yyyy t")}"))}\n{{453dbf}}Причина блокировки: {{ffffff}}{reason}", "X");
+                        var d = new MessageDialog("{ffffff}Аккаунт заблокирован", $"{{be2626}}Доступ к аккаунту приостановлен за нарушения правил сервера.\nЕсли вы хотите обжаловать блокировку, обратитесь на форум {{ffffff}}НАЗВАНИЕ ФОРУМА {{be2626}}в соответствующий раздел.\n\n{{453dbf}}Ник аккаунта: {{ffffff}}{Name}\n{{453dbf}}Ник администратора: {{ffffff}}{admin}\n{{453dbf}}Дата выдачи блокировки: {{ffffff}}{Dateban.ToString("dd.MM.yyyy t")}\n{{453dbf}}{(days == 0 ? "{453dbf}Аккаунт не подлежит разбану" : ($"Дата снятия блокировки{{ffffff}}: {Dateban.AddDays(days).ToString("dd.MM.yyyy t")}"))}\n{{453dbf}}Причина блокировки: {{ffffff}}{reason}", "X");
                         d.Show(this);
                     }
                     else
