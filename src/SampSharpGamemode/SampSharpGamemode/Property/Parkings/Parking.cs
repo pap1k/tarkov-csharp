@@ -15,7 +15,8 @@ namespace SampSharpGamemode.Parkings
         ROTATION,
         OWNER,
         ATTACHEDHOUSE,
-        CARID
+        CARID,
+        AUTOSPAWN
     }
     public class Parking
     {
@@ -23,10 +24,11 @@ namespace SampSharpGamemode.Parkings
         public int Owner { get; set; }
         public int HouseID { get; set; }
         public int CarID { get; set; }
-        public Vector3 Position { get; }
-        public float Rotation { get; }
+        public Vector3 Position { get; set; }
+        public float Rotation { get; set; }
         private bool _new = false;
-        public Parking(int uid, float x, float y, float z, float rotation, int owner, int houseid, int carid)
+        public bool AutoRespawn;
+        public Parking(int uid, float x, float y, float z, float rotation, int owner, int houseid, int carid, bool autorespawn = false)
         {
             UID = uid;
             HouseID = houseid;
@@ -34,6 +36,7 @@ namespace SampSharpGamemode.Parkings
             Rotation = rotation;
             Owner = owner;
             CarID = carid;
+            AutoRespawn = autorespawn;
         }
         public Parking(BasePlayer player)
         {
@@ -46,6 +49,16 @@ namespace SampSharpGamemode.Parkings
         }
         public void Delete()
         {
+            if(CarID != -1)
+            {
+                var veh = GameMode.ServerVehicles.Find(x => x.UID == CarID);
+                if (veh != null)
+                {
+                    veh.Loaded = false;
+                    veh.UpdateParking(-1);
+                    veh.RealVehicle.Dispose();
+                }
+            }
             GameMode.db.DeleteParking(UID);
         }
         public void SetOwner(int owner)
@@ -62,6 +75,12 @@ namespace SampSharpGamemode.Parkings
         {
             CarID = id;
             GameMode.db.UpdateParking_carid(UID, id);
+        }
+        public void UpdatePos(Vector3 pos, float angle)
+        {
+            Position = pos;
+            Rotation = angle;
+            GameMode.db.UpdateParking_pos(UID, pos.X, pos.Y, pos.Z, angle);
         }
         public void InsertMe()
         {

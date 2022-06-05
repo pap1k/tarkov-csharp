@@ -46,6 +46,8 @@
             warns = "pWARNS",
             isbanned = "pISBANNED",
             totpkey = "pTOTP",
+            tempadmincar = "pTEMPADMINCAR",
+            admincar = "pADMINCAR",
             promocode = "pPROMOCODE";
     }
 }

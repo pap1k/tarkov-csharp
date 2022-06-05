@@ -103,5 +103,20 @@ namespace SampSharpGamemode.Property.Parkings
             else
                 sender.SendClientMessage(Colors.GREY, "На сервере не найден паркинг с таким UID.");
         }
+        [Command("fixparking", UsageMessage = "/fixparking [UID]", PermissionChecker = typeof(FounderAdminPermChecker))]
+        private static void cmd_fixparking(BasePlayer sender, int uid)
+        {
+            var park = GameMode.ServerParkings.Find(x => x.UID == uid);
+            if (park != null)
+            {
+                if(sender.InAnyVehicle)
+                    park.UpdatePos(sender.Vehicle.Position, sender.Vehicle.Angle);
+                else
+                    park.UpdatePos(sender.Position, sender.Angle);
+                sender.SendClientMessage(Colors.GREY, $"Паркинг #{uid} обновлен");
+            }
+            else
+                sender.SendClientMessage(Colors.GREY, "На сервере не найден паркинг с таким UID.");
+        }
     }
 }

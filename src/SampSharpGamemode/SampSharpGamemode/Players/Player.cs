@@ -146,6 +146,9 @@ namespace SampSharpGamemode.Players
             PVars[PvarsInfo.admin] = PVars.Get<int>(PvarsInfo.adminlevel) > 0;
             PVars[PvarsInfo.isTemp] = false;
 
+            PVars[PvarsInfo.tempadmincar] = -1;
+            PVars[PvarsInfo.admincar] = -1;
+
             GameMode.db.UpdatePlayerLastIP(this);
 
             if (Convert.ToBoolean(int.Parse(pinfo[(int)e_PlayerInfo.PINFO_ISBANNED])))
@@ -213,7 +216,18 @@ namespace SampSharpGamemode.Players
         {
             Position = new Vector3(1642.0735f, -2239.6826f, 13.4964f);
             Skin = PVars.Get<int>(PvarsInfo.skin);
+            Color = -1;
             base.OnSpawned(e);
+        }
+        public override void OnExitVehicle(PlayerVehicleEventArgs e)
+        {
+            if(PVars.Get<int>(PvarsInfo.tempadmincar) == e.Vehicle.Id)
+            {
+                PVars[PvarsInfo.tempadmincar] = -1;
+                e.Vehicle.Dispose();
+                SendClientMessage(Colors.GREY, "Вы вышли из временного транспорта, и он был удален.");
+            }
+            base.OnExitVehicle(e);
         }
         public override void OnText(TextEventArgs e)
         {
@@ -223,7 +237,7 @@ namespace SampSharpGamemode.Players
             if (PVars.Get<bool>(PvarsInfo.ingame))
             {
                 foreach (var p in near) p.SendClientMessage(Colors.CHAT, $"- {Name}: {e.Text}");
-                ApplyAnimation("PED", "IDLE_CHAT", 4.1f, false, true, true, false, 2000);
+                ApplyAnimation("PED", "IDLE_CHAT", 4.1f, false, true, false, false, 2000);
             }
             else return;
         }

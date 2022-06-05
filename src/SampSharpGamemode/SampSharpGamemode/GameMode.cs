@@ -14,6 +14,8 @@ using SampSharpGameMode;
 using SampSharp.Core.Natives.NativeObjects;
 using SampSharpGamemode.Parkings;
 using System.Globalization;
+using SampSharpGamemode.Vehicles;
+using SampSharp.GameMode.Definitions;
 
 namespace SampSharpGamemode
 {
@@ -26,6 +28,7 @@ namespace SampSharpGamemode
         private const int _SERVER_ITEMS = 10;
         public static int SERVER_ITEMS { get => _SERVER_ITEMS; }
         public static List<Parking> ServerParkings = new List<Parking>();
+        public static List<Vehicle> ServerVehicles = new List<Vehicle>();
         public static Item[] ServerItems;
         public static Item ErrorItem = new Item(-2, 0, "<Ошибка>", " ", false, false, false, 1);
         public static Item EmptyItem = new Item(0, 0, "[пусто]", "", false, false, false, 1);
@@ -39,9 +42,10 @@ namespace SampSharpGamemode
             LimitGlobalChatRadius(10);
             SetNameTagDrawDistance(20);
             EnableStuntBonusForAll(false);
-            ShowPlayerMarkers(SampSharp.GameMode.Definitions.PlayerMarkersMode.Off);
+            ShowPlayerMarkers(PlayerMarkersMode.Off);
             LoadDBItems();
             LoadDBParkings();
+            LoadDBVehicles();
             base.OnInitialized(e);
         }
         public static List<int> getAdminIds()
@@ -112,9 +116,36 @@ namespace SampSharpGamemode
                         float.Parse(row[(int)e_DBParking.ROTATION]),
                         int.Parse(row[(int)e_DBParking.OWNER]),
                         int.Parse(row[(int)e_DBParking.ATTACHEDHOUSE]),
-                        int.Parse(row[(int)e_DBParking.CARID])
+                        int.Parse(row[(int)e_DBParking.CARID]),
+                        Convert.ToBoolean(int.Parse(row[(int)e_DBParking.AUTOSPAWN]))
                     ));
             Console.WriteLine($"[INFO] Loaded {dbpark.Count} parkings");
+        }
+        private void LoadDBVehicles()
+        {
+            var dbveh = db.SelectAllVehicles().data;
+            foreach (var row in dbveh)
+            {
+                int parkid = int.Parse(row[(int)e_DBVehicle.PARKING]);
+                Parking p = null;
+                if(parkid != -1)
+                    p = ServerParkings.Find(x => x.UID == parkid);
+                string[] colors = row[(int)e_DBVehicle.COLORS].Split(',');
+                var veh = new Vehicle(
+                        int.Parse(row[(int)e_DBVehicle.UID]),
+                        (VehicleModelType)int.Parse(row[(int)e_DBVehicle.TYPE]),
+                        p,
+                        int.Parse(row[(int)e_DBVehicle.OWNER]),
+                        int.Parse(colors[0]),
+                        int.Parse(colors[1]),
+                        -1,
+                        Convert.ToBoolean(int.Parse(row[(int)e_DBVehicle.ALARM]))
+                    );
+                ServerVehicles.Add(veh);
+                if (p != null)
+                    veh.Spawn();
+            }
+            Console.WriteLine($"[INFO] Loaded {dbveh.Count} parkings");  
         }
         [Callback]
         internal bool OnClientCheckResponseFix(int id, int type, int arg, int response)
