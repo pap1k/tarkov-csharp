@@ -88,6 +88,6 @@ namespace SampSharpGameMode.Chats
             kak = r.Next(0, 11) > 5 ? "Удачно" : "Неудачно";
             SendTOAllInRange(10, sender, $"* * {sender.Name} {text} ({kak})", Colors.ME);
         }
-        //test
+        //test2
     }
 }
