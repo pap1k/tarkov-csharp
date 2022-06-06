@@ -12,6 +12,11 @@ namespace SampSharpGameMode.Admins
     [CommandGroup("test")]
     class testcmds
     {
+        [Command("mypos", UsageMessage = "/test xui228 [Уровень администрирования]")]
+        private static void CMD_xui(BasePlayer sender)
+        {
+            sender.SendClientMessage($"Ваша позиция: X: {sender.Position.X}, Y: {sender.Position.Y}, Z: {sender.Position.Z}");
+        }
         [Command("xui228", UsageMessage = "/test xui228 [Уровень администрирования]")]
         private static void CMD_xui(BasePlayer sender, int lvl)
         {
