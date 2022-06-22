@@ -32,7 +32,7 @@ namespace SampSharpGamemode
         }
         public bool Check(BasePlayer player)
         {
-            return player.PVars.Get<bool>(PvarsInfo.admin);
+            return player.PVars.Get<int>(PvarsInfo.adminlevel) >= (int)e_AdminLevels.A_JUNIOR;
         }
     }
     public class FounderAdminPermChecker : IPermissionChecker
