@@ -121,8 +121,8 @@ namespace SampSharpGamemode.Admins
         {
             if (target.PVars.Get<int>(PvarsInfo.adminlevel) > caller.PVars.Get<int>(PvarsInfo.adminlevel))
                 caller.SendClientMessage(Colors.GREY, "Вы не можете наказывать вышестоящих администраторов.");
-            else if (target.Id == caller.Id)
-                caller.SendClientMessage(Colors.GREY, "Вы не можете заблокировать самого себя.");
+            //else if (target.Id == caller.Id)
+            //    caller.SendClientMessage(Colors.GREY, "Вы не можете заблокировать самого себя.");
             else if (target.PVars.Get<bool>(PvarsInfo.isleaving))
                 caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер");
             else
@@ -131,8 +131,9 @@ namespace SampSharpGamemode.Admins
                 bool res = banfunc(caller, target, days, 3, reason);
                 if (res)
                 {
-                    caller.SendClientMessage(Colors.RED, $"Аккаунт {savename} заблокирован {(days == 0 ? "навсегда" : $"на {days} дней")}. Причина: {reason}");
-                    caller.SendClientMessage(Colors.RED, $"[Примечание] В целях конфиденциальности сообщение с блокировкой видно только вам.");
+                    foreach (var admin in BasePlayer.All.Where(p => (e_AdminLevels)p.PVars.Get<int>(PvarsInfo.adminlevel) >= e_AdminLevels.A_FOUNDER))
+                        admin.SendClientMessage(Colors.RED, $"Администратор: {caller.Name} скрытно забанил {savename} {(days == 0 ? "навсегда" : $"на {days} дней")}. Причина: {reason}");
+                        caller.SendClientMessage(Colors.GREY, $"Сообщение видно только тем, кто имеет доступ к скрытым блокировкам.");
                 }
             }
         }
@@ -191,8 +192,7 @@ namespace SampSharpGamemode.Admins
         {
             if (!target.PVars.Get<bool>(PvarsInfo.isleaving))
             {
-                foreach (var admin in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
-                    admin.SendClientMessage(Colors.RED, $"Администратор: {caller.Name} кикнул {target.Name}. Причина: {reason}");
+                    Player.SendClientMessageToAll(Colors.RED, $"Администратор: {caller.Name} кикнул {target.Name}. Причина: {reason}");
                 kickfunc(caller, target, reason, false);
             }
             else
@@ -204,8 +204,19 @@ namespace SampSharpGamemode.Admins
             if (!target.PVars.Get<bool>(PvarsInfo.isleaving))
             {
                 foreach (var admin in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
-                    admin.SendClientMessage(Colors.RED, $"Администратор: {caller.Name} кикнул {target.Name}. Причина: {reason}");
+                    admin.SendClientMessage(Colors.RED, $"Администратор: {caller.Name} тихо кикнул {target.Name}. Причина: {reason}");
                 kickfunc(caller, target, reason, true);
+            }
+            else
+                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер");
+        }
+        [Command("skick", UsageMessage = "/skick [ID или часть ника]", PermissionChecker = typeof(LeadAdminPermChecker))]
+        private static void cmd_skick(BasePlayer caller, Player target)
+        {
+            if (!target.PVars.Get<bool>(PvarsInfo.isleaving))
+            {
+                    caller.SendClientMessage(Colors.RED, $"Игрок {target.Name} кикнут.");
+                    target.kick("Leaving");
             }
             else
                 caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер");
