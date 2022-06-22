@@ -74,11 +74,6 @@ namespace SampSharpGamemode.Admins
                 return false;
             }
         }
-        private static void kickfunc(BasePlayer caller, Player target, string reason, bool anon)
-        {
-            target.SendClientMessage(Colors.RED, $"Вы были кикнуты администратором {(anon ? "" : caller.Name)}. Причина: {reason}");
-            target.kick("Кикнут администратором");
-        }
         [Command("ban", UsageMessage = "/ban [ID или чать ника] [Количество дней, 0 - навсегда] [Причина]", PermissionChecker = typeof(AllAdminPermChecker))]
         private static void CMD_ban(BasePlayer caller, Player target, int days, string reason)
         {
@@ -89,7 +84,7 @@ namespace SampSharpGamemode.Admins
             else if (target.Id == caller.Id)
                 caller.SendClientMessage(Colors.GREY, "Вы не можете заблокировать самого себя.");
             else if(target.PVars.Get<bool>(PvarsInfo.isleaving))
-                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер");
+                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер.");
             else
             {
 
@@ -106,7 +101,7 @@ namespace SampSharpGamemode.Admins
             else if (target.Id == caller.Id)
                 caller.SendClientMessage(Colors.GREY, "Вы не можете заблокировать самого себя.");
             else if (target.PVars.Get<bool>(PvarsInfo.isleaving))
-                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер");
+                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер.");
             else
             {
                 string savename = target.Name;
@@ -124,7 +119,7 @@ namespace SampSharpGamemode.Admins
             //else if (target.Id == caller.Id)
             //    caller.SendClientMessage(Colors.GREY, "Вы не можете заблокировать самого себя.");
             else if (target.PVars.Get<bool>(PvarsInfo.isleaving))
-                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер");
+                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер.");
             else
             {
                 string savename = target.Name;
@@ -193,10 +188,10 @@ namespace SampSharpGamemode.Admins
             if (!target.PVars.Get<bool>(PvarsInfo.isleaving))
             {
                     Player.SendClientMessageToAll(Colors.RED, $"Администратор: {caller.Name} кикнул {target.Name}. Причина: {reason}");
-                kickfunc(caller, target, reason, false);
+                target.kick("Кикнут администратором");
             }
             else
-                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер");
+                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер.");
         }
         [Command("akick", UsageMessage = "/akick [ID или часть ника] [Причина кика]", PermissionChecker = typeof(AllAdminPermChecker))]
         private static void cmd_akick(BasePlayer caller, Player target, string reason)
@@ -205,21 +200,22 @@ namespace SampSharpGamemode.Admins
             {
                 foreach (var admin in BasePlayer.All.Where(x => x.PVars.Get<bool>(PvarsInfo.admin)))
                     admin.SendClientMessage(Colors.RED, $"Администратор: {caller.Name} тихо кикнул {target.Name}. Причина: {reason}");
-                kickfunc(caller, target, reason, true);
+                target.SendClientMessage(Colors.RED, $"A: Вы были кикнуты с сервера. Причина: {reason}");
+                target.kick("Кикнут администратором");
             }
             else
-                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер");
+                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер.");
         }
-        [Command("skick", UsageMessage = "/skick [ID или часть ника]", PermissionChecker = typeof(LeadAdminPermChecker))]
+        [Command("skick", UsageMessage = "/skick [ID или часть ника]", PermissionChecker = typeof(FounderAdminPermChecker))]
         private static void cmd_skick(BasePlayer caller, Player target)
         {
             if (!target.PVars.Get<bool>(PvarsInfo.isleaving))
             {
                     caller.SendClientMessage(Colors.RED, $"Игрок {target.Name} кикнут.");
-                    target.kick("Leaving");
+                    target.kick("Kicked/Banned");
             }
             else
-                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер");
+                caller.SendClientMessage(Colors.GREY, "Этот игрок уже покидает сервер.");
         }
     }
 }
